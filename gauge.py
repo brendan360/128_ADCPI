@@ -322,9 +322,9 @@ def menuloop(item,menu):
     global newEncValue
     global oldEncValue
     while True:
-        if ioe.get_interrupt():
-            newEncValue=ioe.read_rotary_encoder(1)
-            ioe.clear_interrupt()
+
+            newEncValue=1
+
 
             if newEncValue>oldEncValue:
                 item-=2
