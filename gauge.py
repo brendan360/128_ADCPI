@@ -174,7 +174,7 @@ def FUNCT_updateValues():
 # MAIN
 ######
 while True:
-    FUCNT_updateValues
-    FUNCT_cliPrint
+    FUNCT_updateValues()
+    FUNCT_cliPrint()
 
 
