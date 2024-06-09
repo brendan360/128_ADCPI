@@ -86,7 +86,7 @@ r, g, b, = 0, 0, 0
 #  MENU & DISPLAY   #
 #     FUNCTIONS     #
 ##################### 
-topmenu=("Gauges","gaugemenu",,"Config","configmenu","Multi 1","QUAD_GAUGE","","backtotop1")
+topmenu=("Gauges","gaugemenu",,"Config","configmenu","Multi 1","QUAD_GAUGE","backtotop1")
 gaugemenu=("Boost","BOOST","Water °C","COOLANT_TEMP","Water Pres", "COOLANT_PRESSURE","Fuel Pres ","FUEL_PRESSURE","Oil Pres","OIL_PRESSURE","Oil °C","OIL_TEMP","Block °C","BLOCK_TEMP","Wideband","WIDEBAND02" ,"Back","backtotop1")
 configmenu=("IP","ipaddress","Reboot","reboot_pi","Back","backtotop3")
 
