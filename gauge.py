@@ -60,20 +60,6 @@ POT_ENC_C = 11
 
 
 
-# Swap the interrupt pin for the Rotary Encoder breakout
-if I2C_ADDR == 0x0F:
-    ioe.enable_interrupt_out(pin_swap=True)
-
-ioe.setup_rotary_encoder(1, POT_ENC_A, POT_ENC_B, pin_c=POT_ENC_C)
-ioe.set_pwm_period(PERIOD)
-ioe.set_pwm_control(divider=2)  # PWM as fast as we can to avoid LED flicker
-ioe.set_mode(PIN_RED, io.PWM, invert=True)
-ioe.set_mode(PIN_GREEN, io.PWM, invert=True)
-ioe.set_mode(PIN_BLUE, io.PWM, invert=True)
-r, g, b, = 0, 0, 0
-
-
-
 
 
 
