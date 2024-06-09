@@ -10,7 +10,7 @@ import time
 import os
 import math
 from tabulate import tabulate
-import ioexpander as io
+
 from PIL import Image, ImageDraw, ImageFont
 
 
@@ -57,12 +57,8 @@ POT_ENC_A = 12
 POT_ENC_B = 3
 POT_ENC_C = 11
 
-PIN_RED = 1
-PIN_GREEN = 7
-PIN_BLUE = 2
-BRIGHTNESS = 0.30                # Effectively the maximum fraction of the period that the LED will be on
-PERIOD = int(255 / BRIGHTNESS)  # Add a period large enough to get 0-255 steps at the desired brightness
-ioe = io.IOE(i2c_addr=I2C_ADDR, interrupt_pin=4)
+
+
 
 # Swap the interrupt pin for the Rotary Encoder breakout
 if I2C_ADDR == 0x0F:
