@@ -176,5 +176,6 @@ def FUNCT_updateValues():
 while True:
     FUNCT_updateValues()
     FUNCT_cliPrint()
+    time.sleep(.2)
 
 
