@@ -2,7 +2,7 @@
 #!/usr/bin/python3
 #####################
 #                   #
-#   IMPORTTS        #
+#   IMPORTS         #
 #                   #
 ##################### 
 from __future__ import absolute_import, division, print_function, unicode_literals
@@ -277,6 +277,16 @@ def highlightDisplay(TEXT,hightext):
     im_r=image.rotate(rotation)
     disp.ShowImage(im_r)
 
+
+
+
+
+
+
+
+
+
+
 #####################
 #                   #
 #menu FUNCTIONS     #
@@ -371,6 +381,80 @@ def backtotop3():
 
 
 
+
+
+
+
+
+#####################
+#                   #
+#trouble FUNNCTIONS #
+#                   #
+##################### 
+def firstBoot():
+    
+#    r, g, b = [int(c * PERIOD * BRIGHTNESS) for c in colorsys.hsv_to_rgb(1.0,1.0,1.0)]
+ #   print(r,"   ",g,"   ",b)
+    r=255
+    g=0
+    b=0
+    ioe.output(PIN_RED, r)
+    ioe.output(PIN_GREEN, g)
+    ioe.output(PIN_BLUE, b)
+    
+    bootcount=0
+    while bootcount <7 :
+        bootdots="."*bootcount
+        bootext="Booting"+bootdots
+        highlightDisplay(bootext,"")
+        time.sleep(.3)
+        bootcount+=1
+    image=Image.open('/home/pi/wrx_gauge/logo.jpg')
+    im_r=image.rotate(rotation)
+    disp.ShowImage(im_r)
+    time.sleep(3)
+    
+def reboot_pi():
+    drawimage=setupDisplay()
+    image=drawimage[0]
+    draw=drawimage[1]
+    draw.text((30,85),"REBOOT", font=font, fill=255)
+    draw.text((20,150),"Press button to cancel",font=font2, fill="WHITE")
+    tempcount=0
+    draw.text((60,30),"..........", font=font, fill="WHITE")
+    im_r=image.rotate(rotation)
+    disp.ShowImage(im_r)
+    time.sleep(5) 
+    
+    while tempcount <=10:
+        buttonState=GPIO.input(SW)
+        if buttonState == False:
+            menuloop(4,topmenu)
+        diedots="."*tempcount
+        draw.text((60,30),diedots, font=font, fill=255)
+        im_r=image.rotate(rotation)
+        disp.ShowImage(im_r)
+        time.sleep(1)
+        tempcount+=1
+
+    os.system('sudo reboot')
+  
+def getIpAddress():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('10.255.255.255', 1))
+        IP = s.getsockname()[0]
+    except Exception:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
+
+def ipaddress():
+    IP=getIpAddress()
+    highlightDisplay(IP,"Car Guage")
+    time.sleep(5)
+    menuloop(0,configmenu)
 
 
 
