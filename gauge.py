@@ -317,33 +317,8 @@ def menuDisplay(currentMenu,menu):
 
 
 def menuloop(item,menu):
-    def buttonPushed(item,menu):
-        doaction(item,menu)
-    global newEncValue
-    global oldEncValue
-    while True:
 
-            newEncValue=1
-
-
-            if newEncValue>oldEncValue:
-                item-=2
-                oldEncValue=newEncValue
-            if newEncValue<oldEncValue:
-                item+=2
-                oldEncValue=newEncValue
-            
-        if item == (len(menu)):
-            item=0
-        if item <0:
-            item=(len(menu))-2
-        
-        menuDisplay(item,menu)
-        
-        buttonState=GPIO.input(SW)
-        if buttonState == False:
-            doaction(item,menu)
-
+  
 def doaction(item,menu):
     time.sleep(.333)
     if (menu[item]=="Gauges"):
