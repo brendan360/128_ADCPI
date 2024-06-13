@@ -59,10 +59,10 @@ configmenu=("IP","ipaddress","Reboot","reboot_pi","Back","backtotop3")
 
 
 #fonts
-font = ImageFont.truetype("/home/pi/128_ADCPI/arial.tff", 42)
-font2 = ImageFont.truetype("/home/pi/128_ADCPI/arial.tff", 20)
-font3 = ImageFont.truetype("/home/pi/128_ADCPI/arial.tff", 12)
-gfont = ImageFont.truetype("/home/pi/128_ADCPI/arial.tff", 54)
+font = ImageFont.truetype("./arial.tff", layout_engine=ImageFont.LAYOUT_BASIC, 42)
+font2 = ImageFont.truetype("./arial.tff", layout_engine=ImageFont.LAYOUT_BASIC, 20)
+font3 = ImageFont.truetype("./arial.tff", layout_engine=ImageFont.LAYOUT_BASIC, 12)
+gfont = ImageFont.truetype("./arial.tff", layout_engine=ImageFont.LAYOUT_BASIC, 54)
 
 #Display
 disp = LCD_1inch28.LCD_1inch28()
