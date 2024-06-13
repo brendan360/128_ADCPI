@@ -244,15 +244,6 @@ def FUNCT_oil_temp():
 ##################### 
 def firstBoot():
     
-#    r, g, b = [int(c * PERIOD * BRIGHTNESS) for c in colorsys.hsv_to_rgb(1.0,1.0,1.0)]
- #   print(r,"   ",g,"   ",b)
-    r=255
-    g=0
-    b=0
-    ioe.output(PIN_RED, r)
-    ioe.output(PIN_GREEN, g)
-    ioe.output(PIN_BLUE, b)
-    
     bootcount=0
     while bootcount <7 :
         bootdots="."*bootcount
