@@ -13,24 +13,6 @@ from tabulate import tabulate
 
 from PIL import Image, ImageDraw, ImageFont
 
-#######Setting up lcd
-RST=27
-DC=25
-BL=18
-bus=0
-device = 0
-
-#PIN CONFIG ROTARY ENCODER ugpio pins
-SW = 26
-SW1=21
-rotaryCounter=0
-oldEncValue=0
-newEncValue=0
-movementValue=0
-I2C_ADDR = 0x0F  # 0x18 for IO Expander, 0x0F for the encoder breakout
-POT_ENC_A = 12
-POT_ENC_B = 3
-POT_ENC_C = 11
 
 
 #####################
@@ -57,8 +39,12 @@ adc = ADCPi(0x68, 0x69, 12)
 
 
 
-
-
+#######Setting up lcd
+RST=27
+DC=25
+BL=18
+bus=0
+device = 0
 
 
 
@@ -72,6 +58,18 @@ gaugemenu=("Boost","BOOST","Water °C","COOLANT_TEMP","Water Pres", "COOLANT_PRE
 configmenu=("IP","ipaddress","Reboot","reboot_pi","Back","backtotop3")
 
 
+#fonts
+font = ImageFont.truetype("/home/pi/128_ADCPI/arial.tff", 42)
+font2 = ImageFont.truetype("/home/pi/128_ADCPI/arial.tff", 20)
+font3 = ImageFont.truetype("/home/pi/128_ADCPI/arial.tff", 12)
+gfont = ImageFont.truetype("/home/pi/128_ADCPI/arial.tff", 54)
+
+#Display
+disp = LCD_1inch28.LCD_1inch28()
+rotation=0
+GPIO.setup(SW, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(SW1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setmode(GPIO.BCM)
 
 
 
@@ -218,18 +216,6 @@ def FUNCT_oil_temp():
 ##################### 
 
 
-#fonts
-font = ImageFont.truetype("/home/pi/wrx_gauge/arial.tff", 42)
-font2 = ImageFont.truetype("/home/pi/wrx_gauge/arial.tff", 20)
-font3 = ImageFont.truetype("/home/pi/wrx_gauge/arial.tff", 12)
-gfont = ImageFont.truetype("/home/pi/wrx_gauge/arial.tff", 54)
-
-#Display
-disp = LCD_1inch28.LCD_1inch28()
-rotation=0
-GPIO.setup(SW, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(SW1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setmode(GPIO.BCM)
 
 def clearDisplay():
     disp.clear()
