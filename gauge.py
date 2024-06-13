@@ -218,7 +218,36 @@ def FUNCT_oil_temp():
 ##################### 
 
 
+#fonts
+font = ImageFont.truetype("/home/pi/wrx_gauge/arial.tff", 42)
+font2 = ImageFont.truetype("/home/pi/wrx_gauge/arial.tff", 20)
+font3 = ImageFont.truetype("/home/pi/wrx_gauge/arial.tff", 12)
+gfont = ImageFont.truetype("/home/pi/wrx_gauge/arial.tff", 54)
 
+#Display
+disp = LCD_1inch28.LCD_1inch28()
+rotation=0
+GPIO.setup(SW, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(SW1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setmode(GPIO.BCM)
+
+def clearDisplay():
+    disp.clear()
+
+def setupDisplay():
+    image = Image.new("RGB", (disp.width, disp.height), "BLACK")
+    draw = ImageDraw.Draw(image)
+    return image,draw
+
+def highlightDisplay(TEXT,hightext):
+    drawimage=setupDisplay()
+    image=drawimage[0]
+    draw=drawimage[1]
+    ##(accross screen),(upand down))(100,100 is centre)
+    draw.text((70,30),hightext, fill = "WHITE", font=font2)
+    draw.text((15,95),TEXT, fill = "WHITE", font =font)
+    im_r=image.rotate(rotation)
+    disp.ShowImage(im_r)
 
 
 
