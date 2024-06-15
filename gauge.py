@@ -352,8 +352,9 @@ def FUNCT_updateValues():
 #     MAIN          #
 #                   #
 ##################### 
-firstBoot()
-#while True:
+
+while True:
+    firstBoot()
 #    FUNCT_updateValues()
 #    FUNCT_cliPrint()
 #    time.sleep(.2)
