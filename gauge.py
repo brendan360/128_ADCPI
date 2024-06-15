@@ -223,6 +223,7 @@ def setupDisplay():
     return image,draw
 
 def highlightDisplay(TEXT,hightext):
+    print("inhightlight")
     drawimage=setupDisplay()
     image=drawimage[0]
     draw=drawimage[1]
