@@ -266,7 +266,7 @@ def firstBoot():
         highlightDisplay(bootext,"")
         time.sleep(.3)
         bootcount+=1
-    image=Image.open('/home/pi/wrx_gauge/logo.jpg')
+    image=Image.open('/home/pi/128_ADCPI/logo.jpg')
     im_r=image.rotate(rotation)
     disp.ShowImage(im_r)
     time.sleep(3)
