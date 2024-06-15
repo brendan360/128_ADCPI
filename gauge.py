@@ -17,7 +17,7 @@ from PIL import Image, ImageDraw, ImageFont
 import spidev as SPI
 import colorsys
 import signal
-
+import spidev as SPI
 
 
 #####################
