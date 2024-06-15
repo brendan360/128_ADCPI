@@ -42,17 +42,20 @@ adc = ADCPi(0x68, 0x69, 12)
 
 
 #######Setting up lcd
+
 RST=27
 DC=25
 BL=18
 bus=0
 device = 0
+disp = LCD_1inch28.LCD_1inch28()
+rotation=180
 
 
 
 #####################
 #                   #
-#  MENU & DISPLAY   #
+#  MENU & fonts     #
 #     FUNCTIONS     #
 ##################### 
 topmenu=("Gauges","gaugemenu","Config","configmenu","Multi 1","QUAD_GAUGE","backtotop1")
@@ -65,12 +68,6 @@ font = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 42)
 font2 = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 20)
 font3 = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 12)
 gfont = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 54)
-
-#Display
-disp = LCD_1inch28.LCD_1inch28()
-rotation=0
-
-
 
 
 
@@ -258,7 +255,7 @@ def highlightDisplay(TEXT,hightext):
 #                   #
 ##################### 
 def firstBoot():
-    
+    print("in bootingh")
     bootcount=0
     while bootcount <7 :
         bootdots="."*bootcount
@@ -352,9 +349,9 @@ def FUNCT_updateValues():
 #     MAIN          #
 #                   #
 ##################### 
+firstBoot()
+#while True:
 
-while True:
-    firstBoot()
 #    FUNCT_updateValues()
 #    FUNCT_cliPrint()
 #    time.sleep(.2)
