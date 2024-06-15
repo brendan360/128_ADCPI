@@ -69,9 +69,7 @@ gfont = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 54)
 #Display
 disp = LCD_1inch28.LCD_1inch28()
 rotation=0
-GPIO.setup(SW, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(SW1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setmode(GPIO.BCM)
+
 
 
 
