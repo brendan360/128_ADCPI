@@ -14,6 +14,9 @@ from tabulate import tabulate
 sys.path.append('..')
 from lib import LCD_1inch28
 from PIL import Image, ImageDraw, ImageFont
+import spidev as SPI
+import colorsys
+import signal
 
 
 
@@ -223,7 +226,6 @@ def setupDisplay():
     return image,draw
 
 def highlightDisplay(TEXT,hightext):
-    print("inhightlight")
     drawimage=setupDisplay()
     image=drawimage[0]
     draw=drawimage[1]
@@ -256,7 +258,6 @@ def highlightDisplay(TEXT,hightext):
 #                   #
 ##################### 
 def firstBoot():
-    print("in bootingh")
     bootcount=0
     while bootcount <7 :
         bootdots="."*bootcount
