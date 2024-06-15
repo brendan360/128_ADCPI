@@ -353,7 +353,7 @@ def FUNCT_updateValues():
 #                   #
 ##################### 
 firstBoot()
-while True:
-    FUNCT_updateValues()
-    FUNCT_cliPrint()
-    time.sleep(.2)
+#while True:
+#    FUNCT_updateValues()
+#    FUNCT_cliPrint()
+#    time.sleep(.2)
