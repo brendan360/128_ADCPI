@@ -351,6 +351,7 @@ def FUNCT_updateValues():
 #     MAIN          #
 #                   #
 ##################### 
+setupDisplay()
 firstBoot()
 #while True:
 
