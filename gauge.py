@@ -10,6 +10,7 @@ import time
 import os
 import math
 from tabulate import tabulate
+sys.path.append('..')
 from lib import LCD_1inch28
 from PIL import Image, ImageDraw, ImageFont
 
