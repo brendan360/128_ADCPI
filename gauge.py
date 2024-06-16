@@ -251,6 +251,46 @@ def highlightDisplay(TEXT,hightext):
 
 
 
+#####################
+#                   #
+#   Gauge Display   #
+#   FUNCTIONS       #
+#                   #
+##################### 
+def QUAD_TEMP_GAUGE():
+    oilTemp=gaugeItems["OIL_TEMP"][2]
+    coolantTemp=gaugeItems["COOLANT_TEMP"][2]
+    blockTemp=gaugeItems["BLOCK_TEMP"][2]
+    boost=gaugeItems["BOOST"][2]
+    
+    drawimage=setupDisplay()
+    image=drawimage[0]
+    draw=drawimage[1]  
+    draw.text((108,67),str(blockTemp)+"°",font=font,fill="WHITE")
+    draw.line([(0,84),(250, 84)],"block Temp", font=font3,fill="RED")
+
+    draw.text((25,90),str(oilTemp)+"°",font=font,fill="WHITE")
+    draw.text((30,137),"Oil Temp", font=font3,fill="RED")
+
+    draw.line([(120,84),(120,153)],fill="RED", width=3)
+
+    draw.text((130,90),str(coolantTemp)+"°", font=font, fill="WHITE")
+    draw.text((160,137),"Water Temp", font=font3,fill="RED")
+
+    draw.line([(0,153),(240,153)],fill="RED", width=3)
+    draw.text((100,160),"BOOST",font=font3,fill="RED")
+
+    if (len(str(boost))==2):
+        draw.text((90,175),str(boost), font=gfont,fill="WHITE")
+    elif (len(str(boost))==3):
+        draw.text((80,175),str(boost), font=gfont, fill="WHITE")
+    else:
+        draw.text((105,175),str(boost), font=gfont, fill="WHITE")
+
+    im_r=image.rotate(rotation)
+    disp.ShowImage(im_r)
+
+
 
 
 #####################
@@ -361,6 +401,10 @@ def FUNCT_updateValues():
 #                   #
 ##################### 
 firstBoot()
-threading.Thread(target=FUNCT_updateValues).start()
-threading.Thread(target=FUNCT_cliPrint).start()
-
+try:
+    threading.Thread(target=FUNCT_updateValues).start()
+    threading.Thread(target=FUNCT_cliPrint).start()
+except:
+    print("failed starting threads")
+    reboot_pi()
+    
