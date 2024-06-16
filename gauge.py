@@ -308,7 +308,7 @@ def firstBoot():
     im_r=image.rotate(rotation)
     disp.ShowImage(im_r)
     time.sleep(3)
-    clearDisplay()
+
     
 def reboot_pi():
     drawimage=setupDisplay()
@@ -379,7 +379,7 @@ def FUNCT_updateValues():
 #    FUNCT_oil_pres()
 #    FUNCT_oil_temp()
 #    FUNCT_fuel_pres()
- #    FUNCT_block_temp()
+#    FUNCT_block_temp()
 #    FUNCT_boost_pres()  
 #    FUNCT_fuel_pres()
     
@@ -397,12 +397,12 @@ def FUNCT_updateValues():
 #     MAIN          #
 #                   #
 ##################### 
-firstBoot()
+#firstBoot()
 try:
     threading.Thread(target=FUNCT_updateValues).start()
     threading.Thread(target=FUNCT_cliPrint).start()
     threading.Thread(target=QUAD_TEMP_GAUGE).start()
 except:
     print("failed starting threads")
-    reboot_pi()
+#    reboot_pi()
     
