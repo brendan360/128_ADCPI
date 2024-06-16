@@ -264,8 +264,9 @@ def QUAD_TEMP_GAUGE():
     image=drawimage[0]
     draw=drawimage[1]  
     draw.text((108,67),str(blockTemp)+"°",font=font,fill="WHITE")
-    draw.text((10,82),"Block Temp", font=font3,fill="RED")
-    
+    draw.text((15,75),"Block Temp", font=font3,fill="RED")
+
+    draw.line([(60,84),(60,153)],fill="RED", width=3)
 
     draw.text((25,90),str(oilTemp)+"°",font=font,fill="WHITE")
     draw.text((30,137),"Oil Temp", font=font3,fill="RED")
