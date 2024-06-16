@@ -18,6 +18,7 @@ import spidev as SPI
 import colorsys
 import signal
 import spidev as SPI
+import threading
 
 
 #####################
@@ -333,11 +334,13 @@ def FUNCT_updateValues():
 #    FUNCT_boost_pres()  
 #    FUNCT_fuel_pres()
     FUNCT_coolant_pres()
+    time.sleep(.4)
 #    FUNCT_coolant_temp()
 #    FUNCT_oil_pres()
 #    FUNCT_oil_temp()
 #    FUNCT_fuel_pres()
-    FUNCT_cliPrint()
+    
+
     
 
 
@@ -352,8 +355,8 @@ def FUNCT_updateValues():
 #                   #
 ##################### 
 firstBoot()
-while True:
-
-    FUNCT_updateValues()
-    FUNCT_cliPrint()
-    time.sleep(.2)
+try:
+    threading.Thread(target=updateValues).start()
+    threading.Thread(target=cliPrint).start()
+except:
+    print("failed starting threads")
