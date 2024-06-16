@@ -22,7 +22,7 @@ bus=0
 device = 0
 disp = LCD_1inch28.LCD_1inch28()
 rotation=180
-
+disp.Init()
 
 font = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 42)
 font2 = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 20)
