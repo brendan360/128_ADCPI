@@ -54,7 +54,7 @@ bus=0
 device = 0
 disp = LCD_1inch28.LCD_1inch28()
 rotation=180
-disp.Init()
+
 
 
 #####################
@@ -259,6 +259,7 @@ def highlightDisplay(TEXT,hightext):
 #                   #
 ##################### 
 def firstBoot():
+    disp.Init()
     bootcount=0
     while bootcount <7 :
         bootdots="."*bootcount
