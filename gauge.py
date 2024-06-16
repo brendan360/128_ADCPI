@@ -355,6 +355,6 @@ def FUNCT_updateValues():
 #                   #
 ##################### 
 firstBoot()
-threading.Thread(target=updateValues).start()
-threading.Thread(target=cliPrint).start()
+threading.Thread(target=FUNCT_updateValues).start()
+threading.Thread(target=FUNCT_cliPrint).start()
 
