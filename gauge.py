@@ -266,7 +266,7 @@ def QUAD_TEMP_GAUGE():
     draw.text((108,67),str(blockTemp)+"°",font=font,fill="WHITE")
     draw.text((15,75),"Block Temp", font=font3,fill="RED")
 
-    draw.line([(60,84),(60,153)],fill="RED", width=3)
+    draw.line([(0,60),(240,60)],fill="RED", width=3)
 
     draw.text((25,90),str(oilTemp)+"°",font=font,fill="WHITE")
     draw.text((30,137),"Oil Temp", font=font3,fill="RED")
