@@ -255,7 +255,6 @@ def highlightDisplay(TEXT,hightext):
 #                   #
 ##################### 
 def QUAD_TEMP_GAUGE():
-    print("trying to make quad gauge")
     oilTemp=gaugeItems["OIL_TEMP"][2]
     coolantTemp=gaugeItems["COOLANT_TEMP"][2]
     blockTemp=gaugeItems["BLOCK_TEMP"][2]
@@ -265,7 +264,7 @@ def QUAD_TEMP_GAUGE():
     image=drawimage[0]
     draw=drawimage[1]  
     draw.text((108,67),str(blockTemp)+"°",font=font,fill="WHITE")
-    draw.text((0,84),"Block Temp", font=font3,fill="RED")
+    draw.text((10,82),"Block Temp", font=font3,fill="RED")
     
 
     draw.text((25,90),str(oilTemp)+"°",font=font,fill="WHITE")
