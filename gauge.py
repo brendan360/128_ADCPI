@@ -333,7 +333,6 @@ def FUNCT_cliPrint():
 
 def FUNCT_updateValues():
     while True:
-
         FUNCT_coolant_pres()
         time.sleep(.4)
         
