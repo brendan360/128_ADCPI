@@ -355,8 +355,6 @@ def FUNCT_updateValues():
 #                   #
 ##################### 
 firstBoot()
-try:
-    threading.Thread(target=updateValues).start()
-    threading.Thread(target=cliPrint).start()
-except:
-    print("failed starting threads")
+threading.Thread(target=updateValues).start()
+threading.Thread(target=cliPrint).start()
+
