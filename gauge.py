@@ -397,7 +397,7 @@ def FUNCT_updateValues():
 #firstBoot()
 try:
     threading.Thread(target=FUNCT_updateValues).start()
-    threading.Thread(target=FUNCT_cliPrint).start()
+#    threading.Thread(target=FUNCT_cliPrint).start()
     threading.Thread(target=QUAD_TEMP_GAUGE).start()
 except:
     print("failed starting threads")
