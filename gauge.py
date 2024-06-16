@@ -271,6 +271,7 @@ def firstBoot():
     im_r=image.rotate(rotation)
     disp.ShowImage(im_r)
     time.sleep(3)
+    clearDisplay()
     
 def reboot_pi():
     drawimage=setupDisplay()
