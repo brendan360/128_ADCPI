@@ -85,7 +85,7 @@ gaugeItems={
 #   NAME,          value, display name warninglow,alertlow,warninghigh,alerthigh,rangelow,rangehigh,measurment,alertcount 
   "FUEL_PRESSURE":["1","Fuel Pres.", 1, 10,15,99,110,0,150,"Kpa", 0],               
   "BOOST":["2","Boost", 1, 10,15,99,110,0,150,"psi", 0],                       
-  "BLOCK_TEMP":["3","Engine °C ", 68, 10,15,99,110,0,150,"°C", 0],
+  "BLOCK_TEMP":["3","Engine °C ", 268, 10,15,99,110,0,150,"°C", 0],
   "COOLANT_PRESSURE":["4","H2O Pres.", 1, 10,15,99,110,0,150,"Kpa", 0],            
   "COOLANT_TEMP":["5","H2O °C", 1, 10,15,99,110,0,150,"°C", 0],
   "OIL_PRESSURE":["6","Oil Pres.", 1, 10,15,99,110,0,150,"Kpa", 0],                
@@ -266,7 +266,7 @@ def QUAD_TEMP_GAUGE():
     draw=drawimage[1]  
    
     if (len(str(blockTemp))==2):
-        draw.text((49,30),str(blockTemp)+"°", font=font,fill="WHITE")
+        draw.text((35,30),str(blockTemp)+"°", font=font,fill="WHITE")
     elif (len(str(blockTemp))==3):
         draw.text((39,30),str(blockTemp)+"°", font=font, fill="WHITE")
     else:
