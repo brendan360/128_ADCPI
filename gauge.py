@@ -266,12 +266,12 @@ def QUAD_TEMP_GAUGE():
     draw=drawimage[1]  
    
     if (len(str(blockTemp))==2):
-        draw.text((38,30),str(blockTemp)+"°", font=font,fill="WHITE")
+        draw.text((40,30),str(blockTemp)+"°", font=font,fill="WHITE")
     elif (len(str(blockTemp))==3):
         draw.text((33,30),str(blockTemp)+"°", font=font, fill="WHITE")
     else:
-        draw.text((29,30),str(blockTemp)+"°", font=font, fill="WHITE")
-    draw.text((23,74),"Block Temp", font=font3,fill="RED")
+        draw.text((45,30),str(blockTemp)+"°", font=font, fill="WHITE")
+    draw.text((26,74),"Block Temp", font=font3,fill="RED")
 
 
     draw.line([(0,90),(240,90)],fill="RED", width=3)
