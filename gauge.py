@@ -255,6 +255,7 @@ def highlightDisplay(TEXT,hightext):
 #                   #
 ##################### 
 def QUAD_TEMP_GAUGE():
+    disp.Init()
     oilTemp=gaugeItems["OIL_TEMP"][2]
     coolantTemp=gaugeItems["COOLANT_TEMP"][2]
     blockTemp=gaugeItems["BLOCK_TEMP"][2]
