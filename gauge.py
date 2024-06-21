@@ -383,6 +383,12 @@ def FUNCT_cliPrint():
 def FUNCT_updateValues():
     while True:
         gaugeItems["BOOST"][2] = random.randint(0, 1000)
+        gaugeItems["BLOCK_TEMP"][2] = random.randint(0, 1000)
+        gaugeItems["FUEL_PRESSURE"][2] = random.randint(0, 1000)
+        gaugeItems["OIL_TEMP"][2] = random.randint(0, 1000)
+        gaugeItems["COOLANT_TEMP"][2] = random.randint(0, 1000)
+        gaugeItems["COOLANT_PRESSURE"][2] = random.randint(0, 1000)
+        gaugeItems["OIL_PRESSURE"][2] = random.randint(0, 1000)
         
         time.sleep(.4)
 #    FUNCT_coolant_pres()   
