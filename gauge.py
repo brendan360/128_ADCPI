@@ -277,11 +277,19 @@ def QUAD_TEMP_GAUGE():
             draw.text((48,30),str(blockTemp)+"°", font=font, fill="WHITE")
 
 
-
         draw.line([(0,90),(240,90)],fill="RED", width=3)
 
-        draw.text((25,90),str(oilTemp)+"°",font=font,fill="WHITE")
         draw.text((30,137),"Oil Temp", font=font3,fill="RED")
+        if (len(str(oilTemp))==2):
+            draw.text((25,90),str(oilTemp)+"°", font=font,fill="WHITE")
+        elif (len(oilTemp))==3):
+            draw.text((25,90),str(oilTemp)+"°", font=font, fill="WHITE")
+        else:
+            draw.text((25,90),str(oilTemp)+"°", font=font, fill="WHITE")
+            
+        
+        draw.text((25,90),str(oilTemp)+"°",font=font,fill="WHITE")
+
 
         draw.line([(120,0),(120,153)],fill="RED", width=3)
 
@@ -390,7 +398,7 @@ def FUNCT_updateValues():
         gaugeItems["COOLANT_PRESSURE"][2] = random.randint(0, 150)
         gaugeItems["OIL_PRESSURE"][2] = random.randint(0, 200)
         
-        time.sleep(.4)
+        time.sleep(2)
 #    FUNCT_coolant_pres()   
 #    FUNCT_coolant_temp()
 #    FUNCT_oil_pres()
