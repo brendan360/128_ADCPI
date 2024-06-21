@@ -268,7 +268,7 @@ def QUAD_TEMP_GAUGE():
     if (len(str(blockTemp))==2):
         draw.text((35,30),str(blockTemp)+"°", font=font,fill="WHITE")
     elif (len(str(blockTemp))==3):
-        draw.text((39,30),str(blockTemp)+"°", font=font, fill="WHITE")
+        draw.text((35,30),str(blockTemp)+"°", font=font, fill="WHITE")
     else:
         draw.text((29,30),str(blockTemp)+"°", font=font, fill="WHITE")
     draw.text((19,72),"Block Temp", font=font3,fill="RED")
