@@ -256,49 +256,50 @@ def highlightDisplay(TEXT,hightext):
 #                   #
 ##################### 
 def QUAD_TEMP_GAUGE():
-    #(x,y)
-    oilTemp=gaugeItems["OIL_TEMP"][2]
-    coolantTemp=gaugeItems["COOLANT_TEMP"][2]
-    blockTemp=gaugeItems["BLOCK_TEMP"][2]
-    boost=gaugeItems["BOOST"][2]
+    while true:
+        #(x,y)
+        oilTemp=gaugeItems["OIL_TEMP"][2]
+        coolantTemp=gaugeItems["COOLANT_TEMP"][2]
+        blockTemp=gaugeItems["BLOCK_TEMP"][2]
+        boost=gaugeItems["BOOST"][2]
     
-    drawimage=setupDisplay()
-    image=drawimage[0]
-    draw=drawimage[1]  
+        drawimage=setupDisplay()
+        image=drawimage[0]
+        draw=drawimage[1]  
 
     
-    draw.text((26,74),"Block Temp", font=font3,fill="RED")
-    if (len(str(blockTemp))==2):
-        draw.text((40,30),str(blockTemp)+"°", font=font,fill="WHITE")
-    elif (len(str(blockTemp))==3):
-        draw.text((33,30),str(blockTemp)+"°", font=font, fill="WHITE")
-    else:
-        draw.text((48,30),str(blockTemp)+"°", font=font, fill="WHITE")
+        draw.text((26,74),"Block Temp", font=font3,fill="RED")
+        if (len(str(blockTemp))==2):
+            draw.text((40,30),str(blockTemp)+"°", font=font,fill="WHITE")
+        elif (len(str(blockTemp))==3):
+            draw.text((33,30),str(blockTemp)+"°", font=font, fill="WHITE")
+        else:
+            draw.text((48,30),str(blockTemp)+"°", font=font, fill="WHITE")
 
 
 
-    draw.line([(0,90),(240,90)],fill="RED", width=3)
+        draw.line([(0,90),(240,90)],fill="RED", width=3)
 
-    draw.text((25,90),str(oilTemp)+"°",font=font,fill="WHITE")
-    draw.text((30,137),"Oil Temp", font=font3,fill="RED")
+        draw.text((25,90),str(oilTemp)+"°",font=font,fill="WHITE")
+        draw.text((30,137),"Oil Temp", font=font3,fill="RED")
 
-    draw.line([(120,0),(120,153)],fill="RED", width=3)
+        draw.line([(120,0),(120,153)],fill="RED", width=3)
 
-    draw.text((145,90),str(coolantTemp)+"°", font=font, fill="WHITE")
-    draw.text((150,137),"Water Temp", font=font3,fill="RED")
+        draw.text((145,90),str(coolantTemp)+"°", font=font, fill="WHITE")
+        draw.text((150,137),"Water Temp", font=font3,fill="RED")
 
-    draw.line([(0,153),(240,153)],fill="RED", width=3)
-    draw.text((100,160),"BOOST",font=font3,fill="RED")
+        draw.line([(0,153),(240,153)],fill="RED", width=3)
+        draw.text((100,160),"BOOST",font=font3,fill="RED")
 
-    if (len(str(boost))==2):
-        draw.text((90,175),str(boost), font=gfont,fill="WHITE")
-    elif (len(str(boost))==3):
-        draw.text((80,175),str(boost), font=gfont, fill="WHITE")
-    else:
-        draw.text((105,175),str(boost), font=gfont, fill="WHITE")
+        if (len(str(boost))==2):
+            draw.text((90,175),str(boost), font=gfont,fill="WHITE")
+        elif (len(str(boost))==3):
+            draw.text((80,175),str(boost), font=gfont, fill="WHITE")
+        else:
+            draw.text((105,175),str(boost), font=gfont, fill="WHITE")
 
-    im_r=image.rotate(rotation)
-    disp.ShowImage(im_r)
+        im_r=image.rotate(rotation)
+        disp.ShowImage(im_r)
 
 
 
