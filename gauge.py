@@ -263,18 +263,19 @@ def QUAD_TEMP_GAUGE():
     drawimage=setupDisplay()
     image=drawimage[0]
     draw=drawimage[1]  
+    
     draw.text((108,67),str(blockTemp)+"°",font=font,fill="WHITE")
     draw.text((15,75),"Block Temp", font=font3,fill="RED")
 
-    draw.line([(0,70),(240,70)],fill="RED", width=3)
+    draw.line([(0,80),(240,80)],fill="RED", width=3)
 
     draw.text((25,90),str(oilTemp)+"°",font=font,fill="WHITE")
     draw.text((30,137),"Oil Temp", font=font3,fill="RED")
 
     draw.line([(120,0),(120,153)],fill="RED", width=3)
 
-    draw.text((130,90),str(coolantTemp)+"°", font=font, fill="WHITE")
-    draw.text((160,137),"Water Temp", font=font3,fill="RED")
+    draw.text((145,90),str(coolantTemp)+"°", font=font, fill="WHITE")
+    draw.text((150,137),"Water Temp", font=font3,fill="RED")
 
     draw.line([(0,153),(240,153)],fill="RED", width=3)
     draw.text((100,160),"BOOST",font=font3,fill="RED")
@@ -395,7 +396,7 @@ def FUNCT_updateValues():
 #     MAIN          #
 #                   #
 ##################### 
-firstBoot()
+#firstBoot()
 try:
     threading.Thread(target=FUNCT_updateValues).start()
 #    threading.Thread(target=FUNCT_cliPrint).start()
