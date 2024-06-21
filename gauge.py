@@ -282,7 +282,7 @@ def QUAD_TEMP_GAUGE():
         draw.text((30,137),"Oil Temp", font=font3,fill="RED")
         if (len(str(oilTemp))==2):
             draw.text((25,90),str(oilTemp)+"°", font=font,fill="WHITE")
-        elif (len(oilTemp))==3):
+        elif (len(str(oilTemp))==3):
             draw.text((25,90),str(oilTemp)+"°", font=font, fill="WHITE")
         else:
             draw.text((25,90),str(oilTemp)+"°", font=font, fill="WHITE")
