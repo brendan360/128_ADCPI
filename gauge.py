@@ -256,7 +256,6 @@ def highlightDisplay(TEXT,hightext):
 ##################### 
 def QUAD_TEMP_GAUGE():
     #(x,y)
-    disp.Init()
     oilTemp=gaugeItems["OIL_TEMP"][2]
     coolantTemp=gaugeItems["COOLANT_TEMP"][2]
     blockTemp=gaugeItems["BLOCK_TEMP"][2]
@@ -265,9 +264,15 @@ def QUAD_TEMP_GAUGE():
     drawimage=setupDisplay()
     image=drawimage[0]
     draw=drawimage[1]  
-    
-    draw.text((29,30),str(blockTemp)+"°",font=font,fill="WHITE")
+   
+if (len(str(boost))==2):
+        draw.text((49,30),str(blockTemp)+"°", font=font,fill="WHITE")
+    elif (len(str(boost))==3):
+        draw.text((39,30),str(blockTemp)+"°", font=font, fill="WHITE")
+    else:
+        draw.text((29,30),str(blockTemp)+"°", font=font, fill="WHITE")
     draw.text((19,72),"Block Temp", font=font3,fill="RED")
+
 
     draw.line([(0,90),(240,90)],fill="RED", width=3)
 
@@ -398,7 +403,7 @@ def FUNCT_updateValues():
 #     MAIN          #
 #                   #
 ##################### 
-#firstBoot()
+firstBoot()
 try:
     threading.Thread(target=FUNCT_updateValues).start()
 #    threading.Thread(target=FUNCT_cliPrint).start()
