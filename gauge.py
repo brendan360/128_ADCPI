@@ -288,15 +288,18 @@ def QUAD_TEMP_GAUGE():
         else:
             draw.text((52,94),str(oilTemp)+"°", font=font, fill="WHITE")
 
-
-
-
-
         
         draw.line([(120,0),(120,153)],fill="RED", width=3)
 
-        draw.text((145,90),str(coolantTemp)+"°", font=font, fill="WHITE")
-        draw.text((150,137),"Water Temp", font=font3,fill="RED")
+        draw.text((150,137),"Water Temp", font=font3,fill="RED")      
+        if (len(str(coolantTemp))==2):
+            draw.text((155,94),str(coolantTemp)+"°", font=font,fill="WHITE")
+        elif (len(str(coolantTemp))==3):
+            draw.text((145,94),str(coolantTemp)+"°", font=font, fill="WHITE")
+        else:
+            draw.text((160,94),str(coolantTemp)+"°", font=font, fill="WHITE")
+
+        
 
         draw.line([(0,153),(240,153)],fill="RED", width=3)
         draw.text((100,160),"BOOST",font=font3,fill="RED")
