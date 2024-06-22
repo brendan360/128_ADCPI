@@ -262,7 +262,7 @@ def QUAD_TEMP_GAUGE():
         coolantTemp=gaugeItems["COOLANT_TEMP"][2]
         blockTemp=gaugeItems["BLOCK_TEMP"][2]
         boost=gaugeItems["BOOST"][2]
-        wideband=gaugeItems[WIDEBAND02"][2]
+        wideband=gaugeItems["WIDEBAND02"][2]
     
         drawimage=setupDisplay()
         image=drawimage[0]
