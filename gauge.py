@@ -262,6 +262,7 @@ def QUAD_TEMP_GAUGE():
         coolantTemp=gaugeItems["COOLANT_TEMP"][2]
         blockTemp=gaugeItems["BLOCK_TEMP"][2]
         boost=gaugeItems["BOOST"][2]
+        wideband=gaugeItems[WIDEBAND02"][2]
     
         drawimage=setupDisplay()
         image=drawimage[0]
@@ -276,7 +277,14 @@ def QUAD_TEMP_GAUGE():
         else:
             draw.text((58,30),str(blockTemp)+"°", font=font, fill="WHITE")
 
-
+        draw.text((130,74),"Wideband", font=font3,fill="RED")
+        if (len(str(wideband))==2):
+            draw.text((130,30),str(wideband), font=font,fill="WHITE")
+        elif (len(str(wideband))==3):
+            draw.text((130,30),str(wideband), font=font, fill="WHITE")
+        else:
+            draw.text((130,30),str(wideband), font=font, fill="WHITE")
+            
         draw.line([(0,90),(240,90)],fill="RED", width=3)
 
         
@@ -302,8 +310,10 @@ def QUAD_TEMP_GAUGE():
         
 
         draw.line([(0,153),(240,153)],fill="RED", width=3)
-        draw.text((100,160),"BOOST",font=font3,fill="RED")
 
+
+        
+        draw.text((100,160),"BOOST",font=font3,fill="RED")
         if (len(str(boost))==2):
             draw.text((90,175),str(boost), font=gfont,fill="WHITE")
         elif (len(str(boost))==3):
@@ -311,6 +321,9 @@ def QUAD_TEMP_GAUGE():
         else:
             draw.text((105,175),str(boost), font=gfont, fill="WHITE")
 
+
+
+        
         im_r=image.rotate(rotation)
         disp.ShowImage(im_r)
 
@@ -402,6 +415,7 @@ def FUNCT_updateValues():
         gaugeItems["COOLANT_TEMP"][2] = random.randint(0, 500)
         gaugeItems["COOLANT_PRESSURE"][2] = random.randint(0, 150)
         gaugeItems["OIL_PRESSURE"][2] = random.randint(0, 200)
+        gaugeItems["WIDEBAND02"][2] = random.randint(0, 389)/100
         
         time.sleep(2)
 #    FUNCT_coolant_pres()   
