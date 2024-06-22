@@ -415,7 +415,7 @@ def FUNCT_updateValues():
         gaugeItems["COOLANT_TEMP"][2] = random.randint(0, 500)
         gaugeItems["COOLANT_PRESSURE"][2] = random.randint(0, 150)
         gaugeItems["OIL_PRESSURE"][2] = random.randint(0, 200)
-        gaugeItems["WIDEBAND02"][2] = (random.randint(0, 389)/100).zfill(8)
+        gaugeItems["WIDEBAND02"][2] = (random.randint(0, 389)/100)
         
         time.sleep(2)
 #    FUNCT_coolant_pres()   
