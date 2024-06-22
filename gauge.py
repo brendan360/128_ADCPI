@@ -278,12 +278,7 @@ def QUAD_TEMP_GAUGE():
             draw.text((58,30),str(blockTemp)+"°", font=font, fill="WHITE")
 
         draw.text((130,74),"Wideband", font=font3,fill="RED")
-        if (len(str(wideband))==2):
-            draw.text((130,30),str(wideband), font=font,fill="WHITE")
-        elif (len(str(wideband))==3):
-            draw.text((130,30),str(wideband), font=font, fill="WHITE")
-        else:
-            draw.text((130,30),str(wideband), font=font, fill="WHITE")
+        draw.text((130,30),str(wideband), font=font, fill="WHITE")
             
         draw.line([(0,90),(240,90)],fill="RED", width=3)
 
