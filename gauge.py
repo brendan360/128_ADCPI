@@ -1,4 +1,4 @@
-
+`
 #!/usr/bin/python3
 #####################
 #                   #
@@ -267,8 +267,7 @@ def QUAD_TEMP_GAUGE():
         drawimage=setupDisplay()
         image=drawimage[0]
         draw=drawimage[1]  
-
-    
+   
         draw.text((36,74),"Block Temp", font=font3,fill="RED")
         if (len(str(blockTemp))==2):
             draw.text((45,30),str(blockTemp)+"°", font=font,fill="WHITE")
@@ -279,7 +278,8 @@ def QUAD_TEMP_GAUGE():
 
         draw.text((145,74),"Wideband", font=font3,fill="RED")
         draw.text((130,30),str(wideband), font=font, fill="WHITE")
-            
+
+        
         draw.line([(0,90),(240,90)],fill="RED", width=3)
 
         
@@ -294,6 +294,7 @@ def QUAD_TEMP_GAUGE():
         
         draw.line([(120,0),(120,153)],fill="RED", width=3)
 
+        
         draw.text((150,137),"Water Temp", font=font3,fill="RED")      
         if (len(str(coolantTemp))==2):
             draw.text((155,94),str(coolantTemp)+"°", font=font,fill="WHITE")
@@ -301,11 +302,9 @@ def QUAD_TEMP_GAUGE():
             draw.text((145,94),str(coolantTemp)+"°", font=font, fill="WHITE")
         else:
             draw.text((160,94),str(coolantTemp)+"°", font=font, fill="WHITE")
-
-        
+      
 
         draw.line([(0,153),(240,153)],fill="RED", width=3)
-
 
         
         draw.text((100,160),"BOOST",font=font3,fill="RED")
@@ -315,12 +314,18 @@ def QUAD_TEMP_GAUGE():
             draw.text((80,175),str(boost), font=gfont, fill="WHITE")
         else:
             draw.text((105,175),str(boost), font=gfont, fill="WHITE")
-
-
-
         
         im_r=image.rotate(rotation)
         disp.ShowImage(im_r)
+
+def Triple_GAUGE():
+        boost=gaugeItems["BOOST"][2]
+        wideband=gaugeItems["WIDEBAND02"][2]
+        oilTemp=gaugeItems["OIL_TEMP"][2]
+    
+        drawimage=setupDisplay()
+        image=drawimage[0]
+        draw=drawimage[1]  
 
 
 
