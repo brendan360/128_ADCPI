@@ -24,7 +24,7 @@ RADIUS = 120  # Increased radius
 ANGLE_START, ANGLE_END = 40, 320  # Angles for the 3/4 gauge arc (clockwise)
 
 # Define the range of values
-MIN_VALUE = -50  # Example minimum value (can be negative)
+MIN_VALUE = 0  # Example minimum value (can be negative)
 MAX_VALUE = 150  # Example maximum value
 
 # Function to convert value to angle
