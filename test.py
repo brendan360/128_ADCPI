@@ -33,7 +33,7 @@ def value_to_angle(value):
     return ANGLE_START - (ANGLE_START - ANGLE_END) * (value / 100)
 
 # Draw the circular frame for the round screen
-draw.ellipse((CENTER_X - RADIUS - 2, CENTER_Y - RADIUS - 2, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='black', width=3)
+draw.ellipse((CENTER_X - RADIUS - 10, CENTER_Y - RADIUS - 10, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='black', width=3)
 
 # Draw the gauge segments
 def draw_gauge_segment(start_value, end_value, color):
