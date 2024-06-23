@@ -16,6 +16,11 @@ rotation=180
 disp.Init()
 
 
+
+
+
+
+
 # Constants for 240x240 screen
 WIDTH, HEIGHT = 240, 240
 CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
@@ -38,6 +43,8 @@ draw.ellipse((CENTER_X - RADIUS - 5, CENTER_Y - RADIUS - 5, CENTER_X + RADIUS + 
 def draw_gauge_segment(start_value, end_value, color):
     start_angle = value_to_angle(start_value)
     end_angle = value_to_angle(end_value)
+    if end_angle < start_angle:
+        end_angle += 360
     draw.arc(
         (CENTER_X - RADIUS, CENTER_Y - RADIUS, CENTER_X + RADIUS, CENTER_Y + RADIUS),
         start=start_angle,
@@ -47,9 +54,9 @@ def draw_gauge_segment(start_value, end_value, color):
     )
 
 # Draw the segments
-draw_gauge_segment(0, 30, 'blue')
-draw_gauge_segment(31, 70, 'green')
-draw_gauge_segment(71, 100, 'red')
+draw_gauge_segment(0, 10, 'blue')
+draw_gauge_segment(10, 70, 'green')
+draw_gauge_segment(70, 100, 'red')
 
 # Draw the gauge needle
 angle = value_to_angle(VALUE)
@@ -83,7 +90,6 @@ text_width, text_height = draw.textsize(text, font=font_large)
 text_x = (WIDTH - text_width) // 2
 text_y = HEIGHT - text_height - 10  # Positioned near the bottom of the image
 draw.text((text_x, text_y), text, fill='black', font=font_large)
-
 
 
 
