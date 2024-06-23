@@ -94,12 +94,26 @@ while True:
         disp.ShowImage(image)
 
         # Delay to create animation effect
-        time.sleep(0.02)  # Adjust the delay for smoother animation
+        time.sleep(0.01)  # Adjust the delay for smoother animation
 
-        step += 1
+         if target_value > prev_value:
+        step = prev_value
+        while step <= target_value:
+            # Animation code
+            step += 1
+    elif target_value < prev_value:
+        step = prev_value
+        while step >= target_value:
+            # Animation code
+            step -= 1
+    else:
+        continue  # If target_value equals prev_value, no animation needed
+
+    # Update the previous value
+    prev_value = target_value
 
     # Update the previous value
     prev_value = target_value
 
     # Delay before starting the next cycle
-    time.sleep(2)  # Adjust the delay before starting the next cycle
+
