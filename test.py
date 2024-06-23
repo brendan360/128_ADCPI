@@ -21,9 +21,7 @@ CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 RADIUS = 180
 ANGLE_START, ANGLE_END = 135, 45  # Angles for the gauge arc
 VALUE =100  # Example value to display on the gauge
-
-# Create a blank image with a white background
-image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
+image = Image.new('RGB', (WIDTH, HEIGHT), 'white')
 draw = ImageDraw.Draw(image)
 
 # Draw the circular gauge
@@ -41,10 +39,10 @@ end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))
 draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=5)
 
 # Draw a circle at the center of the gauge
-draw.ellipse((CENTER_X - 10, CENTER_Y - 10, CENTER_X + 10, CENTER_Y + 10), fill='white')
+draw.ellipse((CENTER_X - 10, CENTER_Y - 10, CENTER_X + 10, CENTER_Y + 10), fill='black')
 
 # Draw the circular frame for the round screen
-draw.ellipse((CENTER_X - RADIUS - 10, CENTER_Y - RADIUS - 10, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='white', width=10)
+draw.ellipse((CENTER_X - RADIUS - 10, CENTER_Y - RADIUS - 10, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='black', width=5)
 
 # Optionally, draw tick marks and labels
 for i in range(0, 101, 10):
@@ -60,6 +58,14 @@ for i in range(0, 101, 10):
     label_x = CENTER_X + (RADIUS - 40) * math.cos(math.radians(angle))
     label_y = CENTER_Y + (RADIUS - 40) * math.sin(math.radians(angle))
     draw.text((label_x - 10, label_y - 10), str(i), fill='black', font=font)
+
+# Draw the value display
+font_large = ImageFont.load_default()
+text = f'Value: {VALUE}'
+text_width, text_height = draw.textsize(text, font=font_large)
+text_x = (WIDTH - text_width) // 2
+text_y = HEIGHT - text_height - 20  # Positioned near the bottom of the image
+draw.text((text_x, text_y), text, fill='black', font=font_large)
 
 # Save or display the image
 disp.ShowImage(image)
