@@ -15,6 +15,10 @@ disp = LCD_1inch28.LCD_1inch28()
 rotation=180
 disp.Init()
 
+image = Image.new("RGB", (disp.width, disp.height), "BLACK")
+draw = ImageDraw.Draw(image)
+return image,draw
+
 # Constants
 WIDTH, HEIGHT = 240, 240
 CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
