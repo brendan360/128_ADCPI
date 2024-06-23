@@ -17,7 +17,7 @@ disp.Init()
 
 image = Image.new("RGB", (disp.width, disp.height), "BLACK")
 draw = ImageDraw.Draw(image)
-return image,draw
+
 
 # Constants
 WIDTH, HEIGHT = 240, 240
