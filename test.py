@@ -65,13 +65,13 @@ draw_gauge_segment(70, 100, 'red')
 
 # Draw the gauge needle
 angle = value_to_angle(VALUE)
-needle_length = RADIUS - 40  # Adjusted length
+needle_length = RADIUS - 10  # Adjusted length
 end_x = CENTER_X + needle_length * math.cos(math.radians(angle))
 end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))
 draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=8)
 
 # Draw a circle at the center of the gauge
-draw.ellipse((CENTER_X - 10, CENTER_Y - 10, CENTER_X + 10, CENTER_Y + 8), fill='black')
+draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
 
 # Optionally, draw tick marks and labels
 for i in range(0, 101, 10):
