@@ -20,13 +20,17 @@ RADIUS = 100
 ANGLE_START, ANGLE_END = 135, 45  # Angles for the gauge arc
 VALUE = 75  # Example value to display on the gauge
 
+
+
+
+
 # Create a blank image with a white background
 image = Image.new('RGB', (WIDTH, HEIGHT), 'white')
 draw = ImageDraw.Draw(image)
 
 # Function to convert value to angle
 def value_to_angle(value):
-    return ANGLE_START + (ANGLE_END - ANGLE_START) * (value / 100)
+    return ANGLE_START - (ANGLE_START - ANGLE_END) * (value / 100)
 
 # Draw the circular frame for the round screen
 draw.ellipse((CENTER_X - RADIUS - 10, CENTER_Y - RADIUS - 10, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='black', width=3)
@@ -52,7 +56,7 @@ draw_gauge_segment(70, 100, 'red')
 angle = value_to_angle(VALUE)
 needle_length = RADIUS - 10
 end_x = CENTER_X + needle_length * math.cos(math.radians(angle))
-end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))
+end_y = CENTER_Y - needle_length * math.sin(math.radians(angle))  # Subtract for correct direction
 draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=3)
 
 # Draw a circle at the center of the gauge
@@ -62,15 +66,15 @@ draw.ellipse((CENTER_X - 5, CENTER_Y - 5, CENTER_X + 5, CENTER_Y + 5), fill='bla
 for i in range(0, 101, 10):
     angle = value_to_angle(i)
     outer_x = CENTER_X + (RADIUS - 5) * math.cos(math.radians(angle))
-    outer_y = CENTER_Y + (RADIUS - 5) * math.sin(math.radians(angle))
+    outer_y = CENTER_Y - (RADIUS - 5) * math.sin(math.radians(angle))  # Subtract for correct direction
     inner_x = CENTER_X + (RADIUS - 15) * math.cos(math.radians(angle))
-    inner_y = CENTER_Y + (RADIUS - 15) * math.sin(math.radians(angle))
+    inner_y = CENTER_Y - (RADIUS - 15) * math.sin(math.radians(angle))  # Subtract for correct direction
     draw.line((inner_x, inner_y, outer_x, outer_y), fill='black', width=1)
     
     # Draw the labels
     font = ImageFont.load_default()
     label_x = CENTER_X + (RADIUS - 25) * math.cos(math.radians(angle))
-    label_y = CENTER_Y + (RADIUS - 25) * math.sin(math.radians(angle))
+    label_y = CENTER_Y - (RADIUS - 25) * math.sin(math.radians(angle))  # Subtract for correct direction
     draw.text((label_x - 5, label_y - 5), str(i), fill='black', font=font)
 
 # Draw the value display
@@ -80,7 +84,6 @@ text_width, text_height = draw.textsize(text, font=font_large)
 text_x = (WIDTH - text_width) // 2
 text_y = HEIGHT - text_height - 10  # Positioned near the bottom of the image
 draw.text((text_x, text_y), text, fill='black', font=font_large)
-
 
 
 
