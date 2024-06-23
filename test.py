@@ -76,15 +76,9 @@ while True:
     draw_gauge_segment(draw, 10, 70, 'green')
     draw_gauge_segment(draw, 70, 100, 'red')
 
-    # Draw the gauge needle
-    draw_needle(draw, 0)  # Start the needle from 0
-
     # Draw a circle at the center of the gauge
     draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
     draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
-
-    # Draw the initial value display
-    draw_value(draw, 0)  # Start from 0
 
     # Show the initial image
     disp.ShowImage(image)
@@ -92,9 +86,21 @@ while True:
     # Animate the gauge to the target value
     step = 1
     while step <= target_value:
-        # Update the needle and value display
+        # Initialize the image and drawing context for each step
+        image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
+        draw = ImageDraw.Draw(image)
+
+        # Draw the segments
+        draw_gauge_segment(draw, 0, 10, 'blue')
+        draw_gauge_segment(draw, 10, 70, 'green')
+        draw_gauge_segment(draw, 70, 100, 'red')
+
+        # Draw the gauge needle
         draw_needle(draw, step)
-        draw_value(draw, step)
+
+        # Draw a circle at the center of the gauge
+        draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
+        draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
 
         # Show the updated image
         disp.ShowImage(image)
