@@ -73,6 +73,18 @@ while True:
     # Animate the gauge from the previous value to the new random value
     step = prev_value
     while step <= target_value:
+                if target_value > prev_value:
+            step = prev_value
+            while step <= target_value:
+            # Animation code
+                step += 1
+        elif target_value < prev_value:
+            step = prev_value
+            while step >= target_value:
+                # Animation code
+                step -= 1
+        else:
+           continue  # If target_value equals prev_value, no animation needed
         # Initialize the image and drawing context for each step
         image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
         draw = ImageDraw.Draw(image)
@@ -96,18 +108,7 @@ while True:
         # Delay to create animation effect
         time.sleep(0.01)  # Adjust the delay for smoother animation
 
-        if target_value > prev_value:
-            step = prev_value
-            while step <= target_value:
-            # Animation code
-                step += 1
-        elif target_value < prev_value:
-            step = prev_value
-            while step >= target_value:
-                # Animation code
-                step -= 1
-        else:
-           continue  # If target_value equals prev_value, no animation needed
+
 
     # Update the previous value
     prev_value = target_value
