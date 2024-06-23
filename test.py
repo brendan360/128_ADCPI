@@ -71,7 +71,7 @@ end_x = CENTER_X + needle_length * math.cos(math.radians(angle))
 end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))
 outline_end_x = CENTER_X + (needle_length + 5) * math.cos(math.radians(angle))
 outline_end_y = CENTER_Y + (needle_length + 5) * math.sin(math.radians(angle))
-draw.line((CENTER_X, CENTER_Y, outline_end_x, outline_end_y), fill='black', width=outline_width) 
+draw.line((CENTER_X, CENTER_Y, outline_end_x, outline_end_y), fill='white', width=outline_width) 
 draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=8)
 
 
