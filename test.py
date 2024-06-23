@@ -68,10 +68,10 @@ angle = value_to_angle(VALUE)
 needle_length = RADIUS - 20  # Adjusted length
 end_x = CENTER_X + needle_length * math.cos(math.radians(angle))
 end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))
-draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=5)
+draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=8)
 
 # Draw a circle at the center of the gauge
-draw.ellipse((CENTER_X - 10, CENTER_Y - 10, CENTER_X + 10, CENTER_Y + 10), fill='black')
+draw.ellipse((CENTER_X - 10, CENTER_Y - 10, CENTER_X + 10, CENTER_Y + 8), fill='black')
 
 # Optionally, draw tick marks and labels
 for i in range(0, 101, 10):
@@ -93,8 +93,8 @@ for i in range(0, 101, 10):
 font_large = ImageFont.truetype("arial.ttf", 20)  # Use a larger font size and specify a font
 text = str(VALUE)
 text_width, text_height = draw.textsize(text, font=font_large)
-text_x = (WIDTH - text_width) // 2
-text_y = HEIGHT - text_height - 10  # Positioned near the bottom of the image
+text_x = (WIDTH - text_width) -10
+text_y = (HEIGHT - text_height) //2  # Positioned near the bottom of the image
 draw.text((text_x, text_y), text, fill='black', font=font_large)
 
 
