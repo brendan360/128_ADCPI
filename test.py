@@ -114,6 +114,6 @@ while True:
 
     # Update the previous value
     prev_value = target_value
-
+    time.sleep(2)
     # Delay before starting the next cycle
 
