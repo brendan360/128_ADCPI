@@ -66,5 +66,5 @@ for i in range(0, 101, 10):
     draw.text((label_x - 10, label_y - 10), str(i), fill='black', font=font)
 
 # Save or display the image
-image.show()
-image.save('gauge.png')
+disp.ShowImage(image)
+
