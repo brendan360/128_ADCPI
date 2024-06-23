@@ -97,6 +97,7 @@ while True:
 
         # Draw the gauge needle
         draw_needle(draw, step)
+        draw_value(draw, step)
 
         # Draw a circle at the center of the gauge
         draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
