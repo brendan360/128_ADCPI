@@ -44,7 +44,7 @@ draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=5)
 draw.ellipse((CENTER_X - 10, CENTER_Y - 10, CENTER_X + 10, CENTER_Y + 10), fill='white')
 
 # Draw the circular frame for the round screen
-draw.ellipse((CENTER_X - RADIUS - 10, CENTER_Y - RADIUS - 10, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='white', width=5)
+draw.ellipse((CENTER_X - RADIUS - 20, CENTER_Y - RADIUS - 20, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='white', width=10)
 
 # Optionally, draw tick marks and labels
 for i in range(0, 101, 10):
