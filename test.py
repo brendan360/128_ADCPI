@@ -67,7 +67,7 @@ def draw_value(draw, value):
 # Draw the bottom label
 def draw_label(draw):
     font_label = ImageFont.truetype("arial.ttf", 30)  # Use a larger font size and specify a font
-    label_text = BOOST"
+    label_text = "BOOST"
     label_bbox = draw.textbbox((0, 0), label_text, font=font_label)
     label_width = label_bbox[2] - label_bbox[0]
     label_height = label_bbox[3] - label_bbox[1]
