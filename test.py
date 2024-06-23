@@ -64,7 +64,7 @@ draw_gauge_segment(10, 70, 'green')
 draw_gauge_segment(70, 100, 'red')
 
 # Draw the gauge needle
-outline_width = 97  # Width of the black outline
+outline_width = 9  # Width of the black outline
 angle = value_to_angle(VALUE)
 needle_length = RADIUS - 8  # Adjusted length
 end_x = CENTER_X + needle_length * math.cos(math.radians(angle))
