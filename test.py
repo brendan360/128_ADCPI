@@ -96,14 +96,14 @@ while True:
         # Delay to create animation effect
         time.sleep(0.01)  # Adjust the delay for smoother animation
 
-         if target_value > prev_value:
-        step = prev_value
-        while step <= target_value:
+        if target_value > prev_value:
+            step = prev_value
+            while step <= target_value:
             # Animation code
-            step += 1
+                step += 1
         elif target_value < prev_value:
-           step = prev_value
-           while step >= target_value:
+            step = prev_value
+            while step >= target_value:
                 # Animation code
                 step -= 1
         else:
