@@ -17,6 +17,9 @@ disp = LCD_1inch28.LCD_1inch28()
 rotation=180
 disp.Init()
 
+prev_value = 0
+
+
 # Constants for 240x240 screen
 WIDTH, HEIGHT = 240, 240
 CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
@@ -67,24 +70,8 @@ while True:
     # Generate a random target value
     target_value = random.randint(0, 100)
 
-    # Initialize the image and drawing context
-    image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
-    draw = ImageDraw.Draw(image)
-
-    # Draw the segments
-    draw_gauge_segment(draw, 0, 10, 'blue')
-    draw_gauge_segment(draw, 10, 70, 'green')
-    draw_gauge_segment(draw, 70, 100, 'red')
-
-    # Draw a circle at the center of the gauge
-    draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
-    draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
-
-    # Show the initial image
-    disp.ShowImage(image)
-
-    # Animate the gauge to the target value
-    step = 1
+    # Animate the gauge from the previous value to the new random value
+    step = prev_value
     while step <= target_value:
         # Initialize the image and drawing context for each step
         image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
@@ -110,6 +97,9 @@ while True:
         time.sleep(0.02)  # Adjust the delay for smoother animation
 
         step += 1
+
+    # Update the previous value
+    prev_value = target_value
 
     # Delay before starting the next cycle
     time.sleep(2)  # Adjust the delay before starting the next cycle
