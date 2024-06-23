@@ -81,7 +81,7 @@ prev_value = 0
 # Main loop
 while True:
     # Generate a random target value
-    target_value = random.randint(0, 100)
+    target_value = random.randint(-20, 100)
 
     # Animate the gauge from the previous value to the new random value
     if target_value > prev_value:
