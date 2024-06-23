@@ -16,12 +16,11 @@ rotation=180
 disp.Init()
 
 
-
 # Constants for 240x240 screen
 WIDTH, HEIGHT = 240, 240
 CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 RADIUS = 100
-ANGLE_START, ANGLE_END = 135, -135  # Angles for the 3/4 gauge arc (clockwise)
+ANGLE_START, ANGLE_END = 225, -45  # Angles for the 3/4 gauge arc (clockwise)
 VALUE = 75  # Example value to display on the gauge
 
 # Create a blank image with a white background
@@ -30,7 +29,7 @@ draw = ImageDraw.Draw(image)
 
 # Function to convert value to angle
 def value_to_angle(value):
-    return ANGLE_START + (ANGLE_END - ANGLE_START) * (value / 100)
+    return ANGLE_START - (ANGLE_START - ANGLE_END) * (value / 100)
 
 # Draw the circular frame for the round screen
 draw.ellipse((CENTER_X - RADIUS - 5, CENTER_Y - RADIUS - 5, CENTER_X + RADIUS + 5, CENTER_Y + RADIUS + 5), outline='black', width=5)
@@ -44,7 +43,7 @@ def draw_gauge_segment(start_value, end_value, color):
         start=start_angle,
         end=end_angle,
         fill=color,
-        width=10
+        width=20
     )
 
 # Draw the segments
@@ -67,8 +66,8 @@ for i in range(0, 101, 10):
     angle = value_to_angle(i)
     outer_x = CENTER_X + (RADIUS - 5) * math.cos(math.radians(angle))
     outer_y = CENTER_Y + (RADIUS - 5) * math.sin(math.radians(angle))
-    inner_x = CENTER_X + (RADIUS - 15) * math.cos(math.radians(angle))
-    inner_y = CENTER_Y + (RADIUS - 15) * math.sin(math.radians(angle))
+    inner_x = CENTER_X + (RADIUS - 25) * math.cos(math.radians(angle))
+    inner_y = CENTER_Y + (RADIUS - 25) * math.sin(math.radians(angle))
     draw.line((inner_x, inner_y, outer_x, outer_y), fill='black', width=2)
     
     # Draw the labels
