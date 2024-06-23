@@ -20,7 +20,7 @@ disp.Init()
 
 
 # Constants
-WIDTH, HEIGHT= 120, 120
+WIDTH, HEIGHT= 240, 240
 CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 RADIUS = 180
 ANGLE_START, ANGLE_END = 135, 45  # Angles for the gauge arc
