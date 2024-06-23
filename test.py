@@ -26,12 +26,29 @@ VALUE =100  # Example value to display on the gauge
 image = Image.new('RGB', (WIDTH, HEIGHT), 'white')
 draw = ImageDraw.Draw(image)
 
-# Draw the circular gauge
-draw.ellipse((CENTER_X - RADIUS, CENTER_Y - RADIUS, CENTER_X + RADIUS, CENTER_Y + RADIUS), outline='black', width=5)
-
 # Function to convert value to angle
 def value_to_angle(value):
     return ANGLE_START + (ANGLE_END - ANGLE_START) * (value / 100)
+
+# Draw the circular frame for the round screen
+draw.ellipse((CENTER_X - RADIUS - 10, CENTER_Y - RADIUS - 10, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='black', width=5)
+
+# Draw the gauge segments
+def draw_gauge_segment(start_value, end_value, color):
+    start_angle = value_to_angle(start_value)
+    end_angle = value_to_angle(end_value)
+    draw.arc(
+        (CENTER_X - RADIUS, CENTER_Y - RADIUS, CENTER_X + RADIUS, CENTER_Y + RADIUS),
+        start=start_angle,
+        end=end_angle,
+        fill=color,
+        width=20
+    )
+
+# Draw the segments
+draw_gauge_segment(0, 10, 'blue')
+draw_gauge_segment(10, 70, 'green')
+draw_gauge_segment(70, 100, 'red')
 
 # Draw the gauge needle
 angle = value_to_angle(VALUE)
@@ -42,9 +59,6 @@ draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=5)
 
 # Draw a circle at the center of the gauge
 draw.ellipse((CENTER_X - 10, CENTER_Y - 10, CENTER_X + 10, CENTER_Y + 10), fill='black')
-
-# Draw the circular frame for the round screen
-draw.ellipse((CENTER_X - RADIUS - 10, CENTER_Y - RADIUS - 10, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='black', width=5)
 
 # Optionally, draw tick marks and labels
 for i in range(0, 101, 10):
@@ -68,6 +82,9 @@ text_width, text_height = draw.textsize(text, font=font_large)
 text_x = (WIDTH - text_width) // 2
 text_y = HEIGHT - text_height - 20  # Positioned near the bottom of the image
 draw.text((text_x, text_y), text, fill='black', font=font_large)
-# Save or display the image
+
+
+
+
 disp.ShowImage(image)
 
