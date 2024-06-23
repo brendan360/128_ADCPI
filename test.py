@@ -1,5 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 import math
+sys.path.append('..')
+from lib import LCD_1inch28
 
 RST=27
 DC=25
