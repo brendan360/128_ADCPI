@@ -1,6 +1,15 @@
 from PIL import Image, ImageDraw, ImageFont
 import math
 
+RST=27
+DC=25
+BL=18
+bus=0
+device = 0
+disp = LCD_1inch28.LCD_1inch28()
+rotation=180
+disp.Init()
+
 # Constants
 WIDTH, HEIGHT = 400, 400
 CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
