@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageFont
+\from PIL import Image, ImageDraw, ImageFont
 import math
 import time
 import random
@@ -16,9 +16,6 @@ device = 0
 disp = LCD_1inch28.LCD_1inch28()
 rotation=180
 disp.Init()
-
-prev_value = 0
-
 
 # Constants for 240x240 screen
 WIDTH, HEIGHT = 240, 240
@@ -60,10 +57,15 @@ def draw_needle(draw, value):
 def draw_value(draw, value):
     font_large = ImageFont.truetype("arial.ttf", 45)  # Use a larger font size and specify a font
     text = str(value)
-    text_width, text_height = draw.textsize(text, font=font_large)
+    text_bbox = draw.textbbox((0, 0), text, font=font_large)
+    text_width = text_bbox[2] - text_bbox[0]
+    text_height = text_bbox[3] - text_bbox[1]
     text_x = (WIDTH - text_width) - 10
     text_y = (HEIGHT - text_height) // 2  # Positioned near the bottom of the image
     draw.text((text_x, text_y), text, fill='white', font=font_large)
+
+# Initialize the previous value
+prev_value = 0
 
 # Main loop
 while True:
@@ -71,66 +73,69 @@ while True:
     target_value = random.randint(0, 100)
 
     # Animate the gauge from the previous value to the new random value
-    step = prev_value
-    while step <= target_value:
-        if target_value > prev_value:
-            step = prev_value
-            while step <= target_value:
+    if target_value > prev_value:
+        step = prev_value
+        while step <= target_value:
             # Initialize the image and drawing context for each step
-                image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
-                draw = ImageDraw.Draw(image)
+            image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
+            draw = ImageDraw.Draw(image)
 
-        # Draw the segments
-                draw_gauge_segment(draw, 0, 10, 'blue')
-                draw_gauge_segment(draw, 10, 70, 'green')
-                draw_gauge_segment(draw, 70, 100, 'red')
+            # Draw the segments
+            draw_gauge_segment(draw, 0, 10, 'blue')
+            draw_gauge_segment(draw, 10, 70, 'green')
+            draw_gauge_segment(draw, 70, 100, 'red')
 
-        # Draw the gauge needle
-                draw_needle(draw, step)
-                draw_value(draw, step)
+            # Draw the gauge needle
+            draw_needle(draw, step)
 
-        # Draw a circle at the center of the gauge
-                draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
-                draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
+            # Draw the value display
+            draw_value(draw, step)
 
-        # Show the updated image
-                step += 1
-        elif target_value < prev_value:
-            step = prev_value
-            while step >= target_value:
-                image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
-                draw = ImageDraw.Draw(image)
+            # Draw a circle at the center of the gauge
+            draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
+            draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
 
-        # Draw the segments
-                draw_gauge_segment(draw, 0, 10, 'blue')
-                draw_gauge_segment(draw, 10, 70, 'green')
-                draw_gauge_segment(draw, 70, 100, 'red')
+            # Show the updated image
+            disp.ShowImage(image)
 
-        # Draw the gauge needle
-                draw_needle(draw, step)
-                draw_value(draw, step)
+            # Delay to create animation effect
+            time.sleep(0.02)  # Adjust the delay for smoother animation
 
-        # Draw a circle at the center of the gauge
-                draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
-                draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
+            step += 1
+    elif target_value < prev_value:
+        step = prev_value
+        while step >= target_value:
+            # Initialize the image and drawing context for each step
+            image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
+            draw = ImageDraw.Draw(image)
 
-        # Show the updated image
-                step -= 1
-        else:
-           continue  # If target_value equals prev_value, no animation needed
-        
-     
+            # Draw the segments
+            draw_gauge_segment(draw, 0, 10, 'blue')
+            draw_gauge_segment(draw, 10, 70, 'green')
+            draw_gauge_segment(draw, 70, 100, 'red')
 
-        # Delay to create animation effect
-        time.sleep(0.01)  # Adjust the delay for smoother animation
+            # Draw the gauge needle
+            draw_needle(draw, step)
 
+            # Draw the value display
+            draw_value(draw, step)
 
+            # Draw a circle at the center of the gauge
+            draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
+            draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
+
+            # Show the updated image
+            disp.ShowImage(image)
+
+            # Delay to create animation effect
+            time.sleep(0.02)  # Adjust the delay for smoother animation
+
+            step -= 1
+    else:
+        continue  # If target_value equals prev_value, no animation needed
 
     # Update the previous value
     prev_value = target_value
-    disp.ShowImage(image)
-    # Update the previous value
-    prev_value = target_value
-    time.sleep(2)
+
     # Delay before starting the next cycle
-
+    time.sleep(2)  # Adjust the delay before starting the next cycle
