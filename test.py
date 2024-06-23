@@ -26,7 +26,7 @@ WIDTH, HEIGHT = 240, 240
 CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 RADIUS = 120  # Increased radius
 ANGLE_START, ANGLE_END = 40, 320  # Angles for the 3/4 gauge arc (clockwise)
-VALUE = 75  # Example value to display on the gauge
+VALUE = 50  # Example value to display on the gauge
 
 
 
@@ -96,8 +96,6 @@ text_width, text_height = draw.textsize(text, font=font_large)
 text_x = (WIDTH - text_width) -10
 text_y = (HEIGHT - text_height) //2  # Positioned near the bottom of the image
 draw.text((text_x, text_y), text, fill='black', font=font_large)
-
-
 
 
 
