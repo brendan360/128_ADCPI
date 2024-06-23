@@ -34,7 +34,7 @@ VALUE = 50  # Example value to display on the gauge
 
 
 # Create a blank image with a white background
-image = Image.new('RGB', (WIDTH, HEIGHT), 'white')
+image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
 draw = ImageDraw.Draw(image)
 
 # Function to convert value to angle
@@ -42,7 +42,7 @@ def value_to_angle(value):
     return ANGLE_START - (ANGLE_START - ANGLE_END) * (value / 100)
 
 # Draw the circular frame for the round screen
-draw.ellipse((CENTER_X - RADIUS - 10, CENTER_Y - RADIUS - 10, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='black', width=5)  # Increased dimensions
+#draw.ellipse((CENTER_X - RADIUS - 10, CENTER_Y - RADIUS - 10, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='black', width=5)  # Increased dimensions
 
 # Draw the gauge segments
 def draw_gauge_segment(start_value, end_value, color):
@@ -84,10 +84,10 @@ for i in range(0, 101, 10):
         draw.line((inner_x, inner_y, outer_x, outer_y), fill='black', width=2)
         
         # Draw the labels
-        font = ImageFont.load_default()
-        label_x = CENTER_X + (RADIUS - 45) * math.cos(math.radians(angle))
-        label_y = CENTER_Y + (RADIUS - 45) * math.sin(math.radians(angle))
-        draw.text((label_x - 10, label_y - 10), str(i), fill='black', font=font)
+#        font = ImageFont.load_default()
+#        label_x = CENTER_X + (RADIUS - 45) * math.cos(math.radians(angle))
+#        label_y = CENTER_Y + (RADIUS - 45) * math.sin(math.radians(angle))
+#        draw.text((label_x - 10, label_y - 10), str(i), fill='black', font=font)
 
 # Draw the value display
 font_large = ImageFont.truetype("arial.ttf", 45)  # Use a larger font size and specify a font
@@ -95,7 +95,7 @@ text = str(VALUE)
 text_width, text_height = draw.textsize(text, font=font_large)
 text_x = (WIDTH - text_width) -10
 text_y = (HEIGHT - text_height) //2  # Positioned near the bottom of the image
-draw.text((text_x, text_y), text, fill='black', font=font_large)
+draw.text((text_x, text_y), text, fill='white', font=font_large)
 
 
 
