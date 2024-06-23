@@ -69,6 +69,7 @@ needle_length = RADIUS - 10  # Adjusted length
 end_x = CENTER_X + needle_length * math.cos(math.radians(angle))
 end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))
 draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=8)
+draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='black', width=outline_width)  # Black outline
 
 # Draw a circle at the center of the gauge
 draw.ellipse((CENTER_X - 30, CENTER_Y - 30, CENTER_X + 30, CENTER_Y + 30), fill='black')
