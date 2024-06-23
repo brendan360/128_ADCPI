@@ -101,13 +101,13 @@ while True:
         while step <= target_value:
             # Animation code
             step += 1
-    elif target_value < prev_value:
-        step = prev_value
-        while step >= target_value:
-            # Animation code
-            step -= 1
-    else:
-        continue  # If target_value equals prev_value, no animation needed
+        elif target_value < prev_value:
+           step = prev_value
+           while step >= target_value:
+                # Animation code
+                step -= 1
+        else:
+           continue  # If target_value equals prev_value, no animation needed
 
     # Update the previous value
     prev_value = target_value
