@@ -76,7 +76,9 @@ draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=8)
 
 
 # Draw a circle at the center of the gauge
+draw.ellipse((CENTER_X - 31, CENTER_Y - 31, CENTER_X + 31, CENTER_Y + 31), fill='white')
 draw.ellipse((CENTER_X - 30, CENTER_Y - 30, CENTER_X + 30, CENTER_Y + 30), fill='black')
+
 
 # Optionally, draw tick marks and labels
 for i in range(0, 101, 10):
