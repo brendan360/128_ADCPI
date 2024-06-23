@@ -1,5 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 import math
+import time
+import random
 import os
 import sys
 sys.path.append('..')
@@ -15,37 +17,18 @@ disp = LCD_1inch28.LCD_1inch28()
 rotation=180
 disp.Init()
 
-
-
-
-
-
-
 # Constants for 240x240 screen
 WIDTH, HEIGHT = 240, 240
 CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 RADIUS = 120  # Increased radius
 ANGLE_START, ANGLE_END = 40, 320  # Angles for the 3/4 gauge arc (clockwise)
-VALUE = 50  # Example value to display on the gauge
-
-
-
-
-
-
-# Create a blank image with a white background
-image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
-draw = ImageDraw.Draw(image)
 
 # Function to convert value to angle
 def value_to_angle(value):
     return ANGLE_START - (ANGLE_START - ANGLE_END) * (value / 100)
 
-# Draw the circular frame for the round screen
-#draw.ellipse((CENTER_X - RADIUS - 10, CENTER_Y - RADIUS - 10, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='black', width=5)  # Increased dimensions
-
 # Draw the gauge segments
-def draw_gauge_segment(start_value, end_value, color):
+def draw_gauge_segment(draw, start_value, end_value, color):
     start_angle = value_to_angle(start_value)
     end_angle = value_to_angle(end_value)
     if end_angle < start_angle:
@@ -58,56 +41,68 @@ def draw_gauge_segment(start_value, end_value, color):
         width=30  # Increased width
     )
 
-# Draw the segments
-draw_gauge_segment(0, 10, 'blue')
-draw_gauge_segment(10, 70, 'green')
-draw_gauge_segment(70, 100, 'red')
-
 # Draw the gauge needle
-outline_width = 10  # Width of the black outline
-angle = value_to_angle(VALUE)
-needle_length = RADIUS - 8  # Adjusted length
-end_x = CENTER_X + needle_length * math.cos(math.radians(angle))
-end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))
-outline_end_x = CENTER_X + (needle_length + 1) * math.cos(math.radians(angle))
-outline_end_y = CENTER_Y + (needle_length + 1) * math.sin(math.radians(angle))
-draw.line((CENTER_X, CENTER_Y, outline_end_x, outline_end_y), fill='white', width=outline_width) 
-draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=8)
-
-
-# Draw a circle at the center of the gauge
-draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
-draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
-
-
-# Optionally, draw tick marks and labels
-for i in range(0, 101, 10):
-    angle = value_to_angle(i)
-    if i == 0 or i == 10 or i == 70 or i == 100:
-        outer_x = CENTER_X + (RADIUS - 0) * math.cos(math.radians(angle))  # Adjusted outer radius
-        outer_y = CENTER_Y + (RADIUS - 0) * math.sin(math.radians(angle))  # Adjusted outer radius
-        inner_x = CENTER_X + (RADIUS - 30) * math.cos(math.radians(angle))
-        inner_y = CENTER_Y + (RADIUS - 30) * math.sin(math.radians(angle))
-        draw.line((inner_x, inner_y, outer_x, outer_y), fill='black', width=2)
-        
-        # Draw the labels
-#        font = ImageFont.load_default()
-#        label_x = CENTER_X + (RADIUS - 45) * math.cos(math.radians(angle))
-#        label_y = CENTER_Y + (RADIUS - 45) * math.sin(math.radians(angle))
-#        draw.text((label_x - 10, label_y - 10), str(i), fill='black', font=font)
+def draw_needle(draw, value):
+    outline_width = 10  # Width of the black outline
+    angle = value_to_angle(value)
+    needle_length = RADIUS - 8  # Adjusted length
+    end_x = CENTER_X + needle_length * math.cos(math.radians(angle))
+    end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))
+    outline_end_x = CENTER_X + (needle_length + 1) * math.cos(math.radians(angle))
+    outline_end_y = CENTER_Y + (needle_length + 1) * math.sin(math.radians(angle))
+    draw.line((CENTER_X, CENTER_Y, outline_end_x, outline_end_y), fill='white', width=outline_width) 
+    draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=8)
 
 # Draw the value display
-font_large = ImageFont.truetype("arial.ttf", 45)  # Use a larger font size and specify a font
-text = str(VALUE)
-text_width, text_height = draw.textsize(text, font=font_large)
-text_x = (WIDTH - text_width) -10
-text_y = (HEIGHT - text_height) //2  # Positioned near the bottom of the image
-draw.text((text_x, text_y), text, fill='white', font=font_large)
+def draw_value(draw, value):
+    font_large = ImageFont.truetype("arial.ttf", 45)  # Use a larger font size and specify a font
+    text = str(value)
+    text_width, text_height = draw.textsize(text, font=font_large)
+    text_x = (WIDTH - text_width) - 10
+    text_y = (HEIGHT - text_height) // 2  # Positioned near the bottom of the image
+    draw.text((text_x, text_y), text, fill='white', font=font_large)
 
+# Main loop
+while True:
+    # Generate a random target value
+    target_value = random.randint(0, 100)
 
+    # Initialize the image and drawing context
+    image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
+    draw = ImageDraw.Draw(image)
 
+    # Draw the segments
+    draw_gauge_segment(draw, 0, 10, 'blue')
+    draw_gauge_segment(draw, 10, 70, 'green')
+    draw_gauge_segment(draw, 70, 100, 'red')
 
+    # Draw the gauge needle
+    draw_needle(draw, 0)  # Start the needle from 0
 
+    # Draw a circle at the center of the gauge
+    draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
+    draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
 
-disp.ShowImage(image)
+    # Draw the initial value display
+    draw_value(draw, 0)  # Start from 0
 
+    # Show the initial image
+    disp.ShowImage(image)
+
+    # Animate the gauge to the target value
+    step = 1
+    while step <= target_value:
+        # Update the needle and value display
+        draw_needle(draw, step)
+        draw_value(draw, step)
+
+        # Show the updated image
+        disp.ShowImage(image)
+
+        # Delay to create animation effect
+        time.sleep(0.02)  # Adjust the delay for smoother animation
+
+        step += 1
+
+    # Delay before starting the next cycle
+    time.sleep(2)  # Adjust the delay before starting the next cycle
