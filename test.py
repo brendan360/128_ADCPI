@@ -24,7 +24,7 @@ WIDTH, HEIGHT= 240, 240
 CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 RADIUS = 180
 ANGLE_START, ANGLE_END = 135, 45  # Angles for the gauge arc
-VALUE =1  # Example value to display on the gauge
+VALUE =100  # Example value to display on the gauge
 
 # Create a blank image with a white background
 image = Image.new('RGB', (WIDTH, HEIGHT), 'white')
