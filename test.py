@@ -97,7 +97,7 @@ for i in range(0, 101, 10):
 #        draw.text((label_x - 10, label_y - 10), str(i), fill='black', font=font)
 
 # Draw the value display
-font_large = ImageFont.truetype("arial.ttf", 55)  # Use a larger font size and specify a font
+font_large = ImageFont.truetype("arial.ttf", 45)  # Use a larger font size and specify a font
 text = str(VALUE)
 text_width, text_height = draw.textsize(text, font=font_large)
 text_x = (WIDTH - text_width) -10
