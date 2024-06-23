@@ -71,7 +71,7 @@ end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))
 draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=8)
 
 # Draw a circle at the center of the gauge
-draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
+draw.ellipse((CENTER_X - 30, CENTER_Y - 30, CENTER_X + 30, CENTER_Y + 30), fill='black')
 
 # Optionally, draw tick marks and labels
 for i in range(0, 101, 10):
