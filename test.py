@@ -91,7 +91,7 @@ while True:
         draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
 
         # Show the updated image
-        disp.ShowImage(image)
+     
 
         # Delay to create animation effect
         time.sleep(0.01)  # Adjust the delay for smoother animation
@@ -111,7 +111,7 @@ while True:
 
     # Update the previous value
     prev_value = target_value
-
+    disp.ShowImage(image)
     # Update the previous value
     prev_value = target_value
     time.sleep(2)
