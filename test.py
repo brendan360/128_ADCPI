@@ -73,7 +73,7 @@ while True:
     # Animate the gauge from the previous value to the new random value
     step = prev_value
     while step <= target_value:
-                if target_value > prev_value:
+        if target_value > prev_value:
             step = prev_value
             while step <= target_value:
             # Animation code
