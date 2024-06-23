@@ -64,6 +64,17 @@ def draw_value(draw, value):
     text_y = (HEIGHT - text_height) // 2  # Positioned near the bottom of the image
     draw.text((text_x, text_y), text, fill='white', font=font_large)
 
+# Draw the bottom label
+def draw_label(draw):
+    font_label = ImageFont.truetype("arial.ttf", 30)  # Use a larger font size and specify a font
+    label_text = BOOST"
+    label_bbox = draw.textbbox((0, 0), label_text, font=font_label)
+    label_width = label_bbox[2] - label_bbox[0]
+    label_height = label_bbox[3] - label_bbox[1]
+    label_x = (WIDTH - label_width) // 2
+    label_y = HEIGHT - label_height - 10  # Positioned at the bottom of the image
+    draw.text((label_x, label_y), label_text, fill='white', font=font_label)
+
 # Initialize the previous value
 prev_value = 0
 
@@ -85,11 +96,14 @@ while True:
             draw_gauge_segment(draw, 10, 70, 'green')
             draw_gauge_segment(draw, 70, 100, 'red')
 
-            # Draw the gauge needle
-            draw_needle(draw, step)
-
             # Draw the value display
             draw_value(draw, step)
+
+            # Draw the bottom label
+            draw_label(draw)
+
+            # Draw the gauge needle
+            draw_needle(draw, step)
 
             # Draw a circle at the center of the gauge
             draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
@@ -99,7 +113,7 @@ while True:
             disp.ShowImage(image)
 
             # Delay to create animation effect
-            time.sleep(0.001)  # Adjust the delay for smoother animation
+            time.sleep(0.02)  # Adjust the delay for smoother animation
 
             step += 1
     elif target_value < prev_value:
@@ -114,11 +128,14 @@ while True:
             draw_gauge_segment(draw, 10, 70, 'green')
             draw_gauge_segment(draw, 70, 100, 'red')
 
-            # Draw the gauge needle
-            draw_needle(draw, step)
-
             # Draw the value display
             draw_value(draw, step)
+
+            # Draw the bottom label
+            draw_label(draw)
+
+            # Draw the gauge needle
+            draw_needle(draw, step)
 
             # Draw a circle at the center of the gauge
             draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
@@ -128,7 +145,7 @@ while True:
             disp.ShowImage(image)
 
             # Delay to create animation effect
-            time.sleep(0.001)  # Adjust the delay for smoother animation
+            time.sleep(0.02)  # Adjust the delay for smoother animation
 
             step -= 1
     else:
@@ -138,4 +155,4 @@ while True:
     prev_value = target_value
 
     # Delay before starting the next cycle
-    time.sleep(1)  # Adjust the delay before starting the next cycle
+    time.sleep(2)  # Adjust the delay before starting the next cycle
