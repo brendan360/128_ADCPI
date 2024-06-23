@@ -23,72 +23,32 @@ VALUE = 75  # Example value to display on the gauge
 
 
 
+center_x, center_y = 120, 120  # Center of the image
+radius = 90  # 3/4 of 120 is 90
+font_size = 20
+font = ImageFont.truetype("arial.ttf", font_size)
 
-
-
-# Create a blank image with a white background
-image = Image.new('RGB', (WIDTH, HEIGHT), 'white')
-draw = ImageDraw.Draw(image)
-
-# Function to convert value to angle
-def value_to_angle(value):
-    return ANGLE_START + (ANGLE_END - ANGLE_START) * (value / 100)
-
-# Draw the circular frame for the round screen
-draw.ellipse((CENTER_X - RADIUS - 10, CENTER_Y - RADIUS - 10, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='black', width=3)
-
-# Draw the gauge segments
-def draw_gauge_segment(start_value, end_value, color):
-    start_angle = value_to_angle(start_value)
-    end_angle = value_to_angle(end_value)
-    draw.arc(
-        (CENTER_X - RADIUS, CENTER_Y - RADIUS, CENTER_X + RADIUS, CENTER_Y + RADIUS),
-        start=start_angle,
-        end=end_angle,
-        fill=color,
-        width=10
-    )
-
-# Draw the segments
-draw_gauge_segment(0, 10, 'blue')
-draw_gauge_segment(10, 70, 'green')
-draw_gauge_segment(70, 100, 'red')
-
-# Draw the gauge needle
-angle = value_to_angle(VALUE)
-needle_length = RADIUS - 10
-end_x = CENTER_X + needle_length * math.cos(math.radians(angle))
-end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))  # Adjusted to correctly align the needle
-draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=3)
-
-# Draw a circle at the center of the gauge
-draw.ellipse((CENTER_X - 5, CENTER_Y - 5, CENTER_X + 5, CENTER_Y + 5), fill='black')
-
-# Optionally, draw tick marks and labels
-for i in range(0, 101, 10):
-    angle = value_to_angle(i)
-    outer_x = CENTER_X + (RADIUS - 5) * math.cos(math.radians(angle))
-    outer_y = CENTER_Y + (RADIUS - 5) * math.sin(math.radians(angle))
-    inner_x = CENTER_X + (RADIUS - 15) * math.cos(math.radians(angle))
-    inner_y = CENTER_Y + (RADIUS - 15) * math.sin(math.radians(angle))
-    draw.line((inner_x, inner_y, outer_x, outer_y), fill='black', width=1)
+# Function to draw the gauge
+def draw_gauge(draw, value):
+    # Draw the outer circle (gauge boundary)
+    draw.arc([center_x - radius, center_y - radius, center_x + radius, center_y + radius], start=0, end=360, fill='black')
     
-    # Draw the labels
-    font = ImageFont.load_default()
-    label_x = CENTER_X + (RADIUS - 25) * math.cos(math.radians(angle))
-    label_y = CENTER_Y + (RADIUS - 25) * math.sin(math.radians(angle))
-    draw.text((label_x - 5, label_y - 5), str(i), fill='black', font=font)
+    # Draw the needle (let's assume value is between 0 to 100)
+    angle = (value / 100.0) * 270 - 135  # 270 degrees for 3/4 of the circle, shifted by 135 degrees to start from -135
+    end_x = center_x + radius * math.cos(math.radians(angle))
+    end_y = center_y + radius * math.sin(math.radians(angle))
+    draw.line([center_x, center_y, end_x, end_y], fill='red', width=2)
+    
+    # Draw the text value
+    text = f'{value}%'
+    text_width, text_height = draw.textsize(text, font=font)
+    text_x = center_x - text_width / 2
+    text_y = center_y + radius / 2 - text_height / 2
+    draw.text((text_x, text_y), text, fill='black', font=font)
 
-# Draw the value display
-font_large = ImageFont.truetype("arial.ttf", 20)  # Use a larger font size and specify a font
-text = str(VALUE)
-text_width, text_height = draw.textsize(text, font=font_large)
-text_x = (WIDTH - text_width) // 2
-text_y = HEIGHT - text_height - 10  # Positioned near the bottom of the image
-draw.text((text_x, text_y), text, fill='black', font=font_large)
-
-
-
+# Example usage
+value = 75  # You can change this value to test different positions of the needle
+draw_gauge(draw, value)
 
 
 disp.ShowImage(image)
