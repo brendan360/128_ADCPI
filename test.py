@@ -72,7 +72,7 @@ def draw_label(draw):
     label_width = label_bbox[2] - label_bbox[0]
     label_height = label_bbox[3] - label_bbox[1]
     label_x = (WIDTH - label_width) // 2
-    label_y = HEIGHT - label_height - 500  # Positioned at the bottom of the image
+    label_y = HEIGHT - label_height - 50  # Positioned at the bottom of the image
     draw.text((label_x, label_y), label_text, fill='white', font=font_label)
 
 # Initialize the previous value
