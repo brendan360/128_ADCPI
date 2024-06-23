@@ -15,10 +15,6 @@ disp = LCD_1inch28.LCD_1inch28()
 rotation=180
 disp.Init()
 
-#image = Image.new("RGB", (disp.width, disp.height), "BLACK")
-#draw = ImageDraw.Draw(image)
-
-
 # Constants
 WIDTH, HEIGHT= 240, 240
 CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
@@ -27,7 +23,7 @@ ANGLE_START, ANGLE_END = 135, 45  # Angles for the gauge arc
 VALUE =100  # Example value to display on the gauge
 
 # Create a blank image with a white background
-image = Image.new('RGB', (WIDTH, HEIGHT), 'white')
+image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
 draw = ImageDraw.Draw(image)
 
 # Draw the circular gauge
