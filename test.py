@@ -25,7 +25,7 @@ disp.Init()
 WIDTH, HEIGHT = 240, 240
 CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 RADIUS = 120  # Increased radius
-ANGLE_START, ANGLE_END = 0, 225  # Angles for the 3/4 gauge arc (clockwise)
+ANGLE_START, ANGLE_END = 90, 225  # Angles for the 3/4 gauge arc (clockwise)
 VALUE = 75  # Example value to display on the gauge
 
 
