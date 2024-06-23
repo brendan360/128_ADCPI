@@ -21,6 +21,8 @@ CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 RADIUS = 180
 ANGLE_START, ANGLE_END = 135, 45  # Angles for the gauge arc
 VALUE =100  # Example value to display on the gauge
+
+# Create a blank image with a white background
 image = Image.new('RGB', (WIDTH, HEIGHT), 'white')
 draw = ImageDraw.Draw(image)
 
@@ -60,13 +62,12 @@ for i in range(0, 101, 10):
     draw.text((label_x - 10, label_y - 10), str(i), fill='black', font=font)
 
 # Draw the value display
-font_large = ImageFont.load_default()
-text = f'Value: {VALUE}'
+font_large = ImageFont.truetype("arial.ttf", 40)  # Use a larger font size and specify a font
+text = str(VALUE)
 text_width, text_height = draw.textsize(text, font=font_large)
 text_x = (WIDTH - text_width) // 2
 text_y = HEIGHT - text_height - 20  # Positioned near the bottom of the image
 draw.text((text_x, text_y), text, fill='black', font=font_large)
-
 # Save or display the image
 disp.ShowImage(image)
 
