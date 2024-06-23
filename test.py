@@ -155,4 +155,4 @@ while True:
     prev_value = target_value
 
     # Delay before starting the next cycle
-    time.sleep(2)  # Adjust the delay before starting the next cycle
+
