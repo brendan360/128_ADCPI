@@ -50,7 +50,7 @@ def draw_gauge_segment(start_value, end_value, color):
 # Draw the segments
 draw_gauge_segment(0, 10, 'blue')
 draw_gauge_segment(10, 70, 'green')
-draw_gauge_segment(70, 100, 'red')
+draw_gauge_segment(70, 99, 'red')
 
 # Draw the gauge needle
 angle = value_to_angle(VALUE)
