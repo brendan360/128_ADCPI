@@ -28,6 +28,11 @@ RADIUS = 120  # Increased radius
 ANGLE_START, ANGLE_END = -45, 225  # Angles for the 3/4 gauge arc (clockwise)
 VALUE = 75  # Example value to display on the gauge
 
+
+
+
+
+
 # Create a blank image with a white background
 image = Image.new('RGB', (WIDTH, HEIGHT), 'white')
 draw = ImageDraw.Draw(image)
@@ -71,17 +76,18 @@ draw.ellipse((CENTER_X - 10, CENTER_Y - 10, CENTER_X + 10, CENTER_Y + 10), fill=
 # Optionally, draw tick marks and labels
 for i in range(0, 101, 10):
     angle = value_to_angle(i)
-    outer_x = CENTER_X + (RADIUS - 10) * math.cos(math.radians(angle))  # Adjusted outer radius
-    outer_y = CENTER_Y + (RADIUS - 10) * math.sin(math.radians(angle))  # Adjusted outer radius
-    inner_x = CENTER_X + (RADIUS - 30) * math.cos(math.radians(angle))
-    inner_y = CENTER_Y + (RADIUS - 30) * math.sin(math.radians(angle))
-    draw.line((inner_x, inner_y, outer_x, outer_y), fill='black', width=2)
-    
-    # Draw the labels
-    font = ImageFont.load_default()
-    label_x = CENTER_X + (RADIUS - 45) * math.cos(math.radians(angle))
-    label_y = CENTER_Y + (RADIUS - 45) * math.sin(math.radians(angle))
-    draw.text((label_x - 10, label_y - 10), str(i), fill='black', font=font)
+    if i == 0 or i == 10 or i == 70 or i == 100:
+        outer_x = CENTER_X + (RADIUS - 10) * math.cos(math.radians(angle))  # Adjusted outer radius
+        outer_y = CENTER_Y + (RADIUS - 10) * math.sin(math.radians(angle))  # Adjusted outer radius
+        inner_x = CENTER_X + (RADIUS - 30) * math.cos(math.radians(angle))
+        inner_y = CENTER_Y + (RADIUS - 30) * math.sin(math.radians(angle))
+        draw.line((inner_x, inner_y, outer_x, outer_y), fill='black', width=2)
+        
+        # Draw the labels
+        font = ImageFont.load_default()
+        label_x = CENTER_X + (RADIUS - 45) * math.cos(math.radians(angle))
+        label_y = CENTER_Y + (RADIUS - 45) * math.sin(math.radians(angle))
+        draw.text((label_x - 10, label_y - 10), str(i), fill='black', font=font)
 
 # Draw the value display
 font_large = ImageFont.truetype("arial.ttf", 20)  # Use a larger font size and specify a font
