@@ -24,8 +24,8 @@ disp.Init()
 # Constants for 240x240 screen
 WIDTH, HEIGHT = 240, 240
 CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
-RADIUS = 100
-ANGLE_START, ANGLE_END =-45, 225  # Angles for the 3/4 gauge arc (clockwise)
+RADIUS = 120  # Increased radius
+ANGLE_START, ANGLE_END = -45, 225  # Angles for the 3/4 gauge arc (clockwise)
 VALUE = 75  # Example value to display on the gauge
 
 # Create a blank image with a white background
@@ -37,7 +37,7 @@ def value_to_angle(value):
     return ANGLE_START - (ANGLE_START - ANGLE_END) * (value / 100)
 
 # Draw the circular frame for the round screen
-draw.ellipse((CENTER_X - RADIUS - 5, CENTER_Y - RADIUS - 5, CENTER_X + RADIUS + 5, CENTER_Y + RADIUS + 5), outline='black', width=5)
+draw.ellipse((CENTER_X - RADIUS - 10, CENTER_Y - RADIUS - 10, CENTER_X + RADIUS + 10, CENTER_Y + RADIUS + 10), outline='black', width=5)  # Increased dimensions
 
 # Draw the gauge segments
 def draw_gauge_segment(start_value, end_value, color):
@@ -50,7 +50,7 @@ def draw_gauge_segment(start_value, end_value, color):
         start=start_angle,
         end=end_angle,
         fill=color,
-        width=20
+        width=30  # Increased width
     )
 
 # Draw the segments
@@ -60,27 +60,27 @@ draw_gauge_segment(70, 100, 'red')
 
 # Draw the gauge needle
 angle = value_to_angle(VALUE)
-needle_length = RADIUS - 10
+needle_length = RADIUS - 20  # Adjusted length
 end_x = CENTER_X + needle_length * math.cos(math.radians(angle))
 end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))
 draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=5)
 
 # Draw a circle at the center of the gauge
-draw.ellipse((CENTER_X - 5, CENTER_Y - 5, CENTER_X + 5, CENTER_Y + 5), fill='black')
+draw.ellipse((CENTER_X - 10, CENTER_Y - 10, CENTER_X + 10, CENTER_Y + 10), fill='black')
 
 # Optionally, draw tick marks and labels
 for i in range(0, 101, 10):
     angle = value_to_angle(i)
-    outer_x = CENTER_X + (RADIUS - 5) * math.cos(math.radians(angle))
-    outer_y = CENTER_Y + (RADIUS - 5) * math.sin(math.radians(angle))
-    inner_x = CENTER_X + (RADIUS - 25) * math.cos(math.radians(angle))
-    inner_y = CENTER_Y + (RADIUS - 25) * math.sin(math.radians(angle))
+    outer_x = CENTER_X + (RADIUS - 10) * math.cos(math.radians(angle))  # Adjusted outer radius
+    outer_y = CENTER_Y + (RADIUS - 10) * math.sin(math.radians(angle))  # Adjusted outer radius
+    inner_x = CENTER_X + (RADIUS - 30) * math.cos(math.radians(angle))
+    inner_y = CENTER_Y + (RADIUS - 30) * math.sin(math.radians(angle))
     draw.line((inner_x, inner_y, outer_x, outer_y), fill='black', width=2)
     
     # Draw the labels
     font = ImageFont.load_default()
-    label_x = CENTER_X + (RADIUS - 30) * math.cos(math.radians(angle))
-    label_y = CENTER_Y + (RADIUS - 30) * math.sin(math.radians(angle))
+    label_x = CENTER_X + (RADIUS - 45) * math.cos(math.radians(angle))
+    label_y = CENTER_Y + (RADIUS - 45) * math.sin(math.radians(angle))
     draw.text((label_x - 10, label_y - 10), str(i), fill='black', font=font)
 
 # Draw the value display
