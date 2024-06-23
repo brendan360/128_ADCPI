@@ -8,13 +8,13 @@ sys.path.append('..')
 
 from lib import LCD_1inch28
 
-RST = 27
-DC = 25
-BL = 18
-bus = 0
+RST=27
+DC=25
+BL=18
+bus=0
 device = 0
 disp = LCD_1inch28.LCD_1inch28()
-rotation = 180
+rotation=180
 disp.Init()
 
 # Constants for 240x240 screen
@@ -23,14 +23,9 @@ CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 RADIUS = 120  # Increased radius
 ANGLE_START, ANGLE_END = 40, 320  # Angles for the 3/4 gauge arc (clockwise)
 
-# Define the range of values
-MIN_VALUE = 0  # Example minimum value (can be negative)
-MAX_VALUE = 100  # Example maximum value
-
 # Function to convert value to angle
 def value_to_angle(value):
-    normalized_value = (value - MIN_VALUE) / (MAX_VALUE - MIN_VALUE)
-    return ANGLE_START - (ANGLE_START - ANGLE_END) * normalized_value
+    return ANGLE_START - (ANGLE_START - ANGLE_END) * (value / 100)
 
 # Draw the gauge segments
 def draw_gauge_segment(draw, start_value, end_value, color):
@@ -55,7 +50,7 @@ def draw_needle(draw, value):
     end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))
     outline_end_x = CENTER_X + (needle_length + 1) * math.cos(math.radians(angle))
     outline_end_y = CENTER_Y + (needle_length + 1) * math.sin(math.radians(angle))
-    draw.line((CENTER_X, CENTER_Y, outline_end_x, outline_end_y), fill='white', width=outline_width)
+    draw.line((CENTER_X, CENTER_Y, outline_end_x, outline_end_y), fill='white', width=outline_width) 
     draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=8)
 
 # Draw the value display
@@ -71,33 +66,22 @@ def draw_value(draw, value):
 
 # Draw the bottom label
 def draw_label(draw):
-    font_label = ImageFont.truetype("arial.ttf", 30)  # Use a larger font size and specify a font
-    label_text = "Label"
+    font_label = ImageFont.truetype("arial.ttf", 20)  # Use a larger font size and specify a font
+    label_text = "BOOST"
     label_bbox = draw.textbbox((0, 0), label_text, font=font_label)
     label_width = label_bbox[2] - label_bbox[0]
     label_height = label_bbox[3] - label_bbox[1]
     label_x = (WIDTH - label_width) // 2
-    label_y = HEIGHT - label_height - 10  # Positioned at the bottom of the image
+    label_y = HEIGHT - label_height - 50  # Positioned at the bottom of the image
     draw.text((label_x, label_y), label_text, fill='white', font=font_label)
 
-# Draw black lines over the arches at the joins of the colors
-def draw_black_lines(draw):
-    for value in [10, 70]:
-        angle = value_to_angle(value)
-        line_length = RADIUS + 10  # Extend line slightly outside the arc
-        start_x = CENTER_X + (RADIUS - 15) * math.cos(math.radians(angle))
-        start_y = CENTER_Y + (RADIUS - 15) * math.sin(math.radians(angle))
-        end_x = CENTER_X + line_length * math.cos(math.radians(angle))
-        end_y = CENTER_Y + line_length * math.sin(math.radians(angle))
-        draw.line((start_x, start_y, end_x, end_y), fill='black', width=4)
-
 # Initialize the previous value
-prev_value = MIN_VALUE
+prev_value = 0
 
 # Main loop
 while True:
-    # Generate a random target value within the defined range
-    target_value = random.randint(MIN_VALUE, MAX_VALUE)
+    # Generate a random target value
+    target_value = random.randint(-20, 100)
 
     # Animate the gauge from the previous value to the new random value
     if target_value > prev_value:
@@ -108,12 +92,9 @@ while True:
             draw = ImageDraw.Draw(image)
 
             # Draw the segments
-            draw_gauge_segment(draw, MIN_VALUE, (MIN_VALUE + 60 * (MAX_VALUE - MIN_VALUE) / 100), 'blue')
-            draw_gauge_segment(draw, (MIN_VALUE + 60 * (MAX_VALUE - MIN_VALUE) / 100), (MIN_VALUE + 420 * (MAX_VALUE - MIN_VALUE) / 100), 'green')
-            draw_gauge_segment(draw, (MIN_VALUE + 420 * (MAX_VALUE - MIN_VALUE) / 100), MAX_VALUE, 'red')
-
-            # Draw black lines over the arches at the joins of the colors
-            draw_black_lines(draw)
+            draw_gauge_segment(draw, 0, 10, 'blue')
+            draw_gauge_segment(draw, 10, 70, 'green')
+            draw_gauge_segment(draw, 70, 100, 'red')
 
             # Draw the value display
             draw_value(draw, step)
@@ -143,12 +124,9 @@ while True:
             draw = ImageDraw.Draw(image)
 
             # Draw the segments
-            draw_gauge_segment(draw, MIN_VALUE, (MIN_VALUE + 60 * (MAX_VALUE - MIN_VALUE) / 100), 'blue')
-            draw_gauge_segment(draw, (MIN_VALUE + 60 * (MAX_VALUE - MIN_VALUE) / 100), (MIN_VALUE + 420 * (MAX_VALUE - MIN_VALUE) / 100), 'green')
-            draw_gauge_segment(draw, (MIN_VALUE + 420 * (MAX_VALUE - MIN_VALUE) / 100), MAX_VALUE, 'red')
-
-            # Draw black lines over the arches at the joins of the colors
-            draw_black_lines(draw)
+            draw_gauge_segment(draw, 0, 10, 'blue')
+            draw_gauge_segment(draw, 10, 70, 'green')
+            draw_gauge_segment(draw, 70, 100, 'red')
 
             # Draw the value display
             draw_value(draw, step)
@@ -177,4 +155,3 @@ while True:
     prev_value = target_value
 
     # Delay before starting the next cycle
-    time.sleep(2)  # Adjust the delay before starting the next cycle
