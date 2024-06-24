@@ -59,9 +59,10 @@ while True:
     for i in range(6):  # Include space for the "Back" item
         # Calculate index of current item
         if i == 5:
+            index = (start_pos + len(gaugeItems)) % len(gaugeItems)  # Calculate index for "Back" item
             text = "Back"
-            text_color = TEXT_COLOR_SELECTED if i == 2 else TEXT_COLOR_NON_SELECTED1
-            text_font = large_font if i == 2 else font
+            text_color = TEXT_COLOR_SELECTED if i == 2 else TEXT_COLOR_NON_SELECTED1 if i == 1 or i == 3 else TEXT_COLOR_NON_SELECTED2
+            text_font = large_font if i == 2 else font if i == 1 or i == 3 else smallfont
         else:
             index = (start_pos + i) % len(gaugeItems)
             text = gaugeItems[list(gaugeItems.keys())[index]][1]
@@ -80,7 +81,7 @@ while True:
     disp.ShowImage(image)
 
     # Increment start position for scrolling effect
-    start_pos = (start_pos + 1) % len(gaugeItems)
+    start_pos = (start_pos + 1) % (len(gaugeItems) + 1)  # Include space for the "Back" item
 
     # Delay for scrolling effect
     time.sleep(0.5)
