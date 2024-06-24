@@ -53,7 +53,7 @@ while True:
     draw = ImageDraw.Draw(image)
 
     # Calculate vertical position of selected item
-    selected_y = HEIGHT // 2 - 20
+    selected_y = HEIGHT // 2 - 25
 
     # Draw menu items
     for i in range(5):
