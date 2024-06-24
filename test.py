@@ -28,23 +28,15 @@ CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 RADIUS = 120  # Increased radius
 ANGLE_START, ANGLE_END = 40, 320  # Angles for the 3/4 gauge arc (clockwise)
 
-# Extract gauge values
-min_value = gaugeItems["BOOST"][7]
-max_value = gaugeItems["BOOST"][8]
-blue_level = gaugeItems["BOOST"][3]
-green_level = gaugeItems["BOOST"][5]
-red_level = gaugeItems["BOOST"][6]
-label = gaugeItems["BOOST"][1]
-
 # Function to convert value to angle
-def value_to_angle(value):
+def value_to_angle(value, min_value, max_value):
     normalized_value = (value - min_value) / (max_value - min_value)
     return ANGLE_START - (ANGLE_START - ANGLE_END) * normalized_value
 
 # Draw the gauge segments
-def draw_gauge_segment(draw, start_value, end_value, color):
-    start_angle = value_to_angle(start_value)
-    end_angle = value_to_angle(end_value)
+def draw_gauge_segment(draw, start_value, end_value, color, min_value, max_value):
+    start_angle = value_to_angle(start_value, min_value, max_value)
+    end_angle = value_to_angle(end_value, min_value, max_value)
     draw.arc(
         (CENTER_X - RADIUS, CENTER_Y - RADIUS, CENTER_X + RADIUS, CENTER_Y + RADIUS),
         start=start_angle,
@@ -54,9 +46,9 @@ def draw_gauge_segment(draw, start_value, end_value, color):
     )
 
 # Draw the gauge needle
-def draw_needle(draw, value):
+def draw_needle(draw, value, min_value, max_value):
     outline_width = 10  # Width of the black outline
-    angle = value_to_angle(value)
+    angle = value_to_angle(value, min_value, max_value)
     needle_length = RADIUS - 8  # Adjusted length
     end_x = CENTER_X + needle_length * math.cos(math.radians(angle))
     end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))
@@ -77,7 +69,7 @@ def draw_value(draw, value):
     draw.text((text_x, text_y), text, fill='white', font=font_large)
 
 # Draw the bottom label
-def draw_label(draw):
+def draw_label(draw, label):
     font_label = ImageFont.truetype("arial.ttf", 24)  # Use a larger font size and specify a font
     label_text = label
     label_bbox = draw.textbbox((0, 0), label_text, font=font_label)
@@ -87,94 +79,106 @@ def draw_label(draw):
     label_y = HEIGHT - label_height - 50  # Positioned at the bottom of the image
     draw.text((label_x, label_y), label_text, fill='white', font=font_label)
 
-# Initialize the previous value
-prev_value = min_value
+# Function to draw and animate the gauge
+def draw_gauge(gauge_key):
+    min_value = gaugeItems[gauge_key][7]
+    max_value = gaugeItems[gauge_key][8]
+    blue_level = gaugeItems[gauge_key][3]
+    green_level = gaugeItems[gauge_key][5]
+    red_level = gaugeItems[gauge_key][6]
+    label = gaugeItems[gauge_key][1]
 
-# Main loop
-while True:
-    # Generate a random target value within the range
-    target_value = random.randint(min_value, max_value)
+    prev_value = min_value
 
-    # Store the random value in gaugeItems["BOOST"][2]
-    gaugeItems["BOOST"][2] = target_value
+    while True:
+        # Generate a random target value within the range
+        target_value = random.randint(min_value, max_value)
 
-    # Animate the gauge from the previous value to the new random value
-    if target_value > prev_value:
-        step = prev_value
-        while step <= target_value:
-            # Initialize the image and drawing context for each step
-            image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
-            draw = ImageDraw.Draw(image)
+        # Store the random value in gaugeItems[gauge_key][2]
+        gaugeItems[gauge_key][2] = target_value
 
-            # Draw the segments
-            draw_gauge_segment(draw, min_value, blue_level, 'blue')
-            draw_gauge_segment(draw, blue_level, green_level, 'green')
-            draw_gauge_segment(draw, green_level, red_level, 'red')
-            draw_gauge_segment(draw, red_level, max_value, 'red')
+        # Animate the gauge from the previous value to the new random value
+        if target_value > prev_value:
+            step = prev_value
+            while step <= target_value:
+                # Initialize the image and drawing context for each step
+                image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
+                draw = ImageDraw.Draw(image)
 
-            # Draw the black lines at the joins of the colors
-            draw_gauge_segment(draw, blue_level, blue_level, 'black')
-            draw_gauge_segment(draw, green_level, green_level, 'black')
-            draw_gauge_segment(draw, red_level, red_level, 'black')
+                # Draw the segments
+                draw_gauge_segment(draw, min_value, blue_level, 'blue', min_value, max_value)
+                draw_gauge_segment(draw, blue_level, green_level, 'green', min_value, max_value)
+                draw_gauge_segment(draw, green_level, red_level, 'red', min_value, max_value)
+                draw_gauge_segment(draw, red_level, max_value, 'red', min_value, max_value)
 
-            # Draw the value display
-            draw_value(draw, step)
+                # Draw the black lines at the joins of the colors
+                draw_gauge_segment(draw, blue_level, blue_level, 'black', min_value, max_value)
+                draw_gauge_segment(draw, green_level, green_level, 'black', min_value, max_value)
+                draw_gauge_segment(draw, red_level, red_level, 'black', min_value, max_value)
 
-            # Draw the bottom label
-            draw_label(draw)
+                # Draw the value display
+                draw_value(draw, step)
 
-            # Draw the gauge needle
-            draw_needle(draw, step)
+                # Draw the bottom label
+                draw_label(draw, label)
 
-            # Draw a circle at the center of the gauge
-            draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
-            draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
+                # Draw the gauge needle
+                draw_needle(draw, step, min_value, max_value)
 
-            # Show the updated image
-            disp.ShowImage(image)
+                # Draw a circle at the center of the gauge
+                draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
+                draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
 
-            # Delay to create animation effect
+                # Show the updated image
+                disp.ShowImage(image)
 
-            step += 1
-    elif target_value < prev_value:
-        step = prev_value
-        while step >= target_value:
-            # Initialize the image and drawing context for each step
-            image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
-            draw = ImageDraw.Draw(image)
+                # Delay to create animation effect
+                time.sleep(0.02)  # Adjust the delay for smoother animation
 
-            # Draw the segments
-            draw_gauge_segment(draw, min_value, blue_level, 'blue')
-            draw_gauge_segment(draw, blue_level, green_level, 'green')
-            draw_gauge_segment(draw, green_level, red_level, 'red')
-            draw_gauge_segment(draw, red_level, max_value, 'red')
+                step += 1
+        elif target_value < prev_value:
+            step = prev_value
+            while step >= target_value:
+                # Initialize the image and drawing context for each step
+                image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
+                draw = ImageDraw.Draw(image)
 
-            # Draw the black lines at the joins of the colors
-            draw_gauge_segment(draw, blue_level, blue_level, 'black')
-            draw_gauge_segment(draw, green_level, green_level, 'black')
-            draw_gauge_segment(draw, red_level, red_level, 'black')
+                # Draw the segments
+                draw_gauge_segment(draw, min_value, blue_level, 'blue', min_value, max_value)
+                draw_gauge_segment(draw, blue_level, green_level, 'green', min_value, max_value)
+                draw_gauge_segment(draw, green_level, red_level, 'red', min_value, max_value)
+                draw_gauge_segment(draw, red_level, max_value, 'red', min_value, max_value)
 
-            # Draw the value display
-            draw_value(draw, step)
+                # Draw the black lines at the joins of the colors
+                draw_gauge_segment(draw, blue_level, blue_level, 'black', min_value, max_value)
+                draw_gauge_segment(draw, green_level, green_level, 'black', min_value, max_value)
+                draw_gauge_segment(draw, red_level, red_level, 'black', min_value, max_value)
 
-            # Draw the bottom label
-            draw_label(draw)
+                # Draw the value display
+                draw_value(draw, step)
 
-            # Draw the gauge needle
-            draw_needle(draw, step)
+                # Draw the bottom label
+                draw_label(draw, label)
 
-            # Draw a circle at the center of the gauge
-            draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
-            draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
+                # Draw the gauge needle
+                draw_needle(draw, step, min_value, max_value)
 
-            # Show the updated image
-            disp.ShowImage(image)
+                # Draw a circle at the center of the gauge
+                draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
+                draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
 
-            # Delay to create animation effect
+                # Show the updated image
+                disp.ShowImage(image)
 
-            step -= 1
-    else:
-        continue  # If target_value equals prev_value, no animation needed
+                # Delay to create animation effect
+                time.sleep(0.02)  # Adjust the delay for smoother animation
 
-    # Update the previous value
-    prev_value = target_value
+                step -= 1
+        else:
+            continue  # If target_value equals prev_value, no animation needed
+
+        # Update the previous value
+        prev_value = target_value
+
+# Example of calling the function for the "BOOST" gauge
+draw_gauge("BOOST")
