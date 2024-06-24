@@ -6,10 +6,14 @@ sys.path.append('..')
 from lib import LCD_1inch28
 
 gaugeItems = {
-    # NAME: adc read, display name, value, warninglow, alertlow, warninghigh, alerthigh, rangelow, rangehigh, measurement, alertcount 
+    "FUEL_PRESSURE": ["1", "Fuel Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
     "BOOST": ["2", "Boost", 1, 0, -19, 24, 28, -20, 30, "psi", 0],
-    "RPM": ["3", "RPM", 500, 0, 100, 5000, 7000, 0, 8000, "rpm", 0],
-    "TEMP": ["4", "Temp", 80, 60, 70, 100, 110, 0, 120, "C", 0],
+    "BLOCK_TEMP": ["3", "Engine °C", 1, 10, 15, 99, 110, 0, 150, "°C", 0],
+    "COOLANT_PRESSURE": ["4", "H2O Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
+    "COOLANT_TEMP": ["5", "H2O °C", 1, 10, 15, 99, 110, 0, 150, "°C", 0],
+    "OIL_PRESSURE": ["6", "Oil Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
+    "OIL_TEMP": ["7", "Oil °C", 1, 10, 15, 99, 110, 0, 150, "°C", 0],
+    "WIDEBAND02": ["8", "O2 AFR", 1, .5, 1, 1.5, 2, 0, 4, "A/F", 0]
 }
 
 RST = 27
@@ -24,56 +28,44 @@ disp.Init()
 # Constants for 240x240 screen
 WIDTH, HEIGHT = 240, 240
 
-# Draw the menu
-def draw_menu(selected_index):
-    image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
+# Colors
+BACKGROUND_COLOR = (30, 30, 30)
+TEXT_COLOR = (255, 255, 255)
+SELECTED_COLOR = (255, 0, 0)
+FONT_SIZE = 20
+
+# Fonts
+font = ImageFont.truetype("arial.ttf", FONT_SIZE)
+
+# Initialize starting position for scrolling
+start_pos = 0
+
+# Main loop
+while True:
+    # Create a blank image with background color
+    image = Image.new('RGB', (WIDTH, HEIGHT), color=BACKGROUND_COLOR)
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype("arial.ttf", 24)
 
-    # Calculate positions for menu items
-    menu_items = list(gaugeItems.keys())
-    num_items = len(menu_items)
-    item_height = HEIGHT // num_items
+    # Draw menu items
+    y = 10
+    for key, item in gaugeItems.items():
+        # Calculate text size and position
+        text_width, text_height = draw.textsize(item[1], font=font)
+        x = (WIDTH - text_width) // 2
 
-    for i, key in enumerate(menu_items):
-        text = gaugeItems[key][1]  # Display name of the gauge item
-        text_bbox = draw.textbbox((0, 0), text, font=font)
-        text_width = text_bbox[2] - text_bbox[0]
-        text_height = text_bbox[3] - text_bbox[1]
+        # Highlight selected item
+        if key == list(gaugeItems.keys())[start_pos]:
+            draw.rectangle([x - 5, y - 5, x + text_width + 5, y + text_height + 5], outline=SELECTED_COLOR)
 
-        # Center the text horizontally
-        text_x = (WIDTH - text_width) // 2
-        text_y = i * item_height + (item_height - text_height) // 2
+        # Draw text
+        draw.text((x, y), item[1], fill=TEXT_COLOR, font=font)
+        y += text_height + 10
 
-        if i == selected_index:
-            # Highlight the selected menu item
-            draw.rectangle([0, i * item_height, WIDTH, (i + 1) * item_height], outline='white', width=2)
-            draw.text((text_x, text_y), text, fill='yellow', font=font)
-        else:
-            draw.text((text_x, text_y), text, fill='white', font=font)
-
+    # Show image on display
     disp.ShowImage(image)
 
-# Function to handle the menu scrolling
-def scroll_menu():
-    selected_index = 0
-    menu_items = list(gaugeItems.keys())
-    num_items = len(menu_items)
-    
-    draw_menu(selected_index)
+    # Increment start position for scrolling effect
+    start_pos = (start_pos + 1) % len(gaugeItems)
 
-    while True:
-        # Simulate button presses for scrolling (up and down)
-        # This is just an example. Replace with actual button press logic
-        time.sleep(1)  # Wait for 1 second before changing selection
-        selected_index = (selected_index + 1) % num_items
-        draw_menu(selected_index)
-
-        # Simulate selection
-        time.sleep(1)
-        # Perform action for selected menu item
-        selected_key = menu_items[selected_index]
-        print(f"Selected: {selected_key}")
-
-# Call the scroll menu function
-scroll_menu()
+    # Delay for scrolling effect
+    time.sleep(0.5)
