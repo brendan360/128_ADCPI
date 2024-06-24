@@ -134,6 +134,7 @@ def button_callback(channel):
 GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=button_callback, bouncetime=300)
 
 # Main loop
+disp.Init()
 try:
     while True:
         # Scroll menu items until button is pressed
