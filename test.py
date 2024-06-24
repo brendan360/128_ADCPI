@@ -19,7 +19,6 @@ gaugeItems = {
   "OIL_TEMP":["7","Oil °C", 1, 10,15,99,110,0,150,"°C", 0],
   "WIDEBAND02":["8","O2 AFR", 1, 10,15,99,110,0,150,"A/F", 0]
 }
-}
 
 RST = 27
 DC = 25
@@ -189,4 +188,4 @@ def draw_gauge(gauge_key):
         prev_value = target_value
 
 # Example of calling the function for the "BOOST" gauge
-draw_gauge("BOOST")
+draw_gauge("WIDEBAND02")
