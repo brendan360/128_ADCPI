@@ -7,7 +7,7 @@ from lib import LCD_1inch28
 
 # Define the menus
 level1_menu = ["Gauges", "QuadTemp", "Triple Stack", "Config"]
-config_menu = ["ipaddress", "reboot pi"]
+config_menu = ["ipaddress", "reboot pi", "Back"]
 gaugeItems = {
     "FUEL_PRESSURE": ["1", "Fuel Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
     "BOOST": ["2", "Boost", 1, 0, -19, 24, 28, -20, 30, "psi", 0],
@@ -19,6 +19,7 @@ gaugeItems = {
     "WIDEBAND02": ["8", "O2 AFR", 1, .5, 1, 1.5, 2, 0, 4, "A/F", 0]
 }
 gauge_keys = list(gaugeItems.keys())
+gauge_menu = [gaugeItems[key][1] for key in gauge_keys] + ["Back"]
 
 # Define colors
 BACKGROUND_COLOR = (30, 30, 30)
@@ -46,30 +47,29 @@ disp.Init()
 WIDTH, HEIGHT = 240, 240
 
 # Menu state
-current_menu = "gauges"
-current_index = 0
+current_menu = "level1"
+menu_indices = {
+    "level1": 0,
+    "config": 0,
+    "gauges": 0
+}
+menu_stack = []
 
-# Main loop
-while True:
+# Function to draw the menu
+def draw_menu(menu_items):
+    global menu_indices
+
     # Create a blank image with background color
     image = Image.new('RGB', (WIDTH, HEIGHT), color=BACKGROUND_COLOR)
     draw = ImageDraw.Draw(image)
 
-    # Get the current menu items based on the menu state
-    if current_menu == "level1":
-        menu_items = level1_menu
-    elif current_menu == "config":
-        menu_items = config_menu
-    elif current_menu == "gauges":
-        menu_items = [gaugeItems[key][1] for key in gauge_keys]
-    
     # Calculate vertical position of selected item
     selected_y = HEIGHT // 2 - 25
 
     # Draw menu items
     for i in range(5):
         # Calculate index of current item
-        index = (current_index + i) % len(menu_items)
+        index = (menu_indices[current_menu] + i) % len(menu_items)
 
         # Calculate text position
         text = menu_items[index]
@@ -85,8 +85,40 @@ while True:
     # Show image on display
     disp.ShowImage(image)
 
-    # Increment current index for scrolling effect
-    current_index = (current_index + 1) % len(menu_items)
+# Main loop
+while True:
+    # Get the current menu items based on the menu state
+    if current_menu == "level1":
+        menu_items = level1_menu
+    elif current_menu == "config":
+        menu_items = config_menu
+    elif current_menu == "gauges":
+        menu_items = gauge_menu
 
-    # Delay for scrolling effect
-    time.sleep(0.5)
+    # Draw the current menu
+    draw_menu(menu_items)
+
+    # Simulate user input (up/down navigation)
+    # For real implementation, replace this with actual user input handling
+    time.sleep(1)  # Simulate delay for user input
+    menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)  # Simulate navigating down the menu
+
+    # Handle menu selection
+    if menu_items[menu_indices[current_menu]] == "Back":
+        current_menu = menu_stack.pop() if menu_stack else "level1"
+    elif current_menu == "level1":
+        if menu_items[menu_indices[current_menu]] == "Gauges":
+            menu_stack.append(current_menu)
+            current_menu = "gauges"
+        elif menu_items[menu_indices[current_menu]] == "QuadTemp":
+            # Call QuadGAUGE function
+            pass
+        elif menu_items[menu_indices[current_menu]] == "Triple Stack":
+            # Call TripleGAUGE function
+            pass
+        elif menu_items[menu_indices[current_menu]] == "Config":
+            menu_stack.append(current_menu)
+            current_menu = "config"
+    
+    # Reset the index for new menu selection
+    menu_indices[current_menu] = 0
