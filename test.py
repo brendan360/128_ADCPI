@@ -9,10 +9,9 @@ sys.path.append('..')
 from lib import LCD_1inch28
 
 gaugeItems = {
-    # NAME:, value, display name, warninglow, alertlow, warninghigh, alerthigh, rangelow, rangehigh, measurment, alertcount 
-    "BOOST": ["2", "Boost", 1, 10, 15, 99, 110, 0, 150, "psi", 0],
+    # NAME, value, display name, warninglow, alertlow, warninghigh, alerthigh, rangelow, rangehigh, measurement, alertcount 
+    "BOOST": ["2", "Boost", 1, 10, 15, 99, 110, -20, 30, "psi", 0],
 }
-
 
 RST = 27
 DC = 25
@@ -32,9 +31,9 @@ ANGLE_START, ANGLE_END = 40, 320  # Angles for the 3/4 gauge arc (clockwise)
 # Extract gauge values
 min_value = gaugeItems["BOOST"][7]
 max_value = gaugeItems["BOOST"][8]
-blue_level = gaugeItems["BOOST"][3]
-green_level = gaugeItems["BOOST"][5]
-red_level = gaugeItems["BOOST"][6]
+blue_level = gaugeItems["BOOST"][2]
+green_level = gaugeItems["BOOST"][3]
+red_level = gaugeItems["BOOST"][4]
 label = gaugeItems["BOOST"][1]
 
 # Function to convert value to angle
@@ -81,7 +80,7 @@ def draw_value(draw, value):
 
 # Draw the bottom label
 def draw_label(draw):
-    font_label = ImageFont.truetype("arial.ttf", 25)  # Use a larger font size and specify a font
+    font_label = ImageFont.truetype("arial.ttf", 20)  # Use a larger font size and specify a font
     label_text = label
     label_bbox = draw.textbbox((0, 0), label_text, font=font_label)
     label_width = label_bbox[2] - label_bbox[0]
@@ -109,11 +108,13 @@ while True:
             # Draw the segments
             draw_gauge_segment(draw, min_value, blue_level, 'blue')
             draw_gauge_segment(draw, blue_level, green_level, 'green')
-            draw_gauge_segment(draw, green_level, max_value, 'red')
+            draw_gauge_segment(draw, green_level, red_level, 'red')
+            draw_gauge_segment(draw, red_level, max_value, 'red')
 
             # Draw the black lines at the joins of the colors
             draw_gauge_segment(draw, blue_level, blue_level, 'black')
             draw_gauge_segment(draw, green_level, green_level, 'black')
+            draw_gauge_segment(draw, red_level, red_level, 'black')
 
             # Draw the value display
             draw_value(draw, step)
@@ -145,11 +146,13 @@ while True:
             # Draw the segments
             draw_gauge_segment(draw, min_value, blue_level, 'blue')
             draw_gauge_segment(draw, blue_level, green_level, 'green')
-            draw_gauge_segment(draw, green_level, max_value, 'red')
+            draw_gauge_segment(draw, green_level, red_level, 'red')
+            draw_gauge_segment(draw, red_level, max_value, 'red')
 
             # Draw the black lines at the joins of the colors
             draw_gauge_segment(draw, blue_level, blue_level, 'black')
             draw_gauge_segment(draw, green_level, green_level, 'black')
+            draw_gauge_segment(draw, red_level, red_level, 'black')
 
             # Draw the value display
             draw_value(draw, step)
@@ -176,3 +179,9 @@ while True:
 
     # Update the previous value
     prev_value = target_value
+
+if gaugeItems["BOOST"][2] < 0:
+    gaugeItems["BOOST"][9] = "inHg"
+    gaugeItems["BOOST"][2] = round((abs(gaugeItems["BOOST"][2]) * 2.03602), 2)
+else:
+    gaugeItems["BOOST"][9] = "psi"
