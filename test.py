@@ -37,7 +37,8 @@ FONT_SIZE = 24
 
 # Fonts
 font = ImageFont.truetype("arial.ttf", FONT_SIZE)
-large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 10)
+smallfont =ImageFont.truetype("arial.ttf", FONT_SIZE -10)
+large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 20)
 
 # Initialize starting position for scrolling
 start_pos = 0
@@ -49,7 +50,7 @@ while True:
     draw = ImageDraw.Draw(image)
 
     # Calculate vertical position of selected item
-    selected_y = HEIGHT // 2
+    selected_y = HEIGHT // 2 -20
 
     # Draw menu items
     for i in range(5):
