@@ -36,6 +36,7 @@ FONT_SIZE = 20
 
 # Fonts
 font = ImageFont.truetype("arial.ttf", FONT_SIZE)
+large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 10)
 
 # Initialize starting position for scrolling
 start_pos = 0
@@ -48,17 +49,25 @@ while True:
 
     # Draw menu items
     y = 10
-    for key, item in gaugeItems.items():
+    for i, (key, item) in enumerate(gaugeItems.items()):
         # Calculate text size and position
         text_width, text_height = draw.textsize(item[1], font=font)
         x = (WIDTH - text_width) // 2
 
         # Highlight selected item
-        if key == list(gaugeItems.keys())[start_pos]:
-            draw.rectangle([x - 5, y - 5, x + text_width + 5, y + text_height + 5], outline=SELECTED_COLOR)
-
-        # Draw text
-        draw.text((x, y), item[1], fill=TEXT_COLOR, font=font)
+        if i == start_pos:
+            # Draw selected item in larger font
+            draw.text((x, y), item[1], fill=SELECTED_COLOR, font=large_font)
+        elif i == start_pos - 1 or i == start_pos + 1:
+            # Draw neighboring items with fading font size
+            fade_size = max(0, 20 - abs(start_pos - i) * 5)
+            fade_font = ImageFont.truetype("arial.ttf", FONT_SIZE + fade_size)
+            draw.text((x, y), item[1], fill=TEXT_COLOR, font=fade_font)
+        else:
+            # Draw other items with regular font size
+            draw.text((x, y), item[1], fill=TEXT_COLOR, font=font)
+        
+        # Increase vertical position
         y += text_height + 10
 
     # Show image on display
