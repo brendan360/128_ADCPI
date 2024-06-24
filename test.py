@@ -187,8 +187,3 @@ while True:
     # Update the previous value
     prev_value = target_value
 
-if gaugeItems["BOOST"][2] < 0:
-    gaugeItems["BOOST"][9] = "inHg"
-    gaugeItems["BOOST"][2] = round((abs(gaugeItems["BOOST"][2]) * 2.03602), 2)
-else:
-    gaugeItems["BOOST"][9] = "psi"
