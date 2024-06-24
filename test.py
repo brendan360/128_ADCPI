@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 import time
 import sys
+import math
 sys.path.append('..')
 
 from lib import LCD_1inch28
@@ -32,7 +33,7 @@ WIDTH, HEIGHT = 240, 240
 BACKGROUND_COLOR = (30, 30, 30)
 TEXT_COLOR = (255, 255, 255)
 SELECTED_COLOR = (255, 0, 0)
-FONT_SIZE = 20
+FONT_SIZE = 24
 
 # Fonts
 font = ImageFont.truetype("arial.ttf", FONT_SIZE)
@@ -62,16 +63,13 @@ while True:
         # Calculate vertical position of item
         y = selected_y + (i - 2) * (text_height + 10)
 
-        # Highlight selected item
+        # Draw border and background for selected item
         if i == 2:
-            # Draw selected item in larger font
-            draw.text((x, y), gaugeItems[list(gaugeItems.keys())[index]][1], fill=SELECTED_COLOR, font=large_font)
-        elif i == 1 or i == 3:
-            # Draw adjacent items with larger font
-            draw.text((x, y), gaugeItems[list(gaugeItems.keys())[index]][1], fill=TEXT_COLOR, font=font)
-        else:
-            # Draw other items with regular font size
-            draw.text((x, y), gaugeItems[list(gaugeItems.keys())[index]][1], fill=TEXT_COLOR, font=font)
+            draw.rectangle([(x - 10, y - 5), (x + text_width + 10, y + text_height + 5)], fill=(50, 50, 50), outline=(255, 0, 0), width=3)
+            draw.rectangle([(x - 10, y - 5), (x + text_width + 10, y + text_height + 5)], fill=(255, 255, 255, 30))
+
+        # Draw text for menu items
+        draw.text((x, y), gaugeItems[list(gaugeItems.keys())[index]][1], fill=TEXT_COLOR, font=font)
 
     # Show image on display
     disp.ShowImage(image)
