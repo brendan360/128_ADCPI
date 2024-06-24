@@ -23,12 +23,12 @@ BACKGROUND_COLOR = (30, 30, 30)
 TEXT_COLOR_SELECTED = (255, 0, 0)
 TEXT_COLOR_NON_SELECTED1 = (255, 255, 255)  # White
 TEXT_COLOR_NON_SELECTED2 = (0, 0, 255)      # Blue
-FONT_SIZE = 24
+FONT_SIZE = 34
 
 # Define fonts
 font = ImageFont.truetype("arial.ttf", FONT_SIZE)
 smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
-large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 20)
+large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 10)
 
 # Initialize display
 RST = 27
