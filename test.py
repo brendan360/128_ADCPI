@@ -9,7 +9,7 @@ sys.path.append('..')
 from lib import LCD_1inch28
 
 gaugeItems = {
-    # NAME, value, display name, warninglow, alertlow, warninghigh, alerthigh, rangelow, rangehigh, measurment, alertcount 
+    # NAME:, value, display name, warninglow, alertlow, warninghigh, alerthigh, rangelow, rangehigh, measurment, alertcount 
     "BOOST": ["2", "Boost", 1, 10, 15, 99, 110, 0, 150, "psi", 0],
 }
 
@@ -31,9 +31,9 @@ ANGLE_START, ANGLE_END = 40, 320  # Angles for the 3/4 gauge arc (clockwise)
 # Extract gauge values
 min_value = gaugeItems["BOOST"][7]
 max_value = gaugeItems["BOOST"][8]
-blue_level = gaugeItems["BOOST"][2]
-green_level = gaugeItems["BOOST"][3]
-red_level = gaugeItems["BOOST"][4]
+blue_level = gaugeItems["BOOST"][3]
+green_level = gaugeItems["BOOST"][5]
+red_level = gaugeItems["BOOST"][6]
 label = gaugeItems["BOOST"][1]
 
 # Function to convert value to angle
