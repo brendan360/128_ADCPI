@@ -348,11 +348,11 @@ def draw_gauge(gauge_key):
                 draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
 
                 # Show the updated image
-                disp.ShowImage(image)
+                im_r=image.rotate(rotation)
+                disp.ShowImage(im_r)
 
                 # Delay to create animation effect
-                time.sleep(0.02)  # Adjust the delay for smoother animation
-
+                
                 step += 1
         elif target_value < prev_value:
             step = prev_value
@@ -386,10 +386,11 @@ def draw_gauge(gauge_key):
                 draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
 
                 # Show the updated image
-                disp.ShowImage(image)
+                im_r=image.rotate(rotation)
+                disp.ShowImage(im_r)
 
                 # Delay to create animation effect
-                time.sleep(0.02)  # Adjust the delay for smoother animation
+
 
                 step -= 1
         else:
