@@ -56,17 +56,16 @@ while True:
         # Calculate index of current item
         index = (start_pos + i) % len(gaugeItems)
 
-        # Calculate text size and position
-        text_width, text_height = draw.textsize(gaugeItems[list(gaugeItems.keys())[index]][1], font=font)
-        x = (WIDTH - text_width) // 2
+        # Calculate text position
+        x = (WIDTH - draw.textlength(gaugeItems[list(gaugeItems.keys())[index]][1], font=font)) // 2
 
         # Calculate vertical position of item
-        y = selected_y + (i - 2) * (text_height + 10)
+        y = selected_y + (i - 2) * (draw.textbbox((0, 0), gaugeItems[list(gaugeItems.keys())[index]][1], font=font)[3] + 10)
 
         # Draw border and background for selected item
         if i == 2:
-            draw.rectangle([(x - 10, y - 5), (x + text_width + 10, y + text_height + 5)], fill=(50, 50, 50), outline=(255, 0, 0), width=3)
-            draw.rectangle([(x - 10, y - 5), (x + text_width + 10, y + text_height + 5)], fill=(255, 255, 255, 30))
+            draw.rectangle([(x - 10, y - 5), (x + draw.textlength(gaugeItems[list(gaugeItems.keys())[index]][1], font=font) + 10, y + draw.textbbox((0, 0), gaugeItems[list(gaugeItems.keys())[index]][1], font=font)[3] + 5)], fill=(50, 50, 50), outline=(255, 0, 0), width=3)
+            draw.rectangle([(x - 10, y - 5), (x + draw.textlength(gaugeItems[list(gaugeItems.keys())[index]][1], font=font) + 10, y + draw.textbbox((0, 0), gaugeItems[list(gaugeItems.keys())[index]][1], font=font)[3] + 5)], fill=(255, 255, 255, 30))
 
         # Draw text for menu items
         draw.text((x, y), gaugeItems[list(gaugeItems.keys())[index]][1], fill=TEXT_COLOR, font=font)
