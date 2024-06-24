@@ -51,22 +51,28 @@ while True:
     selected_y = HEIGHT // 2
 
     # Draw menu items
-    for i, (key, item) in enumerate(gaugeItems.items()):
+    for i in range(start_pos, start_pos + 5):
+        # Get item index (handle wrapping)
+        item_index = i % len(gaugeItems)
+
         # Calculate text size and position
-        text_width, text_height = draw.textsize(item[1], font=font)
+        text_width, text_height = draw.textsize(gaugeItems[item_index][1], font=font)
         x = (WIDTH - text_width) // 2
 
         # Calculate vertical position of item
-        y = selected_y + (i - start_pos) * (text_height + 10)
+        y = selected_y + (i - start_pos - 2) * (text_height + 10)
 
         # Highlight selected item
-        if i == start_pos:
+        if i == start_pos + 2:
             # Draw selected item in larger font
-            draw.text((x, y), item[1], fill=SELECTED_COLOR, font=large_font)
+            draw.text((x, y), gaugeItems[item_index][1], fill=SELECTED_COLOR, font=large_font)
+        elif i == start_pos + 1 or i == start_pos + 3:
+            # Draw adjacent items with larger font
+            draw.text((x, y), gaugeItems[item_index][1], fill=TEXT_COLOR, font=font)
         else:
             # Draw other items with regular font size
-            draw.text((x, y), item[1], fill=TEXT_COLOR, font=font)
-        
+            draw.text((x, y), gaugeItems[item_index][1], fill=TEXT_COLOR, font=font)
+
     # Show image on display
     disp.ShowImage(image)
 
