@@ -8,13 +8,18 @@ sys.path.append('..')
 
 from lib import LCD_1inch28
 
-RST=27
-DC=25
-BL=18
-bus=0
+gaugeItems = {
+    # NAME, value, display name, warninglow, alertlow, warninghigh, alerthigh, rangelow, rangehigh, measurment, alertcount 
+    "BOOST": ["2", "Boost", 1, 10, 15, 99, 110, -20, 150, "psi", 0],
+}
+
+RST = 27
+DC = 25
+BL = 18
+bus = 0
 device = 0
 disp = LCD_1inch28.LCD_1inch28()
-rotation=180
+rotation = 180
 disp.Init()
 
 # Constants for 240x240 screen
@@ -23,9 +28,18 @@ CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 RADIUS = 120  # Increased radius
 ANGLE_START, ANGLE_END = 40, 320  # Angles for the 3/4 gauge arc (clockwise)
 
+# Extract gauge values
+min_value = gaugeItems["BOOST"][7]
+max_value = gaugeItems["BOOST"][8]
+blue_level = gaugeItems["BOOST"][2]
+green_level = gaugeItems["BOOST"][3]
+red_level = gaugeItems["BOOST"][4]
+label = gaugeItems["BOOST"][1]
+
 # Function to convert value to angle
 def value_to_angle(value):
-    return ANGLE_START - (ANGLE_START - ANGLE_END) * (value / 100)
+    normalized_value = (value - min_value) / (max_value - min_value)
+    return ANGLE_START - (ANGLE_START - ANGLE_END) * normalized_value
 
 # Draw the gauge segments
 def draw_gauge_segment(draw, start_value, end_value, color):
@@ -50,7 +64,7 @@ def draw_needle(draw, value):
     end_y = CENTER_Y + needle_length * math.sin(math.radians(angle))
     outline_end_x = CENTER_X + (needle_length + 1) * math.cos(math.radians(angle))
     outline_end_y = CENTER_Y + (needle_length + 1) * math.sin(math.radians(angle))
-    draw.line((CENTER_X, CENTER_Y, outline_end_x, outline_end_y), fill='white', width=outline_width) 
+    draw.line((CENTER_X, CENTER_Y, outline_end_x, outline_end_y), fill='white', width=outline_width)
     draw.line((CENTER_X, CENTER_Y, end_x, end_y), fill='red', width=8)
 
 # Draw the value display
@@ -67,7 +81,7 @@ def draw_value(draw, value):
 # Draw the bottom label
 def draw_label(draw):
     font_label = ImageFont.truetype("arial.ttf", 20)  # Use a larger font size and specify a font
-    label_text = "BOOST"
+    label_text = label
     label_bbox = draw.textbbox((0, 0), label_text, font=font_label)
     label_width = label_bbox[2] - label_bbox[0]
     label_height = label_bbox[3] - label_bbox[1]
@@ -76,12 +90,12 @@ def draw_label(draw):
     draw.text((label_x, label_y), label_text, fill='white', font=font_label)
 
 # Initialize the previous value
-prev_value = 0
+prev_value = min_value
 
 # Main loop
 while True:
-    # Generate a random target value
-    target_value = random.randint(-20, 100)
+    # Generate a random target value within the range
+    target_value = random.randint(min_value, max_value)
 
     # Animate the gauge from the previous value to the new random value
     if target_value > prev_value:
@@ -92,9 +106,13 @@ while True:
             draw = ImageDraw.Draw(image)
 
             # Draw the segments
-            draw_gauge_segment(draw, 0, 10, 'blue')
-            draw_gauge_segment(draw, 10, 70, 'green')
-            draw_gauge_segment(draw, 70, 100, 'red')
+            draw_gauge_segment(draw, min_value, blue_level, 'blue')
+            draw_gauge_segment(draw, blue_level, green_level, 'green')
+            draw_gauge_segment(draw, green_level, red_level, 'red')
+
+            # Draw the black lines at the joins of the colors
+            draw_gauge_segment(draw, blue_level, blue_level, 'black')
+            draw_gauge_segment(draw, green_level, green_level, 'black')
 
             # Draw the value display
             draw_value(draw, step)
@@ -124,9 +142,13 @@ while True:
             draw = ImageDraw.Draw(image)
 
             # Draw the segments
-            draw_gauge_segment(draw, 0, 10, 'blue')
-            draw_gauge_segment(draw, 10, 70, 'green')
-            draw_gauge_segment(draw, 70, 100, 'red')
+            draw_gauge_segment(draw, min_value, blue_level, 'blue')
+            draw_gauge_segment(draw, blue_level, green_level, 'green')
+            draw_gauge_segment(draw, green_level, red_level, 'red')
+
+            # Draw the black lines at the joins of the colors
+            draw_gauge_segment(draw, blue_level, blue_level, 'black')
+            draw_gauge_segment(draw, green_level, green_level, 'black')
 
             # Draw the value display
             draw_value(draw, step)
@@ -153,5 +175,3 @@ while True:
 
     # Update the previous value
     prev_value = target_value
-
-    # Delay before starting the next cycle
