@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 import time
 import sys
+import RPi.GPIO as GPIO
 sys.path.append('..')
 
 from lib import LCD_1inch28
@@ -46,6 +47,11 @@ disp.Init()
 # Constants for 240x240 screen
 WIDTH, HEIGHT = 240, 240
 
+# Setup GPIO for button
+BUTTON_PIN = 40
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 # Menu state
 current_menu = "level1"
 menu_indices = {
@@ -85,9 +91,11 @@ def draw_menu(menu_items):
     # Show image on display
     disp.ShowImage(image)
 
-# Main loop
-while True:
-    # Get the current menu items based on the menu state
+# Function to handle button press
+def button_callback(channel):
+    global current_menu, menu_stack
+
+    menu_items = []
     if current_menu == "level1":
         menu_items = level1_menu
     elif current_menu == "config":
@@ -95,30 +103,48 @@ while True:
     elif current_menu == "gauges":
         menu_items = gauge_menu
 
-    # Draw the current menu
-    draw_menu(menu_items)
+    selected_item = menu_items[menu_indices[current_menu]]
 
-    # Simulate user input (up/down navigation)
-    # For real implementation, replace this with actual user input handling
-    time.sleep(1)  # Simulate delay for user input
-    menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)  # Simulate navigating down the menu
-
-    # Handle menu selection
-    if menu_items[menu_indices[current_menu]] == "Back":
+    if selected_item == "Back":
         current_menu = menu_stack.pop() if menu_stack else "level1"
     elif current_menu == "level1":
-        if menu_items[menu_indices[current_menu]] == "Gauges":
+        if selected_item == "Gauges":
             menu_stack.append(current_menu)
             current_menu = "gauges"
-        elif menu_items[menu_indices[current_menu]] == "QuadTemp":
+        elif selected_item == "QuadTemp":
             # Call QuadGAUGE function
             pass
-        elif menu_items[menu_indices[current_menu]] == "Triple Stack":
+        elif selected_item == "Triple Stack":
             # Call TripleGAUGE function
             pass
-        elif menu_items[menu_indices[current_menu]] == "Config":
+        elif selected_item == "Config":
             menu_stack.append(current_menu)
             current_menu = "config"
-    
+
     # Reset the index for new menu selection
     menu_indices[current_menu] = 0
+
+# Add event detection for button press
+GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=button_callback, bouncetime=300)
+
+# Main loop
+try:
+    while True:
+        # Get the current menu items based on the menu state
+        if current_menu == "level1":
+            menu_items = level1_menu
+        elif current_menu == "config":
+            menu_items = config_menu
+        elif current_menu == "gauges":
+            menu_items = gauge_menu
+
+        # Draw the current menu
+        draw_menu(menu_items)
+
+        # Simulate user input (up/down navigation)
+        # For real implementation, replace this with actual user input handling
+        time.sleep(1)  # Simulate delay for user input
+        menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)  # Simulate navigating down the menu
+
+finally:
+    GPIO.cleanup()
