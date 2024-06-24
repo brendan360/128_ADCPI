@@ -83,8 +83,15 @@ def draw_label(draw, label):
     label_width = label_bbox[2] - label_bbox[0]
     label_height = label_bbox[3] - label_bbox[1]
     label_x = (WIDTH - label_width) // 2
-    label_y = HEIGHT - label_height - 60  # Positioned at the bottom of the image
+    label_y = HEIGHT - label_height - 50  # Positioned at the bottom of the image
     draw.text((label_x, label_y), label_text, fill='white', font=font_label)
+
+# Function to generate a random value and store it in gaugeItems
+def generate_random_value(gauge_key):
+    min_value = gaugeItems[gauge_key][7]
+    max_value = gaugeItems[gauge_key][8]
+    random_value = random.randint(min_value, max_value)
+    gaugeItems[gauge_key][2] = random_value
 
 # Function to draw and animate the gauge
 def draw_gauge(gauge_key):
@@ -98,11 +105,9 @@ def draw_gauge(gauge_key):
     prev_value = min_value
 
     while True:
-        # Generate a random target value within the range
-        target_value = random.randint(min_value, max_value)
-
-        # Store the random value in gaugeItems[gauge_key][2]
-        gaugeItems[gauge_key][2] = target_value
+        # Generate a new random value
+        generate_random_value(gauge_key)
+        target_value = gaugeItems[gauge_key][2]
 
         # Animate the gauge from the previous value to the new random value
         if target_value > prev_value:
@@ -188,4 +193,4 @@ def draw_gauge(gauge_key):
         prev_value = target_value
 
 # Example of calling the function for the "BOOST" gauge
-draw_gauge("WIDEBAND02")
+draw_gauge("BOOST")
