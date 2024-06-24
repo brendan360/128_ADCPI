@@ -9,8 +9,8 @@ sys.path.append('..')
 from lib import LCD_1inch28
 
 gaugeItems = {
-    # NAME, value, display name, warninglow, alertlow, warninghigh, alerthigh, rangelow, rangehigh, measurement, alertcount 
-    "BOOST": ["2", "Boost", 1, -20, 24, 29, 30, -20, 30, "psi", 0],
+#   NAME: adc read, display name, value, warninglow,alertlow,warninghigh,alerthigh,rangelow,rangehigh,measurment,alertcount 
+    "BOOST": ["2", "Boost", 1, -10, -19, 20, 28, -20, 30, "psi", 0],
 }
 
 RST = 27
@@ -36,9 +36,16 @@ green_level = gaugeItems["BOOST"][3]
 red_level = gaugeItems["BOOST"][4]
 label = gaugeItems["BOOST"][1]
 
+# Adjust levels to be percentages of the total range
+range_span = max_value - min_value
+
+blue_level_percent = (blue_level - min_value) / range_span * 100
+green_level_percent = (green_level - min_value) / range_span * 100
+red_level_percent = (red_level - min_value) / range_span * 100
+
 # Function to convert value to angle
 def value_to_angle(value):
-    normalized_value = (value - min_value) / (max_value - min_value)
+    normalized_value = (value - min_value) / range_span
     return ANGLE_START - (ANGLE_START - ANGLE_END) * normalized_value
 
 # Draw the gauge segments
