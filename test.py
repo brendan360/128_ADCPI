@@ -6,6 +6,7 @@ sys.path.append('..')
 
 from lib import LCD_1inch28
 
+# Define gauge items
 gaugeItems = {
     "FUEL_PRESSURE": ["1", "Fuel Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
     "BOOST": ["2", "Boost", 1, 0, -19, 24, 28, -20, 30, "psi", 0],
@@ -17,6 +18,19 @@ gaugeItems = {
     "WIDEBAND02": ["8", "O2 AFR", 1, .5, 1, 1.5, 2, 0, 4, "A/F", 0]
 }
 
+# Define colors
+BACKGROUND_COLOR = (30, 30, 30)
+TEXT_COLOR_SELECTED = (255, 0, 0)
+TEXT_COLOR_NON_SELECTED1 = (255, 255, 255)  # White
+TEXT_COLOR_NON_SELECTED2 = (0, 0, 255)      # Blue
+FONT_SIZE = 24
+
+# Define fonts
+font = ImageFont.truetype("arial.ttf", FONT_SIZE)
+smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
+large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 20)
+
+# Initialize display
 RST = 27
 DC = 25
 BL = 18
@@ -28,18 +42,6 @@ disp.Init()
 
 # Constants for 240x240 screen
 WIDTH, HEIGHT = 240, 240
-
-# Colors
-BACKGROUND_COLOR = (30, 30, 30)
-TEXT_COLOR_SELECTED = (255, 0, 0)
-TEXT_COLOR_NON_SELECTED1 = (255, 255, 255)  # White
-TEXT_COLOR_NON_SELECTED2 = (0, 0, 255)      # Blue
-FONT_SIZE = 24
-
-# Fonts
-font = ImageFont.truetype("arial.ttf", FONT_SIZE)
-smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
-large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 20)
 
 # Initialize starting position for scrolling
 start_pos = 0
@@ -54,32 +56,25 @@ while True:
     selected_y = HEIGHT // 2 - 20
 
     # Draw menu items
-    for i in range(5):
+    for i in range(6):  # Include space for the "Back" item
         # Calculate index of current item
-        index = (start_pos + i) % len(gaugeItems)
+        if i == 5:
+            text = "Back"
+            text_color = TEXT_COLOR_SELECTED if i == 2 else TEXT_COLOR_NON_SELECTED1
+            text_font = large_font if i == 2 else font
+        else:
+            index = (start_pos + i) % len(gaugeItems)
+            text = gaugeItems[list(gaugeItems.keys())[index]][1]
+            text_color = TEXT_COLOR_SELECTED if i == 2 else TEXT_COLOR_NON_SELECTED1 if i == 1 or i == 3 else TEXT_COLOR_NON_SELECTED2
+            text_font = large_font if i == 2 else font if i == 1 or i == 3 else smallfont
 
         # Calculate text position
-        text_bbox = draw.textbbox((0, 0), gaugeItems[list(gaugeItems.keys())[index]][1], font=font)
+        text_bbox = draw.textbbox((0, 0), text, font=text_font)
         x = (WIDTH - text_bbox[2] - text_bbox[0]) // 2
-
-        # Calculate vertical position of item
         y = selected_y + (i - 2) * (text_bbox[3] - text_bbox[1] + 10)
 
-        # Determine text color based on selection
-        if i == 2:
-            text_color = TEXT_COLOR_SELECTED
-            text_font = large_font
-            # Move selected text slightly to the left
-            x -= 10
-        elif i == 1 or i == 3:
-            text_color = TEXT_COLOR_NON_SELECTED1
-            text_font = font
-        else:
-            text_color = TEXT_COLOR_NON_SELECTED2
-            text_font = smallfont
-
         # Draw text for menu items
-        draw.text((x, y), gaugeItems[list(gaugeItems.keys())[index]][1], fill=text_color, font=text_font)
+        draw.text((x, y), text, fill=text_color, font=text_font)
 
     # Show image on display
     disp.ShowImage(image)
