@@ -66,7 +66,10 @@ menu_stack = []
 
 # Button press event
 button_pressed = threading.Event()
-
+def setupDisplay():
+    image = Image.new("RGB", (disp.width, disp.height), "BLACK")
+    draw = ImageDraw.Draw(image)
+    return image,draw
 # Function to draw the menu
 def draw_menu(menu_items):
     global menu_indices
