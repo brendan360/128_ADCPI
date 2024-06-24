@@ -69,6 +69,8 @@ while True:
         if i == 2:
             text_color = TEXT_COLOR_SELECTED
             text_font = large_font
+            # Move selected text slightly to the left
+            x -= 10
         elif i == 1 or i == 3:
             text_color = TEXT_COLOR_NON_SELECTED1
             text_font = font
