@@ -32,7 +32,7 @@ ANGLE_START, ANGLE_END = 40, 320  # Angles for the 3/4 gauge arc (clockwise)
 min_value = gaugeItems["BOOST"][7]
 max_value = gaugeItems["BOOST"][8]
 blue_level = gaugeItems["BOOST"][3]
-green_level = 0
+green_level = gaugeItems["BOOST"][5]
 red_level = gaugeItems["BOOST"][6]
 label = gaugeItems["BOOST"][1]
 
