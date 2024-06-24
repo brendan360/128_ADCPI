@@ -566,7 +566,7 @@ def FUNCT_cliPrint():
 
 def FUNCT_updateValues():
     while True:
-        gaugeItems["BOOST"][2] = random.randint(0, 40)
+        gaugeItems["BOOST"][2] = random.randint(0, 30)
         gaugeItems["BLOCK_TEMP"][2] = random.randint(0,400)
         gaugeItems["FUEL_PRESSURE"][2] = random.randint(0, 150)
         gaugeItems["OIL_TEMP"][2] = random.randint(0, 400)
