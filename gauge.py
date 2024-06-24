@@ -599,11 +599,11 @@ def FUNCT_updateValues():
 #                   #
 ##################### 
 firstBoot()
-try:
-    threading.Thread(target=FUNCT_updateValues).start()
+#try:
+threading.Thread(target=FUNCT_updateValues).start()
   #  threading.Thread(target=FUNCT_cliPrint).start()
-    threading.Thread(target=draw_gauge, args=(BOOST)).start()
-except:
-    print("failed starting threads")
+threading.Thread(target=draw_gauge, args=(BOOST)).start()
+#except:
+ #   print("failed starting threads")
 #    reboot_pi()
     
