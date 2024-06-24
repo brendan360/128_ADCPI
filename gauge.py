@@ -283,13 +283,13 @@ def draw_value(draw, value):
 
 # Draw the bottom label
 def draw_label(draw, label):
-    font_label = ImageFont.truetype("arial.ttf", 24)  # Use a larger font size and specify a font
+    font_label = ImageFont.truetype("arial.ttf", 30)  # Use a larger font size and specify a font
     label_text = label
     label_bbox = draw.textbbox((0, 0), label_text, font=font_label)
     label_width = label_bbox[2] - label_bbox[0]
     label_height = label_bbox[3] - label_bbox[1]
     label_x = (WIDTH - label_width) // 2
-    label_y = HEIGHT - label_height - 50  # Positioned at the bottom of the image
+    label_y = HEIGHT - label_height - 60  # Positioned at the bottom of the image
     draw.text((label_x, label_y), label_text, fill='white', font=font_label)
 
 # Function to generate a random value and store it in gaugeItems
