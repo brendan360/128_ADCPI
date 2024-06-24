@@ -46,7 +46,7 @@ disp.Init()
 WIDTH, HEIGHT = 240, 240
 
 # Menu state
-current_menu = "level1"
+current_menu = "gauges"
 current_index = 0
 
 # Main loop
