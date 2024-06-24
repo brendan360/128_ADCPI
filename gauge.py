@@ -603,7 +603,7 @@ firstBoot()
 #try:
 threading.Thread(target=FUNCT_updateValues).start()
   #  threading.Thread(target=FUNCT_cliPrint).start()
-threading.Thread(target=draw_gauge, args=("COOLANT_PRESSURE",)).start()
+threading.Thread(target=draw_gauge, args=("WIDEBAND02",)).start()
 #except:
  #   print("failed starting threads")
 #    reboot_pi()
