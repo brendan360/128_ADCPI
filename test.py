@@ -31,8 +31,9 @@ WIDTH, HEIGHT = 240, 240
 
 # Colors
 BACKGROUND_COLOR = (30, 30, 30)
-TEXT_COLOR = (255, 255, 255)
-SELECTED_COLOR = (255, 0, 0)
+TEXT_COLOR_SELECTED = (255, 0, 0)
+TEXT_COLOR_NON_SELECTED1 = (255, 255, 255)  # White
+TEXT_COLOR_NON_SELECTED2 = (0, 0, 255)      # Blue
 FONT_SIZE = 24
 
 # Fonts
@@ -64,11 +65,19 @@ while True:
         # Calculate vertical position of item
         y = selected_y + (i - 2) * (text_bbox[3] - text_bbox[1] + 10)
 
-        # Draw text for menu items
+        # Determine text color based on selection
         if i == 2:
-            draw.text((x, y), gaugeItems[list(gaugeItems.keys())[index]][1], fill=SELECTED_COLOR, font=large_font)
+            text_color = TEXT_COLOR_SELECTED
+            text_font = large_font
+        elif i == 1 or i == 3:
+            text_color = TEXT_COLOR_NON_SELECTED1
+            text_font = font
         else:
-            draw.text((x, y), gaugeItems[list(gaugeItems.keys())[index]][1], fill=TEXT_COLOR, font=font)
+            text_color = TEXT_COLOR_NON_SELECTED2
+            text_font = smallfont
+
+        # Draw text for menu items
+        draw.text((x, y), gaugeItems[list(gaugeItems.keys())[index]][1], fill=text_color, font=text_font)
 
     # Show image on display
     disp.ShowImage(image)
