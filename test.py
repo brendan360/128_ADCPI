@@ -47,29 +47,26 @@ while True:
     image = Image.new('RGB', (WIDTH, HEIGHT), color=BACKGROUND_COLOR)
     draw = ImageDraw.Draw(image)
 
+    # Calculate vertical position of selected item
+    selected_y = HEIGHT // 2
+
     # Draw menu items
-    y = 10
     for i, (key, item) in enumerate(gaugeItems.items()):
         # Calculate text size and position
         text_width, text_height = draw.textsize(item[1], font=font)
         x = (WIDTH - text_width) // 2
 
+        # Calculate vertical position of item
+        y = selected_y + (i - start_pos) * (text_height + 10)
+
         # Highlight selected item
         if i == start_pos:
             # Draw selected item in larger font
             draw.text((x, y), item[1], fill=SELECTED_COLOR, font=large_font)
-        elif i == start_pos - 1 or i == start_pos + 1:
-            # Draw neighboring items with fading font size
-            fade_size = max(0, 20 - abs(start_pos - i) * 5)
-            fade_font = ImageFont.truetype("arial.ttf", FONT_SIZE + fade_size)
-            draw.text((x, y), item[1], fill=TEXT_COLOR, font=fade_font)
         else:
             # Draw other items with regular font size
             draw.text((x, y), item[1], fill=TEXT_COLOR, font=font)
         
-        # Increase vertical position
-        y += text_height + 10
-
     # Show image on display
     disp.ShowImage(image)
 
