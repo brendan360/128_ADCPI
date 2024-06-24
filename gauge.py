@@ -312,7 +312,7 @@ def draw_gauge(gauge_key):
 
     while True:
         # Generate a new random value
-        generate_random_value(gauge_key)
+#        generate_random_value(gauge_key)
         target_value = gaugeItems[gauge_key][2]
 
         # Animate the gauge from the previous value to the new random value
@@ -603,7 +603,7 @@ firstBoot()
 #try:
 threading.Thread(target=FUNCT_updateValues).start()
   #  threading.Thread(target=FUNCT_cliPrint).start()
-threading.Thread(target=draw_gauge, args=("BOOST",)).start()
+threading.Thread(target=draw_gauge, args=("COOLANT_PRESSURE",)).start()
 #except:
  #   print("failed starting threads")
 #    reboot_pi()
