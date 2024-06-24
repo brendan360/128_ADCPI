@@ -134,7 +134,6 @@ while True:
             disp.ShowImage(image)
 
             # Delay to create animation effect
-            time.sleep(0.02)  # Adjust the delay for smoother animation
 
             step += 1
     elif target_value < prev_value:
@@ -172,7 +171,6 @@ while True:
             disp.ShowImage(image)
 
             # Delay to create animation effect
-            time.sleep(0.02)  # Adjust the delay for smoother animation
 
             step -= 1
     else:
