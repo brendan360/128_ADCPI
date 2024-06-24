@@ -49,7 +49,7 @@ disp.Init()
 WIDTH, HEIGHT = 240, 240
 
 # Setup GPIO for button
-BUTTON_PIN = 36
+BUTTON_PIN = 40
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
