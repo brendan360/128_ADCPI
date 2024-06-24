@@ -10,7 +10,7 @@ from lib import LCD_1inch28
 
 gaugeItems = {
 #   NAME: adc read, display name, value, warninglow,alertlow,warninghigh,alerthigh,rangelow,rangehigh,measurment,alertcount 
-    "BOOST": ["2", "Boost", 1, -10, -19, 20, 28, -20, 30, "psi", 0],
+    "BOOST": ["2", "Boost", 1, 0, -19, 20, 28, -20, 30, "psi", 0],
 }
 
 RST = 27
