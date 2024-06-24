@@ -57,10 +57,11 @@ while True:
         index = (start_pos + i) % len(gaugeItems)
 
         # Calculate text position
-        x = (WIDTH - draw.textsize(gaugeItems[list(gaugeItems.keys())[index]][1], font=font)[0]) // 2
+        text_size = draw.textsize(gaugeItems[list(gaugeItems.keys())[index]][1], font=font)
+        x = (WIDTH - text_size[0]) // 2
 
         # Calculate vertical position of item
-        y = selected_y + (i - 2) * (draw.textsize(gaugeItems[list(gaugeItems.keys())[index]][1], font=font)[1] + 10)
+        y = selected_y + (i - 2) * (text_size[1] + 10)
 
         # Draw text for menu items
         if i == 2:
