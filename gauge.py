@@ -53,7 +53,7 @@ BL=18
 bus=0
 device = 0
 disp = LCD_1inch28.LCD_1inch28()
-rotation=0
+rotation=180
 
 # Constants for 240x240 screen
 WIDTH, HEIGHT = 240, 240
