@@ -66,7 +66,7 @@ while True:
         text_font = large_font if i == 2 else font if i == 1 or i == 3 else smallfont
         text_bbox = draw.textbbox((0, 0), text, font=text_font)
         x = (WIDTH - text_bbox[2] - text_bbox[0]) // 2
-        y = selected_y + (i - 2) * (text_bbox[3] - text_bbox[1] + 10)
+        y = selected_y + (i - 2) * (text_bbox[3] - text_bbox[1] + 20)
 
         # Draw text for menu items
         draw.text((x, y), text, fill=text_color, font=text_font)
