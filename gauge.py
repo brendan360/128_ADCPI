@@ -96,7 +96,7 @@ gaugeItems = {
   "COOLANT_TEMP":["5","H2O °C", 1, 10,15,99,110,0,150,"°C", 0],
   "OIL_PRESSURE":["6","Oil Pres.", 1, 10,15,99,110,0,150,"Kpa", 0],                
   "OIL_TEMP":["7","Oil °C", 1, 10,15,99,110,0,150,"°C", 0],
-  "WIDEBAND02":["8","O2 AFR", 1, 0,1,1.5,2,0,30,"A/F", 0]
+  "WIDEBAND02":["8","O2 AFR", 1, 0,1,1.5,2,0,3,"A/F", 0]
 }
 
 
@@ -272,7 +272,7 @@ def draw_needle(draw, value, min_value, max_value):
 
 # Draw the value display
 def draw_value(draw, value):
-    font_large = ImageFont.truetype("arial.ttf", 45)  # Use a larger font size and specify a font
+    font_large = ImageFont.truetype("arial.ttf", 40)  # Use a larger font size and specify a font
     text = str(value)
     text_bbox = draw.textbbox((0, 0), text, font=font_large)
     text_width = text_bbox[2] - text_bbox[0]
