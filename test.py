@@ -34,7 +34,9 @@ FONT_SIZE = 30
 font = ImageFont.truetype("arial.ttf", FONT_SIZE)
 smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
 large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 14)
-
+drawimage=setupDisplay()
+image=drawimage[0]
+draw=drawimage[1]
 # Initialize display
 RST = 27
 DC = 25
@@ -134,10 +136,10 @@ def button_callback(channel):
 GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=button_callback, bouncetime=300)
 
 # Main loop
-
+disp.Init()
 try:
+    disp.Init()
     while True:
-        disp.Init()
         # Scroll menu items until button is pressed
         start_time = time.time()
         while time.time() - start_time < 2:
