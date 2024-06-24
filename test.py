@@ -9,7 +9,7 @@ sys.path.append('..')
 from lib import LCD_1inch28
 
 gaugeItems = {
-#   NAME: adc read, display name, value, warninglow,alertlow,warninghigh,alerthigh,rangelow,rangehigh,measurment,alertcount 
+    # NAME: adc read, display name, value, warninglow, alertlow, warninghigh, alerthigh, rangelow, rangehigh, measurement, alertcount 
     "BOOST": ["2", "Boost", 1, 0, -19, 24, 28, -20, 30, "psi", 0],
 }
 
@@ -36,24 +36,15 @@ green_level = gaugeItems["BOOST"][5]
 red_level = gaugeItems["BOOST"][6]
 label = gaugeItems["BOOST"][1]
 
-# Adjust levels to be percentages of the total range
-range_span = max_value - min_value
-
-blue_level_percent = (blue_level - min_value) / range_span * 100
-green_level_percent = (green_level - min_value) / range_span * 100
-red_level_percent = (red_level - min_value) / range_span * 100
-
 # Function to convert value to angle
 def value_to_angle(value):
-    normalized_value = (value - min_value) / range_span
+    normalized_value = (value - min_value) / (max_value - min_value)
     return ANGLE_START - (ANGLE_START - ANGLE_END) * normalized_value
 
 # Draw the gauge segments
 def draw_gauge_segment(draw, start_value, end_value, color):
     start_angle = value_to_angle(start_value)
     end_angle = value_to_angle(end_value)
-    if end_angle < start_angle:
-        end_angle += 360
     draw.arc(
         (CENTER_X - RADIUS, CENTER_Y - RADIUS, CENTER_X + RADIUS, CENTER_Y + RADIUS),
         start=start_angle,
@@ -104,6 +95,9 @@ while True:
     # Generate a random target value within the range
     target_value = random.randint(min_value, max_value)
 
+    # Store the random value in gaugeItems["BOOST"][2]
+    gaugeItems["BOOST"][2] = target_value
+
     # Animate the gauge from the previous value to the new random value
     if target_value > prev_value:
         step = prev_value
@@ -140,7 +134,7 @@ while True:
             disp.ShowImage(image)
 
             # Delay to create animation effect
-          #  time.sleep(0.02)  # Adjust the delay for smoother animation
+            time.sleep(0.02)  # Adjust the delay for smoother animation
 
             step += 1
     elif target_value < prev_value:
@@ -178,7 +172,7 @@ while True:
             disp.ShowImage(image)
 
             # Delay to create animation effect
-         #   time.sleep(0.02)  # Adjust the delay for smoother animation
+            time.sleep(0.02)  # Adjust the delay for smoother animation
 
             step -= 1
     else:
@@ -186,4 +180,3 @@ while True:
 
     # Update the previous value
     prev_value = target_value
-
