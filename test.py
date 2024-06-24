@@ -56,20 +56,14 @@ while True:
     selected_y = HEIGHT // 2 - 20
 
     # Draw menu items
-    for i in range(6):  # Include space for the "Back" item
+    for i in range(5):
         # Calculate index of current item
-        if i == 5:
-            index = (start_pos + len(gaugeItems)) % len(gaugeItems)  # Calculate index for "Back" item
-            text = "Back"
-            text_color = TEXT_COLOR_SELECTED if i == 2 else TEXT_COLOR_NON_SELECTED1 if i == 1 or i == 3 else TEXT_COLOR_NON_SELECTED2
-            text_font = large_font if i == 2 else font if i == 1 or i == 3 else smallfont
-        else:
-            index = (start_pos + i) % len(gaugeItems)
-            text = gaugeItems[list(gaugeItems.keys())[index]][1]
-            text_color = TEXT_COLOR_SELECTED if i == 2 else TEXT_COLOR_NON_SELECTED1 if i == 1 or i == 3 else TEXT_COLOR_NON_SELECTED2
-            text_font = large_font if i == 2 else font if i == 1 or i == 3 else smallfont
+        index = (start_pos + i) % len(gaugeItems)
 
         # Calculate text position
+        text = gaugeItems[list(gaugeItems.keys())[index]][1]
+        text_color = TEXT_COLOR_SELECTED if i == 2 else TEXT_COLOR_NON_SELECTED1 if i == 1 or i == 3 else TEXT_COLOR_NON_SELECTED2
+        text_font = large_font if i == 2 else font if i == 1 or i == 3 else smallfont
         text_bbox = draw.textbbox((0, 0), text, font=text_font)
         x = (WIDTH - text_bbox[2] - text_bbox[0]) // 2
         y = selected_y + (i - 2) * (text_bbox[3] - text_bbox[1] + 10)
@@ -81,7 +75,7 @@ while True:
     disp.ShowImage(image)
 
     # Increment start position for scrolling effect
-    start_pos = (start_pos + 1) % (len(gaugeItems) + 1)  # Include space for the "Back" item
+    start_pos = (start_pos + 1) % len(gaugeItems)
 
     # Delay for scrolling effect
     time.sleep(0.5)
