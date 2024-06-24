@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 import time
 import sys
+import threading
 import RPi.GPIO as GPIO
 sys.path.append('..')
 
@@ -61,6 +62,9 @@ menu_indices = {
 }
 menu_stack = []
 
+# Button press event
+button_pressed = threading.Event()
+
 # Function to draw the menu
 def draw_menu(menu_items):
     global menu_indices
@@ -93,7 +97,9 @@ def draw_menu(menu_items):
 
 # Function to handle button press
 def button_callback(channel):
-    global current_menu, menu_stack
+    global current_menu, menu_stack, button_pressed
+
+    button_pressed.set()
 
     menu_items = []
     if current_menu == "level1":
@@ -130,21 +136,31 @@ GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=button_callback, bounce
 # Main loop
 try:
     while True:
-        # Get the current menu items based on the menu state
-        if current_menu == "level1":
-            menu_items = level1_menu
-        elif current_menu == "config":
-            menu_items = config_menu
-        elif current_menu == "gauges":
-            menu_items = gauge_menu
+        # Scroll menu items until button is pressed
+        start_time = time.time()
+        while time.time() - start_time < 2:
+            # Get the current menu items based on the menu state
+            if current_menu == "level1":
+                menu_items = level1_menu
+            elif current_menu == "config":
+                menu_items = config_menu
+            elif current_menu == "gauges":
+                menu_items = gauge_menu
 
-        # Draw the current menu
-        draw_menu(menu_items)
+            # Draw the current menu
+            draw_menu(menu_items)
 
-        # Simulate user input (up/down navigation)
-        # For real implementation, replace this with actual user input handling
-        time.sleep(1)  # Simulate delay for user input
-        menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)  # Simulate navigating down the menu
+            # Simulate user input (up/down navigation)
+            # For real implementation, replace this with actual user input handling
+            menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)  # Simulate navigating down the menu
+
+            # Delay for scrolling effect
+            time.sleep(0.5)
+
+            # Check if button was pressed
+            if button_pressed.is_set():
+                button_pressed.clear()
+                break
 
 finally:
     GPIO.cleanup()
