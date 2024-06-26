@@ -135,20 +135,24 @@ try:
             selected_item = menu_items[menu_indices[current_menu]]
 
             if selected_item == "Back":
-                current_menu = menu_stack.pop() if menu_stack else "level1"
-            elif current_menu == "level1":
-                if selected_item == "Gauges":
-                    menu_stack.append(current_menu)
-                    current_menu = "gauges"
-                elif selected_item == "QuadTemp":
-                    # Call QuadGAUGE function
-                    pass
-                elif selected_item == "Triple Stack":
-                    # Call TripleGAUGE function
-                    pass
-                elif selected_item == "Config":
-                    menu_stack.append(current_menu)
-                    current_menu = "config"
+                if menu_stack:
+                    previous_menu, previous_index = menu_stack.pop()
+                    current_menu = previous_menu
+                    menu_indices[current_menu] = previous_index
+            else:
+                if current_menu == "level1":
+                    if selected_item == "Gauges":
+                        menu_stack.append((current_menu, menu_indices[current_menu]))
+                        current_menu = "gauges"
+                    elif selected_item == "QuadTemp":
+                        # Call QuadGAUGE function
+                        pass
+                    elif selected_item == "Triple Stack":
+                        # Call TripleGAUGE function
+                        pass
+                    elif selected_item == "Config":
+                        menu_stack.append((current_menu, menu_indices[current_menu]))
+                        current_menu = "config"
 
             # Reset the index for new menu selection
             menu_indices[current_menu] = 0
