@@ -34,9 +34,7 @@ FONT_SIZE = 30
 font = ImageFont.truetype("arial.ttf", FONT_SIZE)
 smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
 large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 14)
-drawimage=setupDisplay()
-image=drawimage[0]
-draw=drawimage[1]
+
 # Initialize display
 RST = 27
 DC = 25
@@ -66,10 +64,7 @@ menu_stack = []
 
 # Button press event
 button_pressed = threading.Event()
-def setupDisplay():
-    image = Image.new("RGB", (disp.width, disp.height), "BLACK")
-    draw = ImageDraw.Draw(image)
-    return image,draw
+
 # Function to draw the menu
 def draw_menu(menu_items):
     global menu_indices
@@ -139,9 +134,7 @@ def button_callback(channel):
 GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=button_callback, bouncetime=300)
 
 # Main loop
-disp.Init()
 try:
-    disp.Init()
     while True:
         # Scroll menu items until button is pressed
         start_time = time.time()
