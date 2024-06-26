@@ -48,10 +48,12 @@ disp.Init()
 # Constants for 240x240 screen
 WIDTH, HEIGHT = 240, 240
 
-# Setup GPIO for button
-BUTTON_PIN = 40
+# Setup GPIO for buttons
+SCROLL_PIN = 38
+SELECT_PIN = 40
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(SCROLL_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(SELECT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # Menu state
 current_menu = "level1"
@@ -62,8 +64,9 @@ menu_indices = {
 }
 menu_stack = []
 
-# Button press event
-button_pressed = threading.Event()
+# Button press events
+scroll_pressed = threading.Event()
+select_pressed = threading.Event()
 
 # Function to draw the menu
 def draw_menu(menu_items):
@@ -95,72 +98,63 @@ def draw_menu(menu_items):
     # Show image on display
     disp.ShowImage(image)
 
-# Function to handle button press
-def button_callback(channel):
-    global current_menu, menu_stack, button_pressed
+# Function to handle scroll button press
+def scroll_callback(channel):
+    scroll_pressed.set()
 
-    button_pressed.set()
+# Function to handle select button press
+def select_callback(channel):
+    select_pressed.set()
 
-    menu_items = []
-    if current_menu == "level1":
-        menu_items = level1_menu
-    elif current_menu == "config":
-        menu_items = config_menu
-    elif current_menu == "gauges":
-        menu_items = gauge_menu
-
-    selected_item = menu_items[menu_indices[current_menu]]
-
-    if selected_item == "Back":
-        current_menu = menu_stack.pop() if menu_stack else "level1"
-    elif current_menu == "level1":
-        if selected_item == "Gauges":
-            menu_stack.append(current_menu)
-            current_menu = "gauges"
-        elif selected_item == "QuadTemp":
-            # Call QuadGAUGE function
-            pass
-        elif selected_item == "Triple Stack":
-            # Call TripleGAUGE function
-            pass
-        elif selected_item == "Config":
-            menu_stack.append(current_menu)
-            current_menu = "config"
-
-    # Reset the index for new menu selection
-    menu_indices[current_menu] = 0
-
-# Add event detection for button press
-GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=button_callback, bouncetime=300)
+# Add event detection for button presses
+GPIO.add_event_detect(SCROLL_PIN, GPIO.FALLING, callback=scroll_callback, bouncetime=300)
+GPIO.add_event_detect(SELECT_PIN, GPIO.FALLING, callback=select_callback, bouncetime=300)
 
 # Main loop
 try:
     while True:
-        # Scroll menu items until button is pressed
-        start_time = time.time()
-        while time.time() - start_time < 2:
-            # Get the current menu items based on the menu state
-            if current_menu == "level1":
-                menu_items = level1_menu
-            elif current_menu == "config":
-                menu_items = config_menu
-            elif current_menu == "gauges":
-                menu_items = gauge_menu
+        # Get the current menu items based on the menu state
+        if current_menu == "level1":
+            menu_items = level1_menu
+        elif current_menu == "config":
+            menu_items = config_menu
+        elif current_menu == "gauges":
+            menu_items = gauge_menu
 
-            # Draw the current menu
-            draw_menu(menu_items)
+        # Draw the current menu
+        draw_menu(menu_items)
 
-            # Simulate user input (up/down navigation)
-            # For real implementation, replace this with actual user input handling
-            menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)  # Simulate navigating down the menu
+        # Check for scroll button press
+        if scroll_pressed.is_set():
+            scroll_pressed.clear()
+            menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
 
-            # Delay for scrolling effect
-            time.sleep(1)
+        # Check for select button press
+        if select_pressed.is_set():
+            select_pressed.clear()
+            selected_item = menu_items[menu_indices[current_menu]]
 
-            # Check if button was pressed
-            if button_pressed.is_set():
-                button_pressed.clear()
-                break
+            if selected_item == "Back":
+                current_menu = menu_stack.pop() if menu_stack else "level1"
+            elif current_menu == "level1":
+                if selected_item == "Gauges":
+                    menu_stack.append(current_menu)
+                    current_menu = "gauges"
+                elif selected_item == "QuadTemp":
+                    # Call QuadGAUGE function
+                    pass
+                elif selected_item == "Triple Stack":
+                    # Call TripleGAUGE function
+                    pass
+                elif selected_item == "Config":
+                    menu_stack.append(current_menu)
+                    current_menu = "config"
+
+            # Reset the index for new menu selection
+            menu_indices[current_menu] = 0
+
+        # Delay to prevent high CPU usage
+        time.sleep(0.1)
 
 finally:
     GPIO.cleanup()
