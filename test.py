@@ -157,7 +157,7 @@ try:
             menu_indices[current_menu] = 0
 
         # Delay to prevent high CPU usage
-        time.sleep(0.1)
+
 
 finally:
     GPIO.cleanup()
