@@ -136,8 +136,7 @@ try:
 
             if selected_item == "Back":
                 if menu_stack:
-                    previous_menu, previous_index = menu_stack.pop()
-                    current_menu = previous_menu
+                    current_menu, previous_index = menu_stack.pop()
                     menu_indices[current_menu] = previous_index
             else:
                 if current_menu == "level1":
