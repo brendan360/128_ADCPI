@@ -62,7 +62,8 @@ menu_indices = {
     "config": 0,
     "gauges": 0
 }
-menu_stack = []
+previous_menu = None
+previous_index = None
 
 # Button press events
 scroll_pressed = threading.Event()
@@ -135,13 +136,15 @@ try:
             selected_item = menu_items[menu_indices[current_menu]]
 
             if selected_item == "Back":
-                if menu_stack:
-                    current_menu, previous_index = menu_stack.pop()
+                if previous_menu is not None:
+                    current_menu = previous_menu
                     menu_indices[current_menu] = previous_index
             else:
+                previous_menu = current_menu
+                previous_index = menu_indices[current_menu]
+
                 if current_menu == "level1":
                     if selected_item == "Gauges":
-                        menu_stack.append((current_menu, menu_indices[current_menu]))
                         current_menu = "gauges"
                     elif selected_item == "QuadTemp":
                         # Call QuadGAUGE function
@@ -150,14 +153,13 @@ try:
                         # Call TripleGAUGE function
                         pass
                     elif selected_item == "Config":
-                        menu_stack.append((current_menu, menu_indices[current_menu]))
                         current_menu = "config"
 
             # Reset the index for new menu selection
             menu_indices[current_menu] = 0
 
         # Delay to prevent high CPU usage
-
+        time.sleep(0.1)
 
 finally:
     GPIO.cleanup()
