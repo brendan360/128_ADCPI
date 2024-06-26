@@ -155,7 +155,7 @@ try:
             menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)  # Simulate navigating down the menu
 
             # Delay for scrolling effect
-            time.sleep(0.5)
+            time.sleep(1)
 
             # Check if button was pressed
             if button_pressed.is_set():
