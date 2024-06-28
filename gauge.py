@@ -109,9 +109,33 @@ def select_callback(channel):
 GPIO.add_event_detect(SCROLL_PIN, GPIO.FALLING, callback=scroll_callback, bouncetime=300)
 GPIO.add_event_detect(SELECT_PIN, GPIO.FALLING, callback=select_callback, bouncetime=300)
 
+# Dummy functions for gauge items
+def FUNCT_FUEL_PRESSURE():
+    print("Fuel Pressure Function")
+
+def FUNCT_BOOST():
+    print("Boost Function")
+
+def FUNCT_BLOCK_TEMP():
+    print("Engine Temp Function")
+
+def FUNCT_COOLANT_PRESSURE():
+    print("Coolant Pressure Function")
+
+def FUNCT_COOLANT_TEMP():
+    print("Coolant Temp Function")
+
+def FUNCT_OIL_PRESSURE():
+    print("Oil Pressure Function")
+
+def FUNCT_OIL_TEMP():
+    print("Oil Temp Function")
+
+def FUNCT_WIDEBAND02():
+    print("O2 AFR Function")
+
 # QUAD_TEMP_GAUGE function
 def QUAD_TEMP_GAUGE():
-    print("Fuel Pressure Function")
     while True:
         oilTemp = gaugeItems["OIL_TEMP"][2]
         coolantTemp = gaugeItems["COOLANT_TEMP"][2]
@@ -147,31 +171,6 @@ def QUAD_TEMP_GAUGE():
         disp.ShowImage(im_r)
         time.sleep(1)
 
-# Dummy functions for gauge items
-def FUNCT_FUEL_PRESSURE():
-    print("Fuel Pressure Function")
-
-def FUNCT_BOOST():
-    print("Boost Function")
-
-def FUNCT_BLOCK_TEMP():
-    print("Engine Temp Function")
-
-def FUNCT_COOLANT_PRESSURE():
-    print("Coolant Pressure Function")
-
-def FUNCT_COOLANT_TEMP():
-    print("Coolant Temp Function")
-
-def FUNCT_OIL_PRESSURE():
-    print("Oil Pressure Function")
-
-def FUNCT_OIL_TEMP():
-    print("Oil Temp Function")
-
-def FUNCT_WIDEBAND02():
-    print("O2 AFR Function")
-
 # Main loop
 try:
     while True:
@@ -198,32 +197,24 @@ try:
             selected_item = menu_items[selected_item_index]
 
             if selected_item == "Back":
-                if current_menu == "gauges" or current_menu == "config":
+                if current_menu == "config":
+                    current_menu = "level1"
+                elif current_menu == "gauges":
                     current_menu = "level1"
             else:
                 if current_menu == "level1":
                     if selected_item == "Gauges":
                         current_menu = "gauges"
                     elif selected_item == "QuadTemp":
-                        QUAD_TEMP_GAUGE()
+                        QUAD_TEMP_GAUGE()  # Call the QuadTemp function
                     elif selected_item == "Triple Stack":
-                        pass  # Add functionality for "Triple Stack"
+                        # Call Triple Stack function or perform actions
+                        print("Triple Stack selected")
                     elif selected_item == "Config":
                         current_menu = "config"
-                elif current_menu == "gauges":
-                    function_name = "FUNCT_" + gauge_keys[selected_item_index]
-                    if function_name in globals():
-                        globals()[function_name]()
                 elif current_menu == "config":
-                    if selected_item == "ipaddress":
-                        pass  # Add functionality for "ipaddress"
-                    elif selected_item == "reboot pi":
-                        pass  # Add functionality for "reboot pi"
-                    elif selected_item == "Back":
+                    if selected_item == "Back":
                         current_menu = "level1"
-
-        time.sleep(0.1)
 
 except KeyboardInterrupt:
     GPIO.cleanup()
-    print("Exiting...")
