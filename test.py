@@ -82,7 +82,7 @@ def draw_menu(menu_items):
     # Draw menu items
     for i in range(5):
         # Calculate index of current item
-        index = (menu_indices[current_menu] + i) % len(menu_items)
+        index = (menu_indices[current_menu] + i - 2) % len(menu_items)
 
         # Calculate text position
         text = menu_items[index]
@@ -157,12 +157,14 @@ try:
         # Check for select button press
         if select_pressed.is_set():
             select_pressed.clear()
-            selected_item = menu_items[menu_indices[current_menu]]
+            selected_item_index = (menu_indices[current_menu] - 2) % len(menu_items)
+            selected_item = menu_items[selected_item_index]
 
             if selected_item == "Back":
-                if menu_stack:
-                    current_menu, previous_index = menu_stack.pop()
-                    menu_indices[current_menu] = previous_index
+                if current_menu == "gauges":
+                    current_menu = "level1"
+                else:
+                    current_menu = menu_stack.pop() if menu_stack else "level1"
             else:
                 menu_stack.append((current_menu, menu_indices[current_menu]))
 
@@ -179,10 +181,9 @@ try:
                         current_menu = "config"
                 elif current_menu == "gauges":
                     # Call the corresponding function for the selected gauge
-                    if selected_item != "Back":  # Ensure we do not call a function when "Back" is selected
-                        gauge_function_name = "FUNCT_" + gauge_keys[menu_indices[current_menu]]
-                        if gauge_function_name in globals():
-                            globals()[gauge_function_name]()
+                    gauge_function_name = "FUNCT_" + gauge_keys[selected_item_index]
+                    if gauge_function_name in globals():
+                        globals()[gauge_function_name]()
 
             # Ensure the menu index remains valid
             menu_indices[current_menu] = menu_indices[current_menu] % len(menu_items)
