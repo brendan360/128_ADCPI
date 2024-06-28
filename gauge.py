@@ -136,6 +136,7 @@ def FUNCT_WIDEBAND02():
 
 # QUAD_TEMP_GAUGE function
 def QUAD_TEMP_GAUGE():
+    print("quad")
     while True:
         oilTemp = gaugeItems["OIL_TEMP"][2]
         coolantTemp = gaugeItems["COOLANT_TEMP"][2]
