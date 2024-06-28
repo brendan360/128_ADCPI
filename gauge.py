@@ -8,8 +8,11 @@ sys.path.append('..')
 from lib import LCD_1inch28
 
 # Define the menus
-level1_menu = ["Gauges", "QuadTemp", "Triple Stack", "Config"]
+level1_menu = ["Gauges", "Config"]
+multigauge_menu = ["QuadTemp", "Triple Stack", "Back"]
 config_menu = ["ipaddress", "reboot pi", "Back"]
+
+# Define gauge items
 gaugeItems = {
     "FUEL_PRESSURE": ["1", "Fuel Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
     "BOOST": ["2", "Boost", 1, 0, -19, 24, 28, -20, 30, "psi", 0],
@@ -20,6 +23,7 @@ gaugeItems = {
     "OIL_TEMP": ["7", "Oil °C", 1, 10, 15, 99, 110, 0, 150, "°C", 0],
     "WIDEBAND02": ["8", "O2 AFR", 1, .5, 1, 1.5, 2, 0, 4, "A/F", 0]
 }
+
 gauge_keys = list(gaugeItems.keys())
 gauge_menu = [gaugeItems[key][1] for key in gauge_keys] + ["Back"]
 
@@ -59,6 +63,7 @@ GPIO.setup(SELECT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 current_menu = "level1"
 menu_indices = {
     "level1": 0,
+    "multigauge": 0,
     "config": 0,
     "gauges": 0
 }
@@ -181,6 +186,8 @@ try:
         # Get the current menu items based on the menu state
         if current_menu == "level1":
             menu_items = level1_menu
+        elif current_menu == "multigauge":
+            menu_items = multigauge_menu
         elif current_menu == "config":
             menu_items = config_menu
         elif current_menu == "gauges":
@@ -201,20 +208,26 @@ try:
             selected_item = menu_items[selected_item_index]
 
             if selected_item == "Back":
-                if current_menu == "config":
+                if current_menu == "multigauge":
+                    current_menu = "level1"
+                elif current_menu == "config":
                     current_menu = "level1"
                 elif current_menu == "gauges":
                     current_menu = "level1"
-            else:
-                if current_menu == "level1":
-                    if selected_item == "Gauges":
-                        current_menu = "gauges"
-                    elif selected_item == "QuadTemp":
-                        QUAD_TEMP_GAUGE()
-                    elif selected_item == "Triple Stack":
-                        TRIPLE_STACK()
-                    elif selected_item == "Config":
-                        current_menu = "config"
+            elif current_menu == "level1":
+                if selected_item == "Gauges":
+                    current_menu = "gauges"
+                elif selected_item == "Config":
+                    current_menu = "config"
+            elif current_menu == "multigauge":
+                if selected_item == "QuadTemp":
+                    QUAD_TEMP_GAUGE()
+                elif selected_item == "Triple Stack":
+                    print("Ctripolen")
+
+            menu_indices[current_menu] = 0
+
+        time.sleep(0.1)
 
 except KeyboardInterrupt:
     GPIO.cleanup()
