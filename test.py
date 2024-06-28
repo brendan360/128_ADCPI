@@ -8,8 +8,11 @@ sys.path.append('..')
 from lib import LCD_1inch28
 
 # Define the menus
-level1_menu = ["Gauges", "QuadTemp", "Triple Stack", "Config"]
+level1_menu = ["Gauges", "MultiGauge", "Config"]
+multigauge_menu = ["QuadTemp", "Triple Stack", "Back"]
 config_menu = ["ipaddress", "reboot pi", "Back"]
+
+# Define gauge items
 gaugeItems = {
     "FUEL_PRESSURE": ["1", "Fuel Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
     "BOOST": ["2", "Boost", 1, 0, -19, 24, 28, -20, 30, "psi", 0],
@@ -20,6 +23,7 @@ gaugeItems = {
     "OIL_TEMP": ["7", "Oil °C", 1, 10, 15, 99, 110, 0, 150, "°C", 0],
     "WIDEBAND02": ["8", "O2 AFR", 1, .5, 1, 1.5, 2, 0, 4, "A/F", 0]
 }
+
 gauge_keys = list(gaugeItems.keys())
 gauge_menu = [gaugeItems[key][1] for key in gauge_keys] + ["Back"]
 
@@ -59,10 +63,10 @@ GPIO.setup(SELECT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 current_menu = "level1"
 menu_indices = {
     "level1": 0,
+    "multigauge": 0,
     "config": 0,
     "gauges": 0
 }
-previous_menu = None
 
 # Button press events
 scroll_pressed = threading.Event()
@@ -135,12 +139,55 @@ def FUNCT_OIL_TEMP():
 def FUNCT_WIDEBAND02():
     print("O2 AFR Function")
 
+# QUAD_TEMP_GAUGE function
+def QUAD_TEMP_GAUGE():
+    while True:
+        oilTemp = gaugeItems["OIL_TEMP"][2]
+        coolantTemp = gaugeItems["COOLANT_TEMP"][2]
+        blockTemp = gaugeItems["BLOCK_TEMP"][2]
+        boost = gaugeItems["BOOST"][2]
+        wideband = gaugeItems["WIDEBAND02"][2]
+    
+        image = Image.new('RGB', (WIDTH, HEIGHT), color=BACKGROUND_COLOR)
+        draw = ImageDraw.Draw(image)
+   
+        draw.text((36, 74), "Block Temp", font=smallfont, fill="RED")
+        draw.text((45, 30), str(blockTemp) + "°", font=font, fill="WHITE")
+
+        draw.text((145, 74), "Wideband", font=smallfont, fill="RED")
+        draw.text((130, 30), str(wideband), font=font, fill="WHITE")
+
+        draw.line([(0, 90), (240, 90)], fill="RED", width=3)
+
+        draw.text((42, 137), "Oil Temp", font=smallfont, fill="RED")
+        draw.text((42, 94), str(oilTemp) + "°", font=font, fill="WHITE")
+
+        draw.line([(120, 0), (120, 153)], fill="RED", width=3)
+
+        draw.text((150, 137), "Water Temp", font=smallfont, fill="RED")
+        draw.text((155, 94), str(coolantTemp) + "°", font=font, fill="WHITE")
+
+        draw.line([(0, 153), (240, 153)], fill="RED", width=3)
+
+        draw.text((100, 160), "BOOST", font=smallfont, fill="RED")
+        draw.text((90, 175), str(boost), font=large_font, fill="WHITE")
+
+        im_r = image.rotate(rotation)
+        disp.ShowImage(im_r)
+        time.sleep(1)
+
+# Function for Triple Stack
+def TRIPLE_STACK():
+    print("Triple Stack Function")
+
 # Main loop
 try:
     while True:
         # Get the current menu items based on the menu state
         if current_menu == "level1":
             menu_items = level1_menu
+        elif current_menu == "multigauge":
+            menu_items = multigauge_menu
         elif current_menu == "config":
             menu_items = config_menu
         elif current_menu == "gauges":
@@ -161,33 +208,26 @@ try:
             selected_item = menu_items[selected_item_index]
 
             if selected_item == "Back":
-                if current_menu == "gauges" or current_menu == "config":
+                if current_menu == "multigauge":
                     current_menu = "level1"
-            else:
-                previous_menu = current_menu
+                elif current_menu == "config":
+                    current_menu = "level1"
+            elif current_menu == "level1":
+                if selected_item == "Gauges":
+                    current_menu = "gauges"
+                elif selected_item == "MultiGauge":
+                    current_menu = "multigauge"
+                elif selected_item == "Config":
+                    current_menu = "config"
+            elif current_menu == "multigauge":
+                if selected_item == "QuadTemp":
+                    QUAD_TEMP_GAUGE()
+                elif selected_item == "Triple Stack":
+                    TRIPLE_STACK()
 
-                if current_menu == "level1":
-                    if selected_item == "Gauges":
-                        current_menu = "gauges"
-                    elif selected_item == "QuadTemp":
-                        # Call QuadGAUGE function
-                        pass
-                    elif selected_item == "Triple Stack":
-                        # Call TripleGAUGE function
-                        pass
-                    elif selected_item == "Config":
-                        current_menu = "config"
-                elif current_menu == "gauges":
-                    # Call the corresponding function for the selected gauge
-                    gauge_function_name = "FUNCT_" + gauge_keys[selected_item_index]
-                    if gauge_function_name in globals():
-                        globals()[gauge_function_name]()
+            menu_indices[current_menu] = 0
 
-            # Ensure the menu index remains valid
-            menu_indices[current_menu] = menu_indices[current_menu] % len(menu_items)
-
-        # Delay to prevent high CPU usage
         time.sleep(0.1)
 
-finally:
+except KeyboardInterrupt:
     GPIO.cleanup()
