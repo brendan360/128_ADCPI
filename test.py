@@ -62,8 +62,7 @@ menu_indices = {
     "config": 0,
     "gauges": 0
 }
-previous_menu = None
-previous_index = None
+menu_stack = []
 
 # Button press events
 scroll_pressed = threading.Event()
@@ -111,6 +110,31 @@ def select_callback(channel):
 GPIO.add_event_detect(SCROLL_PIN, GPIO.FALLING, callback=scroll_callback, bouncetime=300)
 GPIO.add_event_detect(SELECT_PIN, GPIO.FALLING, callback=select_callback, bouncetime=300)
 
+# Dummy functions for gauge items
+def FUNCT_FUEL_PRESSURE():
+    print("Fuel Pressure Function")
+
+def FUNCT_BOOST():
+    print("Boost Function")
+
+def FUNCT_BLOCK_TEMP():
+    print("Engine Temp Function")
+
+def FUNCT_COOLANT_PRESSURE():
+    print("Coolant Pressure Function")
+
+def FUNCT_COOLANT_TEMP():
+    print("Coolant Temp Function")
+
+def FUNCT_OIL_PRESSURE():
+    print("Oil Pressure Function")
+
+def FUNCT_OIL_TEMP():
+    print("Oil Temp Function")
+
+def FUNCT_WIDEBAND02():
+    print("O2 AFR Function")
+
 # Main loop
 try:
     while True:
@@ -136,12 +160,11 @@ try:
             selected_item = menu_items[menu_indices[current_menu]]
 
             if selected_item == "Back":
-                if previous_menu is not None:
-                    current_menu = previous_menu
+                if menu_stack:
+                    current_menu, previous_index = menu_stack.pop()
                     menu_indices[current_menu] = previous_index
-         #   else:
-            #    previous_menu = current_menu
-             #   previous_index = menu_indices[current_menu]
+            else:
+                menu_stack.append((current_menu, menu_indices[current_menu]))
 
                 if current_menu == "level1":
                     if selected_item == "Gauges":
@@ -154,6 +177,11 @@ try:
                         pass
                     elif selected_item == "Config":
                         current_menu = "config"
+                elif current_menu == "gauges":
+                    # Call the corresponding function for the selected gauge
+                    gauge_function_name = "FUNCT_" + gauge_keys[menu_indices[current_menu]]
+                    if gauge_function_name in globals():
+                        globals()[gauge_function_name]()
 
             # Reset the index for new menu selection
             menu_indices[current_menu] = 0
