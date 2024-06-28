@@ -179,12 +179,13 @@ try:
                         current_menu = "config"
                 elif current_menu == "gauges":
                     # Call the corresponding function for the selected gauge
-                    gauge_function_name = "FUNCT_" + gauge_keys[menu_indices[current_menu]]
-                    if gauge_function_name in globals():
-                        globals()[gauge_function_name]()
+                    if selected_item != "Back":  # Ensure we do not call a function when "Back" is selected
+                        gauge_function_name = "FUNCT_" + gauge_keys[menu_indices[current_menu]]
+                        if gauge_function_name in globals():
+                            globals()[gauge_function_name]()
 
-            # Reset the index for new menu selection
-            menu_indices[current_menu] = 0
+            # Ensure the menu index remains valid
+            menu_indices[current_menu] = menu_indices[current_menu] % len(menu_items)
 
         # Delay to prevent high CPU usage
         time.sleep(0.1)
