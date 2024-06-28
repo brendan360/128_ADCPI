@@ -207,7 +207,7 @@ try:
                     if selected_item == "Gauges":
                         current_menu = "gauges"
                     elif selected_item == "QuadTemp":
-                        QUAD_TEMP_GAUGE()  # Call the QuadTemp function
+                        print("Traaaaaple Stack selected")
                     elif selected_item == "Triple Stack":
                         # Call Triple Stack function or perform actions
                         print("Triple Stack selected")
