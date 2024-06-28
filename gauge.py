@@ -8,7 +8,7 @@ sys.path.append('..')
 from lib import LCD_1inch28
 
 # Define the menus
-level1_menu = ["Gauges", "Config"]
+level1_menu = ["Gauges", "MultiGauge", "Config"]
 multigauge_menu = ["QuadTemp", "Triple Stack", "Back"]
 config_menu = ["ipaddress", "reboot pi", "Back"]
 
@@ -212,11 +212,11 @@ try:
                     current_menu = "level1"
                 elif current_menu == "config":
                     current_menu = "level1"
-                elif current_menu == "gauges":
-                    current_menu = "level1"
             elif current_menu == "level1":
                 if selected_item == "Gauges":
                     current_menu = "gauges"
+                elif selected_item == "MultiGauge":
+                    current_menu = "multigauge"
                 elif selected_item == "Config":
                     current_menu = "config"
             elif current_menu == "multigauge":
