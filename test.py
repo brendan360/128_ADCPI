@@ -139,9 +139,9 @@ try:
                 if previous_menu is not None:
                     current_menu = previous_menu
                     menu_indices[current_menu] = previous_index
-            else:
-                previous_menu = current_menu
-                previous_index = menu_indices[current_menu]
+         #   else:
+            #    previous_menu = current_menu
+             #   previous_index = menu_indices[current_menu]
 
                 if current_menu == "level1":
                     if selected_item == "Gauges":
