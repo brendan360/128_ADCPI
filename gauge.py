@@ -136,7 +136,6 @@ def FUNCT_WIDEBAND02():
 
 # QUAD_TEMP_GAUGE function
 def QUAD_TEMP_GAUGE():
-    print("quad")
     while True:
         oilTemp = gaugeItems["OIL_TEMP"][2]
         coolantTemp = gaugeItems["COOLANT_TEMP"][2]
@@ -207,9 +206,8 @@ try:
                     if selected_item == "Gauges":
                         current_menu = "gauges"
                     elif selected_item == "QuadTemp":
-                        print("Traaaaaple Stack selected")
+                        QUAD_TEMP_GAUGE()  # Call the QuadTemp function
                     elif selected_item == "Triple Stack":
-                        # Call Triple Stack function or perform actions
                         print("Triple Stack selected")
                     elif selected_item == "Config":
                         current_menu = "config"
