@@ -111,6 +111,7 @@ GPIO.add_event_detect(SELECT_PIN, GPIO.FALLING, callback=select_callback, bounce
 
 # QUAD_TEMP_GAUGE function
 def QUAD_TEMP_GAUGE():
+    print("Fuel Pressure Function")
     while True:
         oilTemp = gaugeItems["OIL_TEMP"][2]
         coolantTemp = gaugeItems["COOLANT_TEMP"][2]
