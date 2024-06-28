@@ -171,6 +171,10 @@ def QUAD_TEMP_GAUGE():
         disp.ShowImage(im_r)
         time.sleep(1)
 
+# Function for Triple Stack
+def TRIPLE_STACK():
+    print("Triple Stack Function")
+
 # Main loop
 try:
     while True:
@@ -206,14 +210,11 @@ try:
                     if selected_item == "Gauges":
                         current_menu = "gauges"
                     elif selected_item == "QuadTemp":
-                        QUAD_TEMP_GAUGE()  # Call the QuadTemp function
+                        QUAD_TEMP_GAUGE()
                     elif selected_item == "Triple Stack":
-                        print("Triple Stack selected")
+                        TRIPLE_STACK()
                     elif selected_item == "Config":
                         current_menu = "config"
-                elif current_menu == "config":
-                    if selected_item == "Back":
-                        current_menu = "level1"
 
 except KeyboardInterrupt:
     GPIO.cleanup()
