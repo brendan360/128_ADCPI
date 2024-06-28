@@ -62,7 +62,7 @@ menu_indices = {
     "config": 0,
     "gauges": 0
 }
-menu_stack = []
+previous_menu = None
 
 # Button press events
 scroll_pressed = threading.Event()
@@ -157,16 +157,14 @@ try:
         # Check for select button press
         if select_pressed.is_set():
             select_pressed.clear()
-            selected_item_index = (menu_indices[current_menu] - 2) % len(menu_items)
+            selected_item_index = (menu_indices[current_menu]) % len(menu_items)
             selected_item = menu_items[selected_item_index]
 
             if selected_item == "Back":
-                if current_menu == "gauges":
+                if current_menu == "gauges" or current_menu == "config":
                     current_menu = "level1"
-                else:
-                    current_menu = menu_stack.pop() if menu_stack else "level1"
             else:
-                menu_stack.append((current_menu, menu_indices[current_menu]))
+                previous_menu = current_menu
 
                 if current_menu == "level1":
                     if selected_item == "Gauges":
