@@ -223,7 +223,7 @@ try:
                 if selected_item == "QuadTemp":
                     QUAD_TEMP_GAUGE()
                 elif selected_item == "Triple Stack":
-                    print("Ctripolen")
+                    TRIPLE_STACK()
 
             menu_indices[current_menu] = 0
 
