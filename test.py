@@ -263,14 +263,21 @@ def draw_gauge(gauge_key):
     prev_value = min_value
 
     while True:
+        if select_pressed.is_set():
+            select_pressed.clear()
+            break  # Exit the function to return to the menu
+
         # Generate a new random value
-#        generate_random_value(gauge_key)
         target_value = gaugeItems[gauge_key][2]
 
         # Animate the gauge from the previous value to the new random value
         if target_value > prev_value:
             step = prev_value
             while step <= target_value:
+                if select_pressed.is_set():
+                    select_pressed.clear()
+                    return  # Exit the function to return to the menu
+
                 # Initialize the image and drawing context for each step
                 image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
                 draw = ImageDraw.Draw(image)
@@ -300,15 +307,18 @@ def draw_gauge(gauge_key):
                 draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
 
                 # Show the updated image
-                im_r=image.rotate(rotation)
+                im_r = image.rotate(rotation)
                 disp.ShowImage(im_r)
 
                 # Delay to create animation effect
-                
                 step += 1
         elif target_value < prev_value:
             step = prev_value
             while step >= target_value:
+                if select_pressed.is_set():
+                    select_pressed.clear()
+                    return  # Exit the function to return to the menu
+
                 # Initialize the image and drawing context for each step
                 image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
                 draw = ImageDraw.Draw(image)
@@ -338,19 +348,16 @@ def draw_gauge(gauge_key):
                 draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
 
                 # Show the updated image
-                im_r=image.rotate(rotation)
+                im_r = image.rotate(rotation)
                 disp.ShowImage(im_r)
 
                 # Delay to create animation effect
-
-
                 step -= 1
         else:
             continue  # If target_value equals prev_value, no animation needed
 
         # Update the previous value
         prev_value = target_value
-
 
 
 
