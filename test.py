@@ -341,12 +341,6 @@ def draw_gauge(gauge_key):
 
 
 
-
-
-
-
-
-
 # Button press events
 scroll_pressed = threading.Event()
 select_pressed = threading.Event()
@@ -399,6 +393,7 @@ def FUNCT_FUEL_PRESSURE():
 
 def FUNCT_BOOST():
     print("Boost Function")
+    draw_gauge(boost)
 
 def FUNCT_BLOCK_TEMP():
     print("Engine Temp Function")
