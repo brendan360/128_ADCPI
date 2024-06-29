@@ -12,6 +12,13 @@ level1_menu = ["Gauges", "MultiGauge", "Config"]
 multigauge_menu = ["QuadTemp", "Triple Stack", "Back"]
 config_menu = ["ipaddress", "reboot pi", "Back"]
 
+# Constants for 240x240 screen
+WIDTH, HEIGHT = 240, 240
+CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
+RADIUS = 120  # Increased radius
+ANGLE_START, ANGLE_END = 40, 320  # Angles for the 3/4 gauge arc (clockwise)
+
+
 # Define gauge items
 gaugeItems = {
     "FUEL_PRESSURE": ["1", "Fuel Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
