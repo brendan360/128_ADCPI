@@ -393,7 +393,7 @@ def FUNCT_FUEL_PRESSURE():
 
 def FUNCT_BOOST():
     print("Boost Function")
-    draw_gauge(boost)
+    draw_gauge(BOOST)
 
 def FUNCT_BLOCK_TEMP():
     print("Engine Temp Function")
