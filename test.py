@@ -143,15 +143,19 @@ def FUNCT_WIDEBAND02():
 def QUAD_TEMP_GAUGE():
     print("Quad Temp Gauge Function")  # Debug print
     while True:
+        if select_pressed.is_set():
+            select_pressed.clear()
+            break
+
         oilTemp = gaugeItems["OIL_TEMP"][2]
         coolantTemp = gaugeItems["COOLANT_TEMP"][2]
         blockTemp = gaugeItems["BLOCK_TEMP"][2]
         boost = gaugeItems["BOOST"][2]
         wideband = gaugeItems["WIDEBAND02"][2]
-    
+
         image = Image.new('RGB', (WIDTH, HEIGHT), color=BACKGROUND_COLOR)
         draw = ImageDraw.Draw(image)
-   
+
         draw.text((36, 74), "Block Temp", font=smallfont, fill="RED")
         draw.text((45, 30), str(blockTemp) + "°", font=font, fill="WHITE")
 
@@ -175,11 +179,17 @@ def QUAD_TEMP_GAUGE():
 
         im_r = image.rotate(rotation)
         disp.ShowImage(im_r)
-        time.sleep(1)
+        time.sleep(0.1)
 
 # Function for Triple Stack
 def TRIPLE_STACK():
     print("Triple Stack Function")
+    while True:
+        if select_pressed.is_set():
+            select_pressed.clear()
+            break
+        # Display logic for Triple Stack
+        time.sleep(0.1)
 
 # Function to execute gauge function based on selection
 def execute_gauge_function(selected_item):
@@ -219,9 +229,7 @@ try:
             print(f"Selected item: {selected_item}")  # Debug print
 
             if selected_item == "Back":
-                if current_menu == "multigauge" or current_menu == "config":
-                    current_menu = "level1"
-                elif current_menu == "gauges":
+                if current_menu == "multigauge" or current_menu == "config" or current_menu == "gauges":
                     current_menu = "level1"
             elif current_menu == "level1":
                 if selected_item == "Gauges":
