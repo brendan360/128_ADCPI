@@ -177,7 +177,7 @@ def QUAD_TEMP_GAUGE():
         draw.text((100, 160), "BOOST", font=smallfont, fill="RED")
         draw.text((90, 175), str(boost), font=large_font, fill="WHITE")
 
-        im_r = image.rotate(rotation)
+  #     im_r = image.rotate(rotation)
         disp.ShowImage(im_r)
         time.sleep(0.1)
 
