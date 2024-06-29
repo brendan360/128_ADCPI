@@ -1,9 +1,10 @@
+from __future__ import absolute_import, division, print_function, unicode_literals
 from PIL import Image, ImageDraw, ImageFont
 import time
 import sys
 import threading
 import RPi.GPIO as GPIO
-from __future__ import absolute_import, division, print_function, unicode_literals
+
 import time
 import os
 import sys
