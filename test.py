@@ -218,17 +218,13 @@ try:
             selected_item = menu_items[menu_indices[current_menu]]
 
             if selected_item == "Back":
-                if current_menu == "config" or current_menu == "multigauge" or current_menu == "gauges":
-                    current_menu = "level1"
-                else:
-                    current_menu = "level1"
-            elif current_menu == "level1":
-                if selected_item == "Gauges":
-                    current_menu = "gauges"
-                elif selected_item == "MultiGauge":
-                    current_menu = "multigauge"
-                elif selected_item == "Config":
-                    current_menu = "config"
+                current_menu = "level1"
+            elif current_menu == "Gauges":
+                current_menu = "gauges"
+            elif current_menu == "MultiGauge":
+                current_menu = "multigauge"
+            elif current_menu == "Config":
+                current_menu = "config"
             elif current_menu == "multigauge":
                 if selected_item == "QuadTemp":
                     QUAD_TEMP_GAUGE()
