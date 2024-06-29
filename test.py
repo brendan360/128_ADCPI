@@ -141,6 +141,7 @@ def FUNCT_WIDEBAND02():
 
 # QUAD_TEMP_GAUGE function
 def QUAD_TEMP_GAUGE():
+    print("Quad Temp Gauge Function")  # Debug print
     while True:
         oilTemp = gaugeItems["OIL_TEMP"][2]
         coolantTemp = gaugeItems["COOLANT_TEMP"][2]
@@ -180,6 +181,15 @@ def QUAD_TEMP_GAUGE():
 def TRIPLE_STACK():
     print("Triple Stack Function")
 
+# Function to execute gauge function based on selection
+def execute_gauge_function(selected_item):
+    func_name = "FUNCT_" + selected_item.replace(" ", "_").upper()
+    if func_name in globals():
+        print(f"Executing function: {func_name}")
+        globals()[func_name]()
+    else:
+        print(f"No function found for: {func_name}")
+
 # Main loop
 try:
     while True:
@@ -204,13 +214,13 @@ try:
         # Check for select button press
         if select_pressed.is_set():
             select_pressed.clear()
-            selected_item_index = (menu_indices[current_menu]) % len(menu_items)
-            selected_item = menu_items[selected_item_index]
+
+            selected_item = menu_items[menu_indices[current_menu]]
 
             if selected_item == "Back":
-                if current_menu == "multigauge":
+                if current_menu == "config" or current_menu == "multigauge" or current_menu == "gauges":
                     current_menu = "level1"
-                elif current_menu == "config":
+                else:
                     current_menu = "level1"
             elif current_menu == "level1":
                 if selected_item == "Gauges":
@@ -224,6 +234,8 @@ try:
                     QUAD_TEMP_GAUGE()
                 elif selected_item == "Triple Stack":
                     TRIPLE_STACK()
+            elif current_menu == "gauges":
+                execute_gauge_function(selected_item)
 
             menu_indices[current_menu] = 0
 
