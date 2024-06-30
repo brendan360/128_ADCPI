@@ -586,13 +586,23 @@ def FUNCT_IP_ADDRESS():
     time.sleep(5)
     draw_menu(config_menu)
 
-
-
+def firstBoot():
+    disp.Init()
+    bootcount=0
+    while bootcount <7 :
+        bootdots="."*bootcount
+        bootext="Booting"+bootdots
+        highlightDisplay(bootext,"")
+        time.sleep(.3)
+        bootcount+=1
+    image=Image.open('/home/pi/128_ADCPI/logo.jpg')
+    im_r=image.rotate(rotation)
+    disp.ShowImage(im_r)
+    time.sleep(3)
 
 
 
 def FUNCT_updateValues():
-    print("starting update thread")
     while True:
         gaugeItems["BOOST"][2] = random.randint(0, 30)
         gaugeItems["BLOCK_TEMP"][2] = random.randint(0,400)
@@ -617,7 +627,6 @@ def FUNCT_updateValues():
 
 def FUNCT_cliPrint():
     while True:
-
        os.system('clear')
        print(tabulate([[gaugeItems["BOOST"][2],gaugeItems["FUEL_PRESSURE"][2],gaugeItems["BLOCK_TEMP"][2],gaugeItems["COOLANT_PRESSURE"][2],gaugeItems["COOLANT_TEMP"][2],gaugeItems["OIL_PRESSURE"][2],gaugeItems["OIL_TEMP"][2],gaugeItems["WIDEBAND02"][2]],[]],headers=[gaugeItems["BOOST"][1],gaugeItems["FUEL_PRESSURE"][1],gaugeItems["BLOCK_TEMP"][1],gaugeItems["COOLANT_PRESSURE"][1],gaugeItems["COOLANT_TEMP"][1],gaugeItems["OIL_PRESSURE"][1],gaugeItems["OIL_TEMP"][1],gaugeItems["WIDEBAND02"][1]],  tablefmt='orgtbl'))
        time.sleep(.5)
@@ -631,9 +640,8 @@ def FUNCT_cliPrint():
 
 
 
-
+firstBoot()
 try:
-
     threading.Thread(target=FUNCT_updateValues).start()
     threading.Thread(target=FUNCT_cliPrint).start()
     while True:
