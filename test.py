@@ -565,6 +565,7 @@ def FUNCT_REBOOT_PI():
         disp.ShowImage(im_r)
         time.sleep(1.5)
         tempcount+=1
+        print(tempcount)
     if tempcount == 10:
         os.system('sudo reboot')
   
