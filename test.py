@@ -23,7 +23,7 @@ WIDTH, HEIGHT = 240, 240
 CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 RADIUS = 120  # Increased radius
 ANGLE_START, ANGLE_END = 40, 320  # Angles for the 3/4 gauge arc (clockwise)
-rotation = 180
+rotation = 0
 
 
 # Define gauge items
