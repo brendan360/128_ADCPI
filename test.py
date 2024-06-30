@@ -602,7 +602,7 @@ def FUNCT_updateValues():
         gaugeItems["OIL_PRESSURE"][2] = random.randint(0, 200)
         gaugeItems["WIDEBAND02"][2] = (random.randint(0, 389)/100)
         
-        time.sleep(3)
+        time.sleep(1)
 #    FUNCT_coolant_pres()   
 #    FUNCT_coolant_temp()
 #    FUNCT_oil_pres()
