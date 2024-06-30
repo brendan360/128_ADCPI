@@ -556,7 +556,6 @@ def FUNCT_REBOOT_PI():
     while tempcount <=10:
         if select_pressed.is_set():
             select_pressed.clear()
-            break
         diedots="."*tempcount
         draw.text((60,30),diedots, font=font1, fill=255)
         im_r=image.rotate(rotation)
