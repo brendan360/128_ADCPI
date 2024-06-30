@@ -620,8 +620,10 @@ def FUNCT_updateValues():
 
 
 
-threading.Thread(target=FUNCT_updateValues).start()
+
 try:
+
+    threading.Thread(target=FUNCT_updateValues).start()
     while True:
         # Get the current menu items based on the menu state
         if current_menu == "level1":
