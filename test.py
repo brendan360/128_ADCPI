@@ -148,7 +148,7 @@ def highlightDisplay(TEXT,hightext):
     draw.text((70,30),hightext, fill = "WHITE", font=font2)
     draw.text((15,95),TEXT, fill = "WHITE", font =font)
     im_r=image.rotate(rotation)
-    disp.ShowImage(im_r
+    disp.ShowImage(im_r)
 
 
 
