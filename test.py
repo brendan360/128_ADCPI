@@ -411,6 +411,7 @@ GPIO.add_event_detect(SELECT_PIN, GPIO.FALLING, callback=select_callback, bounce
 # Dummy functions for gauge items
 def FUNCT_FUEL_PRESSURE():
     print("Fuel Pressure Function")
+    draw_gauge("FUEL_PRESSURE")
 
 def FUNCT_BOOST():
     print("Boost Function")
@@ -418,21 +419,27 @@ def FUNCT_BOOST():
 
 def FUNCT_BLOCK_TEMP():
     print("Engine Temp Function")
+    draw_gauge("BLOCK_TEMP")
 
 def FUNCT_COOLANT_PRESSURE():
     print("Coolant Pressure Function")
+    draw_gauge("COOLANT_PRESSURE")
 
 def FUNCT_COOLANT_TEMP():
     print("Coolant Temp Function")
+    draw_gauge("COOLANT_TEMP")
 
 def FUNCT_OIL_PRESSURE():
     print("Oil Pressure Function")
+    draw_gauge("OIL_PRESSURE")
 
 def FUNCT_OIL_TEMP():
     print("Oil Temp Function")
+    draw_gauge("OIL_TEMP")
 
 def FUNCT_WIDEBAND02():
     print("O2 AFR Function")
+    draw_gauge("WIDEBAND02")
 
 # QUAD_TEMP_GAUGE function
 def QUAD_TEMP_GAUGE():
