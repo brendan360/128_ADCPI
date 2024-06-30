@@ -554,7 +554,8 @@ def FUNCT_REBOOT_PI():
     time.sleep(5) 
     
     while tempcount <=10:
-        while != select_pressed.is_set():
+        if select_pressed.is_set():
+              select_pressed.clear()
               draw_menu(config_menu)
         diedots="."*tempcount
         draw.text((60,30),diedots, font=font1, fill=255)
