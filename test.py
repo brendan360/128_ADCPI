@@ -563,7 +563,7 @@ def FUNCT_REBOOT_PI():
         disp.ShowImage(im_r)
         time.sleep(1)
         tempcount+=1
-    if tempcount == 10
+    if tempcount == 10:
         os.system('sudo reboot')
   
 def getIpAddress():
