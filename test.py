@@ -554,9 +554,8 @@ def FUNCT_REBOOT_PI():
     time.sleep(5) 
     
     while tempcount <=10:
-        buttonState=GPIO.input(SW)
-        if buttonState == False:
-            menuloop(4,topmenu)
+        while != select_pressed.is_set():
+              draw_menu(config_menu)
         diedots="."*tempcount
         draw.text((60,30),diedots, font=font1, fill=255)
         im_r=image.rotate(rotation)
