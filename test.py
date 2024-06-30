@@ -551,7 +551,7 @@ def FUNCT_REBOOT_PI():
     draw.text((60,30),"..........", font=font1, fill="WHITE")
     im_r=image.rotate(rotation)
     disp.ShowImage(im_r)
-    time.sleep(5) 
+    time.sleep(1) 
     
     while tempcount <=10:
         if select_pressed.is_set():
@@ -562,7 +562,7 @@ def FUNCT_REBOOT_PI():
         draw.text((60,30),diedots, font=font1, fill=255)
         im_r=image.rotate(rotation)
         disp.ShowImage(im_r)
-        time.sleep(1)
+        time.sleep(1.5)
         tempcount+=1
     if tempcount == 10:
         os.system('sudo reboot')
