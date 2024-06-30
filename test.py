@@ -581,7 +581,7 @@ def FUNCT_IP_ADDRESS():
     IP=getIpAddress()
     highlightDisplay(IP,"Car Guage")
     time.sleep(5)
-    menuloop(0,configmenu)
+    draw_menu(config_menu)
 
 
 
