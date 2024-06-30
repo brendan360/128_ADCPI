@@ -683,7 +683,7 @@ try:
 
             menu_indices[current_menu] = 0
 
-        time.sleep(0.1)
+        time.sleep(0.001)
 
 except KeyboardInterrupt:
     GPIO.cleanup()
