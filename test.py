@@ -525,7 +525,7 @@ def execute_gauge_function(selected_item):
         print(f"No function found for: {func_name}")
 
 
-def execute_gauge_function(selected_item):
+def execute_config_function(selected_item):
     func_name = "FUNCT_" + selected_item.replace(" ", "_").upper()
         
     if func_name in globals():
