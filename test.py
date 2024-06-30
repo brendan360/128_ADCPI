@@ -590,6 +590,7 @@ def FUNCT_IP_ADDRESS():
 
 
 def FUNCT_updateValues():
+    print("starting update thread")
     while True:
         gaugeItems["BOOST"][2] = random.randint(0, 30)
         gaugeItems["BLOCK_TEMP"][2] = random.randint(0,400)
