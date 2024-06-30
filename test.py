@@ -496,6 +496,9 @@ def TRIPLE_STACK():
 # Function to execute gauge function based on selection
 def execute_gauge_function(selected_item):
     func_name = "FUNCT_" + selected_item.replace(" ", "_").upper()
+    if func_name =="FUNCT_H2O_PRES.":
+        func_name=FUNCT_FUEL_PRESSURE
+        
     if func_name in globals():
         print(f"Executing function: {func_name}")
         globals()[func_name]()
