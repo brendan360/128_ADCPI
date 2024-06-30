@@ -50,6 +50,11 @@ FONT_SIZE = 30
 
 # Define fonts
 font = ImageFont.truetype("arial.ttf", FONT_SIZE)
+font1 = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 42)
+font2 = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 20)
+font3 = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 12)
+gfont = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 54)
+
 smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
 large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 14)
 
@@ -145,7 +150,7 @@ def highlightDisplay(TEXT,hightext):
     draw=drawimage[1]
     ##(accross screen),(upand down))(100,100 is centre)
     draw.text((70,30),hightext, fill = "WHITE", font=font2)
-    draw.text((15,95),TEXT, fill = "WHITE", font =font)
+    draw.text((15,95),TEXT, fill = "WHITE", font =font1)
     im_r=image.rotate(rotation)
     disp.ShowImage(im_r)
 
@@ -540,10 +545,10 @@ def FUNCT_REBOOT_PI():
     drawimage=setupDisplay()
     image=drawimage[0]
     draw=drawimage[1]
-    draw.text((30,85),"REBOOT", font=font, fill=255)
+    draw.text((30,85),"REBOOT", font=font1, fill=255)
     draw.text((20,150),"Press button to cancel",font=font2, fill="WHITE")
     tempcount=0
-    draw.text((60,30),"..........", font=font, fill="WHITE")
+    draw.text((60,30),"..........", font=font1, fill="WHITE")
     im_r=image.rotate(rotation)
     disp.ShowImage(im_r)
     time.sleep(5) 
@@ -553,7 +558,7 @@ def FUNCT_REBOOT_PI():
         if buttonState == False:
             menuloop(4,topmenu)
         diedots="."*tempcount
-        draw.text((60,30),diedots, font=font, fill=255)
+        draw.text((60,30),diedots, font=font1, fill=255)
         im_r=image.rotate(rotation)
         disp.ShowImage(im_r)
         time.sleep(1)
