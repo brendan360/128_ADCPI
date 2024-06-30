@@ -17,7 +17,7 @@ from lib import LCD_1inch28
 # Define the menus
 level1_menu = ["Gauges", "MultiGauge", "Config"]
 multigauge_menu = ["QuadTemp", "Triple Stack", "Back"]
-config_menu = ["ipaddress", "reboot pi", "Back"]
+config_menu = ["ip address", "reboot pi", "Back"]
 
 # Constants for 240x240 screen
 WIDTH, HEIGHT = 240, 240
@@ -129,6 +129,26 @@ CONST_oilTempresistorRoomTemp = 2480.0
 CONST_AFR_minVoltage=.68
 CONST_AFT_maxVoltage=1.36
 
+
+
+
+def clearDisplay():
+    disp.clear()
+
+def setupDisplay():
+    image = Image.new("RGB", (disp.width, disp.height), "BLACK")
+    draw = ImageDraw.Draw(image)
+    return image,draw
+
+def highlightDisplay(TEXT,hightext):
+    drawimage=setupDisplay()
+    image=drawimage[0]
+    draw=drawimage[1]
+    ##(accross screen),(upand down))(100,100 is centre)
+    draw.text((70,30),hightext, fill = "WHITE", font=font2)
+    draw.text((15,95),TEXT, fill = "WHITE", font =font)
+    im_r=image.rotate(rotation)
+    disp.ShowImage(im_r
 
 
 
@@ -504,6 +524,67 @@ def execute_gauge_function(selected_item):
     else:
         print(f"No function found for: {func_name}")
 
+
+def execute_gauge_function(selected_item):
+    func_name = "FUNCT_" + selected_item.replace(" ", "_").upper()
+        
+    if func_name in globals():
+        print(f"Executing function: {func_name}")
+        globals()[func_name]()
+    else:
+        print(f"No function found for: {func_name}")
+
+
+
+
+def FUNCT_REBOOT_PI():
+    drawimage=setupDisplay()
+    image=drawimage[0]
+    draw=drawimage[1]
+    draw.text((30,85),"REBOOT", font=font, fill=255)
+    draw.text((20,150),"Press button to cancel",font=font2, fill="WHITE")
+    tempcount=0
+    draw.text((60,30),"..........", font=font, fill="WHITE")
+    im_r=image.rotate(rotation)
+    disp.ShowImage(im_r)
+    time.sleep(5) 
+    
+    while tempcount <=10:
+        buttonState=GPIO.input(SW)
+        if buttonState == False:
+            menuloop(4,topmenu)
+        diedots="."*tempcount
+        draw.text((60,30),diedots, font=font, fill=255)
+        im_r=image.rotate(rotation)
+        disp.ShowImage(im_r)
+        time.sleep(1)
+        tempcount+=1
+
+    os.system('sudo reboot')
+  
+def getIpAddress():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('10.255.255.255', 1))
+        IP = s.getsockname()[0]
+    except Exception:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
+
+def FUNCT_IP_ADDRESS():
+    IP=getIpAddress()
+    highlightDisplay(IP,"Car Guage")
+    time.sleep(5)
+    menuloop(0,configmenu)
+
+
+
+
+
+
+
 # Main loop
 try:
     while True:
@@ -549,6 +630,8 @@ try:
                     TRIPLE_STACK()
             elif current_menu == "gauges":
                 execute_gauge_function(selected_item)
+             elif current_menu == "config":
+                execute_config_function(selected_item)
 
             menu_indices[current_menu] = 0
 
