@@ -10,6 +10,7 @@ import math
 from tabulate import tabulate
 sys.path.append('..')
 import signal
+import random
 import socket
 from lib import LCD_1inch28
 
