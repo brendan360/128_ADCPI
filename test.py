@@ -630,7 +630,7 @@ try:
                     TRIPLE_STACK()
             elif current_menu == "gauges":
                 execute_gauge_function(selected_item)
-             elif current_menu == "config":
+            elif current_menu == "config":
                 execute_config_function(selected_item)
 
             menu_indices[current_menu] = 0
