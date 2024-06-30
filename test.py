@@ -1,17 +1,15 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 from PIL import Image, ImageDraw, ImageFont
 import time
-import sys
 import threading
 import RPi.GPIO as GPIO
- 
 import time
 import os
 import sys
 import math
 from tabulate import tabulate
 sys.path.append('..')
-
+import signal
 from lib import LCD_1inch28
 
 # Define the menus
