@@ -589,8 +589,38 @@ def FUNCT_IP_ADDRESS():
 
 
 
+def FUNCT_updateValues():
+    while True:
+        gaugeItems["BOOST"][2] = random.randint(0, 30)
+        gaugeItems["BLOCK_TEMP"][2] = random.randint(0,400)
+        gaugeItems["FUEL_PRESSURE"][2] = random.randint(0, 150)
+        gaugeItems["OIL_TEMP"][2] = random.randint(0, 400)
+        gaugeItems["COOLANT_TEMP"][2] = random.randint(0, 500)
+        gaugeItems["COOLANT_PRESSURE"][2] = random.randint(0, 150)
+        gaugeItems["OIL_PRESSURE"][2] = random.randint(0, 200)
+        gaugeItems["WIDEBAND02"][2] = (random.randint(0, 389)/100)
+        
+        time.sleep(3)
+#    FUNCT_coolant_pres()   
+#    FUNCT_coolant_temp()
+#    FUNCT_oil_pres()
+#    FUNCT_oil_temp()
+#    FUNCT_fuel_pres()
+#    FUNCT_block_temp()
+#    FUNCT_boost_pres()  
+#    FUNCT_fuel_pres()
+
+
+
+
+
 
 # Main loop
+
+
+
+
+threading.Thread(target=FUNCT_updateValues).start()
 try:
     while True:
         # Get the current menu items based on the menu state
