@@ -566,7 +566,7 @@ def FUNCT_REBOOT_PI():
         time.sleep(1.5)
         tempcount+=1
         print(tempcount)
-    if tempcount == 10:
+    if tempcount == 11:
         os.system('sudo reboot')
   
 def getIpAddress():
