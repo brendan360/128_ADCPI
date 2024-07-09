@@ -15,29 +15,6 @@ import socket
 from lib import LCD_1inch28
 
 
-########################
-#                      #
-#   MENU  Variable     #
-#                      #
-########################
-
-
-# Define the menus
-level1_menu = ["Gauges", "MultiGauge", "Config"]
-multigauge_menu = ["QuadTemp", "Triple Stack", "Back"]
-config_menu = ["ip address", "reboot pi", "Back"]
-
-gauge_keys = list(gaugeItems.keys())
-gauge_menu = [gaugeItems[key][1] for key in gauge_keys] + ["Back"]
-
-current_menu = "level1"
-menu_indices = {
-    "level1": 0,
-    "multigauge": 0,
-    "config": 0,
-    "gauges": 0
-}
-
 
 ########################
 #                      #
@@ -107,7 +84,28 @@ gaugeItems = {
 }
 
 
+########################
+#                      #
+#   MENU  Variable     #
+#                      #
+########################
 
+
+# Define the menus
+level1_menu = ["Gauges", "MultiGauge", "Config"]
+multigauge_menu = ["QuadTemp", "Triple Stack", "Back"]
+config_menu = ["ip address", "reboot pi", "Back"]
+
+gauge_keys = list(gaugeItems.keys())
+gauge_menu = [gaugeItems[key][1] for key in gauge_keys] + ["Back"]
+
+current_menu = "level1"
+menu_indices = {
+    "level1": 0,
+    "multigauge": 0,
+    "config": 0,
+    "gauges": 0
+}
 
 
 
