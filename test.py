@@ -14,10 +14,45 @@ import random
 import socket
 from lib import LCD_1inch28
 
+
+########################
+#                      #
+#   MENU  Variable     #
+#                      #
+########################
+
+
 # Define the menus
 level1_menu = ["Gauges", "MultiGauge", "Config"]
 multigauge_menu = ["QuadTemp", "Triple Stack", "Back"]
 config_menu = ["ip address", "reboot pi", "Back"]
+
+gauge_keys = list(gaugeItems.keys())
+gauge_menu = [gaugeItems[key][1] for key in gauge_keys] + ["Back"]
+
+current_menu = "level1"
+menu_indices = {
+    "level1": 0,
+    "multigauge": 0,
+    "config": 0,
+    "gauges": 0
+}
+`
+
+########################
+#                      #
+#   Screen Variables   #
+#                      #
+########################
+RST = 27
+DC = 25
+BL = 18
+bus = 0
+device = 0
+disp = LCD_1inch28.LCD_1inch28()
+rotation = 0
+disp.Init()
+
 
 # Constants for 240x240 screen
 WIDTH, HEIGHT = 240, 240
@@ -25,22 +60,6 @@ CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 RADIUS = 120  # Increased radius
 ANGLE_START, ANGLE_END = 40, 320  # Angles for the 3/4 gauge arc (clockwise)
 
-
-
-# Define gauge items
-gaugeItems = {
-    "FUEL_PRESSURE": ["1", "Fuel Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
-    "BOOST": ["2", "Boost", 1, 0, -19, 24, 28, -20, 30, "psi", 0],
-    "BLOCK_TEMP": ["3", "Engine °C", 1, 10, 15, 99, 110, 0, 150, "°C", 0],
-    "COOLANT_PRESSURE": ["4", "H2O Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
-    "COOLANT_TEMP": ["5", "H2O °C", 1, 10, 15, 99, 110, 0, 150, "°C", 0],
-    "OIL_PRESSURE": ["6", "Oil Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
-    "OIL_TEMP": ["7", "Oil °C", 1, 10, 15, 99, 110, 0, 150, "°C", 0],
-    "WIDEBAND02": ["8", "O2 AFR", 1, .5, 1, 1.5, 2, 0, 4, "A/F", 0]
-}
-
-gauge_keys = list(gaugeItems.keys())
-gauge_menu = [gaugeItems[key][1] for key in gauge_keys] + ["Back"]
 
 # Define colors
 BACKGROUND_COLOR = (30, 30, 30)
@@ -59,19 +78,6 @@ gfont = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 54)
 smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
 large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 14)
 
-# Initialize display
-RST = 27
-DC = 25
-BL = 18
-bus = 0
-device = 0
-disp = LCD_1inch28.LCD_1inch28()
-rotation = 0
-disp.Init()
-
-# Constants for 240x240 screen
-WIDTH, HEIGHT = 240, 240
-
 # Setup GPIO for buttons
 SCROLL_PIN = 38
 SELECT_PIN = 40
@@ -79,14 +85,30 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(SCROLL_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(SELECT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-# Menu state
-current_menu = "level1"
-menu_indices = {
-    "level1": 0,
-    "multigauge": 0,
-    "config": 0,
-    "gauges": 0
+
+
+########################
+#                      #
+#   Gauge  Variables   #
+#                      #
+########################
+
+
+# Define gauge items
+gaugeItems = {
+    "FUEL_PRESSURE": ["1", "Fuel Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
+    "BOOST": ["2", "Boost", 1, 0, -19, 24, 28, -20, 30, "psi", 0],
+    "BLOCK_TEMP": ["3", "Engine °C", 1, 10, 15, 99, 110, 0, 150, "°C", 0],
+    "COOLANT_PRESSURE": ["4", "H2O Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
+    "COOLANT_TEMP": ["5", "H2O °C", 1, 10, 15, 99, 110, 0, 150, "°C", 0],
+    "OIL_PRESSURE": ["6", "Oil Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
+    "OIL_TEMP": ["7", "Oil °C", 1, 10, 15, 99, 110, 0, 150, "°C", 0],
+    "WIDEBAND02": ["8", "O2 AFR", 1, .5, 1, 1.5, 2, 0, 4, "A/F", 0]
 }
+
+
+
+
 
 
 #####################
@@ -133,27 +155,6 @@ CONST_oilTempresistorRoomTemp = 2480.0
 
 CONST_AFR_minVoltage=.68
 CONST_AFT_maxVoltage=1.36
-
-
-
-
-def clearDisplay():
-    disp.clear()
-
-def setupDisplay():
-    image = Image.new("RGB", (disp.width, disp.height), "BLACK")
-    draw = ImageDraw.Draw(image)
-    return image,draw
-
-def highlightDisplay(TEXT,hightext):
-    drawimage=setupDisplay()
-    image=drawimage[0]
-    draw=drawimage[1]
-    ##(accross screen),(upand down))(100,100 is centre)
-    draw.text((70,30),hightext, fill = "WHITE", font=font2)
-    draw.text((15,95),TEXT, fill = "WHITE", font =font1)
-    im_r=image.rotate(rotation)
-    disp.ShowImage(im_r)
 
 
 
@@ -218,6 +219,40 @@ def FUNCT_oil_temp():
     gaugeItems["OIL_TEMP"][2]=round(temperature,2)
 
 
+
+
+#######################
+#                     #
+#Screen     functions #
+#                     #
+####################### 
+
+def clearDisplay():
+    disp.clear()
+
+def setupDisplay():
+    image = Image.new("RGB", (disp.width, disp.height), "BLACK")
+    draw = ImageDraw.Draw(image)
+    return image,draw
+
+def highlightDisplay(TEXT,hightext):
+    drawimage=setupDisplay()
+    image=drawimage[0]
+    draw=drawimage[1]
+    ##(accross screen),(upand down))(100,100 is centre)
+    draw.text((70,30),hightext, fill = "WHITE", font=font2)
+    draw.text((15,95),TEXT, fill = "WHITE", font =font1)
+    im_r=image.rotate(rotation)
+    disp.ShowImage(im_r)
+    
+    
+    
+#######################
+#                     #
+#Gauge display        #
+#        functions    #
+#                     #
+####################### 
 
 
 def value_to_angle(value, min_value, max_value):
@@ -388,6 +423,15 @@ def draw_gauge(gauge_key):
 
 
 
+
+
+#######################
+#                     #
+#MENU       functions #
+#                     #
+####################### 
+
+
 # Button press events
 scroll_pressed = threading.Event()
 select_pressed = threading.Event()
@@ -542,6 +586,13 @@ def execute_config_function(selected_item):
 
 
 
+#######################
+#                     #
+#Trouble shooting     #
+#    functions        #
+#                     #
+####################### 
+
 def FUNCT_REBOOT_PI():
     drawimage=setupDisplay()
     image=drawimage[0]
@@ -602,6 +653,14 @@ def firstBoot():
 
 
 
+#######################
+#                     #
+#Threading  functions #
+#                     #
+####################### 
+
+
+
 def FUNCT_updateValues():
     while True:
         gaugeItems["BOOST"][2] = random.randint(0, 30)
@@ -634,9 +693,11 @@ def FUNCT_cliPrint():
 
 
 
-
-# Main loop
-
+########################
+#                      #
+#      Main loop       #
+#                      #
+########################
 
 
 
