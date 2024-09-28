@@ -15,6 +15,29 @@ import socket
 from lib import LCD_1inch28
 
 
+########################
+#                      #
+#   MENU  Variable     #
+#                      #
+########################
+
+
+# Define the menus
+level1_menu = ["Gauges", "MultiGauge", "Config"]
+multigauge_menu = ["QuadTemp", "Triple Stack", "Back"]
+config_menu = ["ip address", "reboot pi", "Back"]
+
+gauge_keys = list(gaugeItems.keys())
+gauge_menu = [gaugeItems[key][1] for key in gauge_keys] + ["Back"]
+
+current_menu = "level1"
+menu_indices = {
+    "level1": 0,
+    "multigauge": 0,
+    "config": 0,
+    "gauges": 0
+}
+`
 
 ########################
 #                      #
@@ -84,28 +107,7 @@ gaugeItems = {
 }
 
 
-########################
-#                      #
-#   MENU  Variable     #
-#                      #
-########################
 
-
-# Define the menus
-level1_menu = ["Gauges", "MultiGauge", "Config"]
-multigauge_menu = ["QuadTemp", "Triple Stack", "Back"]
-config_menu = ["ip address", "reboot pi", "Back"]
-
-gauge_keys = list(gaugeItems.keys())
-gauge_menu = [gaugeItems[key][1] for key in gauge_keys] + ["Back"]
-
-current_menu = "level1"
-menu_indices = {
-    "level1": 0,
-    "multigauge": 0,
-    "config": 0,
-    "gauges": 0
-}
 
 
 
@@ -206,16 +208,18 @@ def FUNCT_coolant_temp():
     gaugeItems["COOLANT_TEMP"][2]=round(temperature,2)
 
 def FUNCT_oil_temp():
-    voltage=adc.read_voltage(int(gaugeItems["OIL_TEMP"][0]))
-    resistance = CONST_oilTemp_balanceResistor / (CONST_supply_voltage / voltage - 1)
-    steinhart = resistance / CONST_oilTempresistorRoomTemp
-    steinhart = math.log(steinhart)
-    steinhart /= CONST_oilTemp_beta
-    steinhart += 1.0 / (CONST_oilTemproomTemp)
-    steinhart = 1.0 / steinhart
-    temperature = steinhart - 273.15  # Convert Kelvin to Celsius
-    gaugeItems["OIL_TEMP"][2]=round(temperature,2)
-
+    try :
+        voltage=adc.read_voltage(int(gaugeItems["OIL_TEMP"][0]))
+        resistance = CONST_oilTemp_balanceResistor / (CONST_supply_voltage / voltage - 1)
+        steinhart = resistance / CONST_oilTempresistorRoomTemp
+        steinhart = math.log(steinhart)
+        steinhart /= CONST_oilTemp_beta
+        steinhart += 1.0 / (CONST_oilTemproomTemp)
+        steinhart = 1.0 / steinhart
+        temperature = steinhart - 273.15  # Convert Kelvin to Celsius
+        gaugeItems["OIL_TEMP"][2]=round(temperature,2)
+    except:
+        gaugeItems["OIL_TEMP"][2]=round(1,2)
 
 
 
