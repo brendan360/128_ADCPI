@@ -163,48 +163,66 @@ CONST_AFT_maxVoltage=1.36
 #                     #
 ####################### 
 def FUNCT_fuel_pres():
-    voltage=adc.read_voltage(int(gaugeItems["FUEL_PRESSURE"][0]))
-    gaugeItems["FUEL_PRESSURE"][2]= (voltage - CONST_fuel_minVoltage)/(CONST_fuel_maxVoltage -CONST_fuel_minVoltage)*(CONST_fuel_maxPressure- CONST_fuel_minPressure) + CONST_fuel_minPressure
+    try:
+        voltage=adc.read_voltage(int(gaugeItems["FUEL_PRESSURE"][0]))
+        gaugeItems["FUEL_PRESSURE"][2]= (voltage - CONST_fuel_minVoltage)/(CONST_fuel_maxVoltage -CONST_fuel_minVoltage)*(CONST_fuel_maxPressure- CONST_fuel_minPressure) + CONST_fuel_minPressure
+    except:
+        gaugeItems["FUEL_PRESSURE"][2]=round(1,2)
 
 def FUNCT_coolant_pres():
-    cvoltage=adc.read_voltage(int(gaugeItems["COOLANT_PRESSURE"][0]))
-    gaugeItems["COOLANT_PRESSURE"][2]= (cvoltage - CONST_coolant_minVoltage)/(CONST_coolant_maxVoltage - CONST_coolant_minVoltage)*(CONST_coolant_maxPressure- CONST_coolant_minPressure) + CONST_coolant_minPressure
+    try:
+        cvoltage=adc.read_voltage(int(gaugeItems["COOLANT_PRESSURE"][0]))
+        gaugeItems["COOLANT_PRESSURE"][2]= (cvoltage - CONST_coolant_minVoltage)/(CONST_coolant_maxVoltage - CONST_coolant_minVoltage)*(CONST_coolant_maxPressure- CONST_coolant_minPressure) + CONST_coolant_minPressure
+    except:
+        gaugeItems["COOLANT_PRESSURE"][2]=round(1,2)
             
 def FUNCT_oil_pres():
-    voltage=adc.read_voltage(int(gaugeItems["OIL_PRESSURE"][0]))
-    gaugeItems["OIL_PRESSURE"][2]= (voltage - CONST_oil_minVoltage)/(CONST_oil_maxVoltage -CONST_oil_minVoltage)*(CONST_oil_maxPressure- CONST_oil_minPressure) + CONST_oil_minPressure
+    try:
+        voltage=adc.read_voltage(int(gaugeItems["OIL_PRESSURE"][0]))
+        gaugeItems["OIL_PRESSURE"][2]= (voltage - CONST_oil_minVoltage)/(CONST_oil_maxVoltage -CONST_oil_minVoltage)*(CONST_oil_maxPressure- CONST_oil_minPressure) + CONST_oil_minPressure
+    except:
+        gaugeItems["OIL_PRESSURE"][2]=round(1,2)
 
 def FUNCT_boost_pres():
-    voltage=adc.read_voltage(int(gaugeItems["BOOST"][0]))
-    boostKpa= (voltage - CONST_boost_minVoltage)/(CONST_boost_maxVoltage -CONST_boost_minVoltage)*(CONST_boost_maxPressure- CONST_boost_minPressure) + CONST_boost_minPressure
-    gaugeItems["BOOST"][2]=round(((boostKpa-91.3)*0.145038),2)
-    if gaugeItems["BOOST"][2] < 0:
-        gaugeItems["BOOST"][9] = "inHg"
-        gaugeItems["BOOST"][2]=round((abs(gaugeItems["BOOST"][2])*2.03602),2)
-    else:
-        gaugeItems["BOOST"][9] = "psi"
+    try:
+        voltage=adc.read_voltage(int(gaugeItems["BOOST"][0]))
+        boostKpa= (voltage - CONST_boost_minVoltage)/(CONST_boost_maxVoltage -CONST_boost_minVoltage)*(CONST_boost_maxPressure- CONST_boost_minPressure) + CONST_boost_minPressure
+        gaugeItems["BOOST"][2]=round(((boostKpa-91.3)*0.145038),2)
+        if gaugeItems["BOOST"][2] < 0:
+            gaugeItems["BOOST"][9] = "inHg"
+            gaugeItems["BOOST"][2]=round((abs(gaugeItems["BOOST"][2])*2.03602),2)
+        else:
+            gaugeItems["BOOST"][9] = "psi"
+    except:
+        gaugeItems["BOOST"][2]=round(1,2)
 
 def FUNCT_block_temp():
-    voltage=adc.read_voltage(int(gaugeItems["BLOCK_TEMP"][0]))
-    voltage=CONST_blockTemp_balanceResistor/voltage
-    steinhart = voltage /CONST_blockTempresistorRoomTemp 
-    steinhart = math.log(steinhart) 
-    steinhart /=CONST_blockTemp_beta
-    steinhart += 1.0 / (CONST_blockTemproomTemp)
-    steinhart = 1.0 / steinhart
-    steinhart -= 273.15
-    gaugeItems["BLOCK_TEMP"][2]=round(steinhart,2)
+    try:
+        voltage=adc.read_voltage(int(gaugeItems["BLOCK_TEMP"][0]))
+        voltage=CONST_blockTemp_balanceResistor/voltage
+        steinhart = voltage /CONST_blockTempresistorRoomTemp 
+        steinhart = math.log(steinhart) 
+        steinhart /=CONST_blockTemp_beta
+        steinhart += 1.0 / (CONST_blockTemproomTemp)
+        steinhart = 1.0 / steinhart
+        steinhart -= 273.15
+        gaugeItems["BLOCK_TEMP"][2]=round(steinhart,2)
+    except:
+        gaugeItems["LOCK_TEMP"][2]=round(1,2)
 
 def FUNCT_coolant_temp():
-    voltage=adc.read_voltage(int(gaugeItems["COOLANT_TEMP"][0]))
-    resistance = CONST_coolantTemp_balanceResistor / (CONST_supply_voltage / voltage - 1)
-    steinhart = resistance / CONST_coolantTempresistorRoomTemp
-    steinhart = math.log(steinhart)
-    steinhart /= CONST_coolantTemp_beta
-    steinhart += 1.0 / (CONST_coolantTemproomTemp)
-    steinhart = 1.0 / steinhart
-    temperature = steinhart - 273.15  # Convert Kelvin to Celsius
-    gaugeItems["COOLANT_TEMP"][2]=round(temperature,2)
+    try:
+        voltage=adc.read_voltage(int(gaugeItems["COOLANT_TEMP"][0]))
+        resistance = CONST_coolantTemp_balanceResistor / (CONST_supply_voltage / voltage - 1)
+        steinhart = resistance / CONST_coolantTempresistorRoomTemp
+        steinhart = math.log(steinhart)
+        steinhart /= CONST_coolantTemp_beta
+        steinhart += 1.0 / (CONST_coolantTemproomTemp)
+        steinhart = 1.0 / steinhart
+        temperature = steinhart - 273.15  # Convert Kelvin to Celsius
+        gaugeItems["COOLANT_TEMP"][2]=round(temperature,2)
+    except:
+        gaugeItems["COOLANT_TEMP"][2]=round(1,2)
 
 def FUNCT_oil_temp():
     try :
@@ -664,24 +682,24 @@ def firstBoot():
 
 def FUNCT_updateValues():
     while True:
-        gaugeItems["BOOST"][2] = random.randint(0, 30)
-        gaugeItems["BLOCK_TEMP"][2] = random.randint(0,400)
-        gaugeItems["FUEL_PRESSURE"][2] = random.randint(0, 150)
+#        gaugeItems["BOOST"][2] = random.randint(0, 30)
+#        gaugeItems["BLOCK_TEMP"][2] = random.randint(0,400)
+#        gaugeItems["FUEL_PRESSURE"][2] = random.randint(0, 150)
 #        gaugeItems["OIL_TEMP"][2] = random.randint(0, 400)
-        gaugeItems["COOLANT_TEMP"][2] = random.randint(0, 500)
-        gaugeItems["COOLANT_PRESSURE"][2] = random.randint(0, 150)
-        gaugeItems["OIL_PRESSURE"][2] = random.randint(0, 200)
-        gaugeItems["WIDEBAND02"][2] = (random.randint(0, 389)/100)
+#        gaugeItems["COOLANT_TEMP"][2] = random.randint(0, 500)
+#        gaugeItems["COOLANT_PRESSURE"][2] = random.randint(0, 150)
+#        gaugeItems["OIL_PRESSURE"][2] = random.randint(0, 200)
+#        gaugeItems["WIDEBAND02"][2] = (random.randint(0, 389)/100)
         
-        time.sleep(1)
-#    FUNCT_coolant_pres()   
-#    FUNCT_coolant_temp()
-#    FUNCT_oil_pres()
+#        time.sleep(1)
+        FUNCT_coolant_pres()   
+        FUNCT_coolant_temp()
+        FUNCT_oil_pres()
         FUNCT_oil_temp()
-#    FUNCT_fuel_pres()
-#    FUNCT_block_temp()
-#    FUNCT_boost_pres()  
-#    FUNCT_fuel_pres()
+        FUNCT_fuel_pres()
+        FUNCT_block_temp()
+        FUNCT_boost_pres()  
+        FUNCT_fuel_pres()
 
 
 
