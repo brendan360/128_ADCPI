@@ -204,11 +204,11 @@ def FUNCT_boost_pres():
         voltage=adc.read_voltage(int(gaugeItems["BOOST"][0]))
         boostKpa= (voltage - CONST_boost_minVoltage)/(CONST_boost_maxVoltage -CONST_boost_minVoltage)*(CONST_boost_maxPressure- CONST_boost_minPressure) + CONST_boost_minPressure
         gaugeItems["BOOST"][2]=round(((boostKpa-91.3)*0.145038),2)
-        if gaugeItems["BOOST"][2] < 0:
-            gaugeItems["BOOST"][9] = "inHg"
-            gaugeItems["BOOST"][2]=round((abs(gaugeItems["BOOST"][2])*2.03602),2)
-        else:
-            gaugeItems["BOOST"][9] = "psi"
+#        if gaugeItems["BOOST"][2] < 0:
+##            gaugeItems["BOOST"][9] = "inHg"
+ #           gaugeItems["BOOST"][2]=round((abs(gaugeItems["BOOST"][2])*2.03602),2)
+#        else:
+#            gaugeItems["BOOST"][9] = "psi"
     except:
         gaugeItems["BOOST"][2]=round(1,2)
 
