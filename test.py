@@ -13,6 +13,7 @@ import signal
 import random
 import socket
 from lib import LCD_1inch28
+from ADCPi import ADCPi
 
 
 ########################
