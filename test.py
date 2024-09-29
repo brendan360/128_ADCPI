@@ -724,7 +724,7 @@ def FUNCT_cliPrint():
 firstBoot()
 try:
     threading.Thread(target=FUNCT_updateValues).start()
- #   threading.Thread(target=FUNCT_cliPrint).start()
+    threading.Thread(target=FUNCT_cliPrint).start()
     while True:
         # Get the current menu items based on the menu state
         if current_menu == "level1":
