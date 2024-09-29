@@ -208,7 +208,7 @@ def FUNCT_block_temp():
         steinhart -= 273.15
         gaugeItems["BLOCK_TEMP"][2]=round(steinhart,2)
     except:
-        gaugeItems["LOCK_TEMP"][2]=round(1,2)
+        gaugeItems["BLOCK_TEMP"][2]=round(1,2)
 
 def FUNCT_coolant_temp():
     try:
