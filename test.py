@@ -197,13 +197,13 @@ def FUNCT_coolant_pres():
 
 
 def FUNCT_AFR():
-    try:
+#    try:
         cvoltage=adc.read_voltage(int(gaugeItems["WIDEBAND02"][0]))
         gaugeItems["WIDEBAND02"][2]= (cvoltage - CONST_AFR_minVoltage)/(CONST_AFT_maxVoltage - CONST_AFR_minVoltage)*(CONST_AFT_malamba- CONST_AFR_minlamba) + CCONST_AFR_minlamba
         print(cvoltage)
-    except:
-        gaugeItems["WIDEBAND02"][2]=round(1,2)
-        print("error")
+#    except:
+#        gaugeItems["WIDEBAND02"][2]=round(1,2)
+   #     print("error")
 
 
 
