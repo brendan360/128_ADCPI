@@ -385,6 +385,7 @@ def draw_gauge(gauge_key):
                 blue_level = gaugeItems[gauge_key][3] *100
                 green_level = gaugeItems[gauge_key][5] *100
                 red_level = gaugeItems[gauge_key][6] *100
+                target_value = gaugeItems[gauge_key][2] *100
             
 
             
