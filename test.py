@@ -168,8 +168,10 @@ CONST_oilTemp_beta = 3446
 CONST_oilTemproomTemp = 293.15
 CONST_oilTempresistorRoomTemp = 2480.0
 
-CONST_AFR_minVoltage=.68
-CONST_AFT_maxVoltage=1.36
+CONST_AFR_minVoltage=0
+CONST_AFT_maxVoltage=5
+CONST_AFR_minlamba=.68
+CONST_AFT_malamba=1.36
 
 
 
@@ -191,7 +193,17 @@ def FUNCT_coolant_pres():
         gaugeItems["COOLANT_PRESSURE"][2]= (cvoltage - CONST_coolant_minVoltage)/(CONST_coolant_maxVoltage - CONST_coolant_minVoltage)*(CONST_coolant_maxPressure- CONST_coolant_minPressure) + CONST_coolant_minPressure
     except:
         gaugeItems["COOLANT_PRESSURE"][2]=round(1,2)
-            
+
+
+def FUNCT_AFR():
+    try:
+        cvoltage=adc.read_voltage(int(gaugeItems["WIDEBAND02"][0]))
+        gaugeItems["WIDEBAND02"][2]= (cvoltage - CONST_AFR_minVoltage)/(CONST_AFT_maxVoltage - CONST_AFR_minVoltage)*(CONST_AFT_malamba- CONST_AFR_minlamba) + CCONST_AFR_minlamba
+    except:
+        gaugeItems["WIDEBAND02"][2]=round(1,2)
+
+
+
 def FUNCT_oil_pres():
     try:
         voltage=adc.read_voltage(int(gaugeItems["OIL_PRESSURE"][0]))
@@ -716,6 +728,7 @@ def FUNCT_updateValues():
         FUNCT_block_temp()
         FUNCT_boost_pres()  
         FUNCT_fuel_pres()
+        FUNCT_AFR()
 
 
 
