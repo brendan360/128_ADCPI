@@ -379,7 +379,7 @@ def draw_gauge(gauge_key):
 
 
         target_value = gaugeItems[gauge_key][2] *100
-        if gauge_key=WIDEBAND02:
+        if gauge_key==WIDEBAND02:
                 min_value = gaugeItems[gauge_key][7] *100
                 max_value = gaugeItems[gauge_key][8] *100
                 blue_level = gaugeItems[gauge_key][3] *100
