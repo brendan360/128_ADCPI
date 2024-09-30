@@ -203,6 +203,7 @@ def FUNCT_AFR():
         print(cvoltage)
     except:
         gaugeItems["WIDEBAND02"][2]=round(1,2)
+        print("error")
 
 
 
