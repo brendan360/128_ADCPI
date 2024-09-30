@@ -133,8 +133,8 @@ gauge_menu = [gaugeItems[key][1] for key in gauge_keys] + ["Back"]
 ##################### 
 CONST_supply_voltage =5
 
-CONST_fuel_minVoltage =.48
-CONST_fuel_maxVoltage =5
+CONST_fuel_minVoltage =.5
+CONST_fuel_maxVoltage =4.5
 CONST_fuel_minPressure =0
 CONST_fuel_maxPressure =1000
 
@@ -144,12 +144,12 @@ CONST_coolant_minPressure =0
 CONST_coolant_maxPressure =1000
 
 CONST_oil_minVoltage =.5
-CONST_oil_maxVoltage =5
+CONST_oil_maxVoltage =4.5
 CONST_oil_minPressure =0
 CONST_oil_maxPressure =1000
 
 CONST_boost_minVoltage =.4
-CONST_boost_maxVoltage =5
+CONST_boost_maxVoltage =4.5
 CONST_boost_minPressure =20
 CONST_boost_maxPressure =300
 
