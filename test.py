@@ -131,7 +131,7 @@ gauge_menu = [gaugeItems[key][1] for key in gauge_keys] + ["Back"]
 #SENSOR CONSTANT    #
 #                   #
 ##################### 
-CONST_supply_voltage =5
+CONST_supply_voltage =4.7
 
 CONST_fuel_minVoltage =.5
 CONST_fuel_maxVoltage =4.5
