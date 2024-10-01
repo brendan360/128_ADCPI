@@ -143,7 +143,7 @@ CONST_coolant_maxVoltage =5
 CONST_coolant_minPressure =0
 CONST_coolant_maxPressure =1000
 
-CONST_oil_minVoltage =.5
+CONST_oil_minVoltage =.31
 CONST_oil_maxVoltage =4.5
 CONST_oil_minPressure =0
 CONST_oil_maxPressure =1000
@@ -202,9 +202,6 @@ def FUNCT_AFR():
         gaugeItems["WIDEBAND02"][2]= (cvoltage - CONST_AFR_minVoltage)/(CONST_AFT_maxVoltage - CONST_AFR_minVoltage)*(CONST_AFT_malamba- CONST_AFR_minlamba) + CONST_AFR_minlamba
     except:
         gaugeItems["WIDEBAND02"][2]=round(1,2)
-
-
-
 
 def FUNCT_oil_pres():
     try:
