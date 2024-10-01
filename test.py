@@ -131,7 +131,7 @@ gauge_menu = [gaugeItems[key][1] for key in gauge_keys] + ["Back"]
 #SENSOR CONSTANT    #
 #                   #
 ##################### 
-CONST_supply_voltage =5
+CONST_supply_voltage =4.5
 
 CONST_fuel_minVoltage =.5
 CONST_fuel_maxVoltage =4.5
@@ -161,7 +161,7 @@ CONST_boost_maxPressure =300
 CONST_blockTemp_balanceResistor = 1000.0
 CONST_blockTemp_beta = 3964
 CONST_blockTemproomTemp = 298.15 
-CONST_blockTempresistorRoomTemp =10000 
+CONST_blockTempresistorRoomTemp =3000 
 
 CONST_coolantTemp_balanceResistor = 1000.0
 CONST_coolantTemp_beta = 3446
