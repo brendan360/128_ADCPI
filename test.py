@@ -143,7 +143,7 @@ CONST_coolant_maxVoltage =5
 CONST_coolant_minPressure =0
 CONST_coolant_maxPressure =1000
 
-CONST_oil_minVoltage =.31
+CONST_oil_minVoltage =.34
 CONST_oil_maxVoltage =4.5
 CONST_oil_minPressure =0
 CONST_oil_maxPressure =1000
