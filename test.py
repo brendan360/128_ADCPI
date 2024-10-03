@@ -202,12 +202,12 @@ def FUNCT_coolant_pres():
 
 
 def FUNCT_AFR():
-    try:
+#    try:
         cvoltage=adc.read_voltage(int(gaugeItems["WIDEBAND02"][0]))
         temp = (cvoltage - CONST_AFR_minVoltage)/(CONST_AFT_maxVoltage - CONST_AFR_minVoltage)*(CONST_AFT_malamba- CONST_AFR_minlamba) + CONST_AFR_minlamba
         gaugeItems["WIDEBAND02"][2]=round(temp,2)
-    except:
-        gaugeItems["WIDEBAND02"][2]=round(1,2)
+#    except:
+#        gaugeItems["WIDEBAND02"][2]=round(1,2)
 
 def FUNCT_oil_pres():
     try:
@@ -762,7 +762,7 @@ def FUNCT_cliPrint():
 firstBoot()
 try:
     threading.Thread(target=FUNCT_updateValues).start()
-    threading.Thread(target=FUNCT_cliPrint).start()
+#    threading.Thread(target=FUNCT_cliPrint).start()
     while True:
         # Get the current menu items based on the menu state
         if current_menu == "level1":
