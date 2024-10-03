@@ -117,7 +117,7 @@ gaugeItems = {
     "COOLANT_TEMP": ["5", "H2O °C", 1, 10, 15, 99, 110, 0, 150, "°C", 0],
     "OIL_PRESSURE": ["6", "Oil Pres.", 1, 10, 15, 99, 110, 0, 150, "Kpa", 0],
     "OIL_TEMP": ["7", "Oil °C", 1, 10, 15, 99, 110, 0, 150, "°C", 0],
-    "WIDEBAND02": ["8", "O2 AFR", 1,0.95,1.05, 2, 2, 0, 2, "A/F", 0]
+    "WIDEBAND02": ["8", "O2 AFR", 1,0.95,1.05, 1.1, 2, 0, 2, "A/F", 0]
 }
 
 gauge_keys = list(gaugeItems.keys())
