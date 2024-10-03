@@ -205,7 +205,6 @@ def FUNCT_AFR():
 #    try:
         cvoltage=adc.read_voltage(int(gaugeItems["WIDEBAND02"][0]))
         temp = (cvoltage - CONST_AFR_minVoltage)/(CONST_AFT_maxVoltage - CONST_AFR_minVoltage)*(CONST_AFT_malamba- CONST_AFR_minlamba) + CONST_AFR_minlamba
-        print(temp)
         gaugeItems["WIDEBAND02"][2]=round(temp,2)
 #    except:
 #        gaugeItems["WIDEBAND02"][2]=round(1,2)
@@ -381,12 +380,11 @@ def draw_gauge(gauge_key):
             select_pressed.clear()
             break  # Exit the function to return to the menu
 
-
         target_value = gaugeItems[gauge_key][2]
+        print(target_value)
+         
 
-            
-
-            
+           
 
         # Animate the gauge from the previous value to the new random value
         if target_value > prev_value:
