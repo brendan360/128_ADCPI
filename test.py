@@ -205,6 +205,7 @@ def FUNCT_AFR():
 #    try:
         cvoltage=adc.read_voltage(int(gaugeItems["WIDEBAND02"][0]))
         temp = (cvoltage - CONST_AFR_minVoltage)/(CONST_AFT_maxVoltage - CONST_AFR_minVoltage)*(CONST_AFT_malamba- CONST_AFR_minlamba) + CONST_AFR_minlamba
+        print(temp)
         gaugeItems["WIDEBAND02"][2]=round(temp,2)
 #    except:
 #        gaugeItems["WIDEBAND02"][2]=round(1,2)
