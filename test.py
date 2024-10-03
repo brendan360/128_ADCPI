@@ -380,14 +380,8 @@ def draw_gauge(gauge_key):
             break  # Exit the function to return to the menu
 
 
-        target_value = gaugeItems[gauge_key][2] *100
-        if gauge_key==WIDEBAND02:
-                min_value = gaugeItems[gauge_key][7] *100
-                max_value = gaugeItems[gauge_key][8] *100
-                blue_level = gaugeItems[gauge_key][3] *100
-                green_level = gaugeItems[gauge_key][5] *100
-                red_level = gaugeItems[gauge_key][6] *100
-                target_value = gaugeItems[gauge_key][2] *100
+        target_value = gaugeItems[gauge_key][2]
+
             
 
             
