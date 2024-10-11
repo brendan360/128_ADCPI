@@ -380,9 +380,8 @@ def draw_gauge(gauge_key):
             select_pressed.clear()
             break  # Exit the function to return to the menu
 
-        target_value = gaugeItems[gauge_key][2]
-        print(target_value)
-         
+        target_value = round(gaugeItems[gauge_key][2],0)
+      
 
            
 
