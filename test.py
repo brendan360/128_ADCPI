@@ -322,7 +322,7 @@ def draw_gauge_segment(draw, start_value, end_value, color, min_value, max_value
         fill=color,
         width=30  # Increased width
     )
-
+ 
 # Draw the gauge needle
 def draw_needle(draw, value, min_value, max_value):
     outline_width = 10  # Width of the black outline
