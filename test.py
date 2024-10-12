@@ -381,36 +381,36 @@ def draw_gauge(gauge_key):
             break  # Exit the function to return to the menu
 
 
-          image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
-          draw = ImageDraw.Draw(image)
+        image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
+        draw = ImageDraw.Draw(image)
 
                 # Draw the segments
-          draw_gauge_segment(draw, min_value, blue_level, 'blue', min_value, max_value)
-          draw_gauge_segment(draw, blue_level, green_level, 'green', min_value, max_value)
-          draw_gauge_segment(draw, green_level, red_level, 'red', min_value, max_value)
-          draw_gauge_segment(draw, red_level, max_value, 'red', min_value, max_value)
+        draw_gauge_segment(draw, min_value, blue_level, 'blue', min_value, max_value)
+        draw_gauge_segment(draw, blue_level, green_level, 'green', min_value, max_value)
+        draw_gauge_segment(draw, green_level, red_level, 'red', min_value, max_value)
+        draw_gauge_segment(draw, red_level, max_value, 'red', min_value, max_value)
 
                 # Draw the black lines at the joins of the colors
-          draw_gauge_segment(draw, blue_level, blue_level, 'black', min_value, max_value)
-          draw_gauge_segment(draw, green_level, green_level, 'black', min_value, max_value)
-          draw_gauge_segment(draw, red_level, red_level, 'black', min_value, max_value)
+        draw_gauge_segment(draw, blue_level, blue_level, 'black', min_value, max_value)
+        draw_gauge_segment(draw, green_level, green_level, 'black', min_value, max_value)
+        draw_gauge_segment(draw, red_level, red_level, 'black', min_value, max_value)
 
         # Draw the value display
-          draw_value(draw, step)
+        draw_value(draw, step)
 
                 # Draw the bottom label
-          draw_label(draw, label)
+        draw_label(draw, label)
 
                 # Draw the gauge needle
-          draw_needle(draw, step, min_value, max_value)
+        draw_needle(draw, step, min_value, max_value)
 
                 # Draw a circle at the center of the gauge
-          draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
-          draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
+        draw.ellipse((CENTER_X - 21, CENTER_Y - 21, CENTER_X + 21, CENTER_Y + 21), fill='white')
+        draw.ellipse((CENTER_X - 20, CENTER_Y - 20, CENTER_X + 20, CENTER_Y + 20), fill='black')
 
                 # Show the updated image
-          im_r = image.rotate(rotation)
-          disp.ShowImage(im_r)
+        im_r = image.rotate(rotation)
+        disp.ShowImage(im_r)
 
                 # Delay to create animation effect
 
