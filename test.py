@@ -374,7 +374,7 @@ def draw_gauge(gauge_key):
             select_pressed.clear()
             break  # Exit the function to return to the menu
         if gauge_key=="WIDEBAND02":
-            target_value=round(gaugeItems[gauge_key[2],2)
+            target_value=round(gaugeItems[gauge_key][2],2)
         else:
             target_value =int(gaugeItems[gauge_key][2])
             
