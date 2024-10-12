@@ -382,7 +382,7 @@ def draw_gauge(gauge_key):
             break  # Exit the function to return to the menu
 
         target_value =int(gaugeItems[gauge_key][2])
-        steps=target_value
+        step=target_value
        
                 # Initialize the image and drawing context for each step
         image = Image.new('RGB', (WIDTH, HEIGHT), 'black')
