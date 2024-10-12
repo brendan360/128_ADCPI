@@ -357,13 +357,6 @@ def draw_label(draw, label):
     label_y = HEIGHT - label_height - 65  # Positioned at the bottom of the image
     draw.text((label_x, label_y), label_text, fill='white', font=font_label)
 
-# Function to generate a random value and store it in gaugeItems
-def generate_random_value(gauge_key):
-    min_value = gaugeItems[gauge_key][7]
-    max_value = gaugeItems[gauge_key][8]
-    random_value = random.randint(min_value, max_value)
-    gaugeItems[gauge_key][2] = random_value
-
 
 def draw_gauge(gauge_key):
     min_value = gaugeItems[gauge_key][7]
@@ -380,8 +373,11 @@ def draw_gauge(gauge_key):
         if select_pressed.is_set():
             select_pressed.clear()
             break  # Exit the function to return to the menu
-
-        target_value =int(gaugeItems[gauge_key][2])
+        if gauge_key=="WIDEBAND02":
+            target_value=round(gaugeItems[gauge_key[2],2)
+        else:
+            target_value =int(gaugeItems[gauge_key][2])
+            
         step=target_value
        
                 # Initialize the image and drawing context for each step
