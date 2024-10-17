@@ -439,26 +439,35 @@ def draw_menu(menu_items):
     image = Image.new('RGB', (WIDTH, HEIGHT), color=BACKGROUND_COLOR)
     draw = ImageDraw.Draw(image)
 
-    # Calculate vertical position of selected item
-    selected_y = HEIGHT // 2 - 25
+    # Calculate the vertical position of the selected item
+    selected_y = HEIGHT // 2 - 25  # Center the selected item
 
-    # Draw menu items
+    # Define offsets and custom positions
+    item_offsets = {
+        0: {"x_offset": 20, "y_offset": -40},  # First item - slightly above and left
+        1: {"x_offset": 0, "y_offset": -20},   # Second item - above
+        2: {"x_offset": 0, "y_offset": 0},     # Third (selected) - centered
+        3: {"x_offset": 0, "y_offset": 20},    # Fourth item - below
+        4: {"x_offset": -20, "y_offset": 40}   # Fifth item - slightly below and right
+    }
+
+    # Loop through visible menu items and apply dynamic positioning
     for i in range(5):
-        # Calculate index of current item
+        # Calculate index of the current item in the list
         index = (menu_indices[current_menu] + i - 2) % len(menu_items)
 
-        # Calculate text position
+        # Calculate text and positioning
         text = menu_items[index]
         text_color = TEXT_COLOR_SELECTED if i == 2 else TEXT_COLOR_NON_SELECTED1 if i == 1 or i == 3 else TEXT_COLOR_NON_SELECTED2
         text_font = large_font if i == 2 else font if i == 1 or i == 3 else smallfont
         text_bbox = draw.textbbox((0, 0), text, font=text_font)
-        x = (WIDTH - text_bbox[2] - text_bbox[0]) // 2
-        y = selected_y + (i - 2) * (text_bbox[3] - text_bbox[1] + 20)
+
+        # Apply custom offsets
+        x = ((WIDTH - text_bbox[2] - text_bbox[0]) // 2) + item_offsets[i]["x_offset"]
+        y = selected_y + (i - 2) * (text_bbox[3] - text_bbox[1] + 20) + item_offsets[i]["y_offset"]
 
         # Draw text for menu items
         draw.text((x, y), text, fill=text_color, font=text_font)
-
-    # Show image on display
     disp.ShowImage(image)
 
 # Function to handle scroll button press
