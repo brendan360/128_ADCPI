@@ -78,8 +78,8 @@ ANGLE_START, ANGLE_END = 40, 320  # Angles for the 3/4 gauge arc (clockwise)
 # Define colors
 BACKGROUND_COLOR = (30, 30, 30)
 TEXT_COLOR_SELECTED = (255, 0, 0)
-TEXT_COLOR_NON_SELECTED1 = (125, 0, 0)  # White
-TEXT_COLOR_NON_SELECTED2 = (255, 255, 255)      
+TEXT_COLOR_NON_SELECTED1 = (200, 0, 0)  # White
+TEXT_COLOR_NON_SELECTED2 = (150, 0, 0)      
 FONT_SIZE = 30
 
 # Define fonts
