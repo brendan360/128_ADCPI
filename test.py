@@ -444,7 +444,7 @@ def draw_menu(menu_items):
 
     # Define offsets and custom positions
     item_offsets = {
-        0: {"x_offset": -25, "y_offset": -7},  # First item - slightly above and left
+        0: {"x_offset": -25, "y_offset": -1},  # First item - slightly above and left
         1: {"x_offset": -10, "y_offset": -1},   # Second item - above
         2: {"x_offset": 0, "y_offset": 0},     # Third (selected) - centered
         3: {"x_offset": -10, "y_offset": 10},    # Fourth item - below
