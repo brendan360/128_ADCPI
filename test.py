@@ -766,7 +766,7 @@ try:
             elif current_menu == "config":
                 execute_config_function(selected_item)
 
-            menu_indices[current_menu] = 0
+#            menu_indices[current_menu] = 0
 
         time.sleep(0.001)
 
