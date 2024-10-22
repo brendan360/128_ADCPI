@@ -439,35 +439,54 @@ def draw_menu(menu_items):
     image = Image.new('RGB', (WIDTH, HEIGHT), color=BACKGROUND_COLOR)
     draw = ImageDraw.Draw(image)
 
-    # Calculate the vertical position of the selected item
-    selected_y = HEIGHT // 2 - 25  # Center the selected item
+    # Determine how many items to display based on the total number of menu items
+    num_items = len(menu_items)
+    if num_items >= 5:
+        visible_items = 5
+        selected_y = HEIGHT // 2 - 25  # Center the selected item
+        start_index = menu_indices[current_menu] - 2  # Show 2 items above and 2 below the selected
+    else:
+        visible_items = 3
+        selected_y = HEIGHT // 2 - 40  # Adjust center for 3 items
+        start_index = menu_indices[current_menu] - 1  # Show 1 item above and 1 below the selected
 
-    # Define offsets and custom positions
-    item_offsets = {
-        0: {"x_offset": -25, "y_offset": 10},  # First item - slightly above and left
-        1: {"x_offset": -35, "y_offset": 10},   # Second item - above
+    # Define offsets and custom positions for each visible item (5 or 3)
+    item_offsets_5 = {
+        0: {"x_offset": 20, "y_offset": -60},  # First item - higher up
+        1: {"x_offset": 0, "y_offset": -40},   # Second item - slightly above
         2: {"x_offset": 0, "y_offset": 0},     # Third (selected) - centered
-        3: {"x_offset": -10, "y_offset": 10},    # Fourth item - below
-        4: {"x_offset": -25, "y_offset": 13}   # Fifth item - slightly below and right
+        3: {"x_offset": 0, "y_offset": 40},    # Fourth item - slightly below
+        4: {"x_offset": -20, "y_offset": 60}   # Fifth item - lower down
     }
 
-    # Loop through visible menu items and apply dynamic positioning
-    for i in range(5):
-        # Calculate index of the current item in the list
-        index = (menu_indices[current_menu] + i - 2) % len(menu_items)
+    item_offsets_3 = {
+        0: {"x_offset": 0, "y_offset": -40},   # First item - above
+        1: {"x_offset": 0, "y_offset": 0},     # Second (selected) - centered
+        2: {"x_offset": 0, "y_offset": 40}     # Third item - below
+    }
+
+    # Choose the correct offset map based on the number of visible items
+    item_offsets = item_offsets_5 if visible_items == 5 else item_offsets_3
+
+    # Loop through visible menu items
+    for i in range(visible_items):
+        # Calculate the index of the current item in the list
+        index = (start_index + i) % num_items
 
         # Calculate text and positioning
         text = menu_items[index]
-        text_color = TEXT_COLOR_SELECTED if i == 2 else TEXT_COLOR_NON_SELECTED1 if i == 1 or i == 3 else TEXT_COLOR_NON_SELECTED2
-        text_font = large_font if i == 2 else font if i == 1 or i == 3 else smallfont
+        text_color = TEXT_COLOR_SELECTED if i == (visible_items // 2) else TEXT_COLOR_NON_SELECTED1 if i == 1 or i == (visible_items - 2) else TEXT_COLOR_NON_SELECTED2
+        text_font = large_font if i == (visible_items // 2) else font if i == 1 or i == (visible_items - 2) else smallfont
         text_bbox = draw.textbbox((0, 0), text, font=text_font)
 
         # Apply custom offsets
         x = ((WIDTH - text_bbox[2] - text_bbox[0]) // 2) + item_offsets[i]["x_offset"]
-        y = selected_y + (i - 2) * (text_bbox[3] - text_bbox[1] + 20) + item_offsets[i]["y_offset"]
+        y = selected_y + item_offsets[i]["y_offset"]
 
-        # Draw text for menu items
+        # Draw the text for the menu item
         draw.text((x, y), text, fill=text_color, font=text_font)
+
+    # Show the updated image on the display
     disp.ShowImage(image)
 
 # Function to handle scroll button press
