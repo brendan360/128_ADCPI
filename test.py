@@ -452,17 +452,17 @@ def draw_menu(menu_items):
 
     # Define offsets and custom positions for each visible item (5 or 3)
     item_offsets_5 = {
-        0: {"x_offset": 20, "y_offset": -60},  # First item - higher up
+        0: {"x_offset": 0, "y_offset": -60},  # First item - higher up
         1: {"x_offset": 0, "y_offset": -40},   # Second item - slightly above
         2: {"x_offset": 0, "y_offset": 0},     # Third (selected) - centered
         3: {"x_offset": 0, "y_offset": 40},    # Fourth item - slightly below
-        4: {"x_offset": -20, "y_offset": 60}   # Fifth item - lower down
+        4: {"x_offset": 0, "y_offset": 60}   # Fifth item - lower down
     }
 
     item_offsets_3 = {
-        0: {"x_offset": -20, "y_offset": -40},   # First item - above
+        0: {"x_offset": 0, "y_offset": -40},   # First item - above
         1: {"x_offset": 0, "y_offset": 10},     # Second (selected) - centered
-        2: {"x_offset": -20, "y_offset": 80}     # Third item - below
+        2: {"x_offset": 0, "y_offset": 80}     # Third item - below
     }
 
     # Choose the correct offset map based on the number of visible items
