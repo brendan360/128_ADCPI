@@ -460,9 +460,9 @@ def draw_menu(menu_items):
     }
 
     item_offsets_3 = {
-        0: {"x_offset": 0, "y_offset": -40},   # First item - above
-        1: {"x_offset": 0, "y_offset": 0},     # Second (selected) - centered
-        2: {"x_offset": 0, "y_offset": 40}     # Third item - below
+        0: {"x_offset": -20, "y_offset": -40},   # First item - above
+        1: {"x_offset": 0, "y_offset": 10},     # Second (selected) - centered
+        2: {"x_offset": -20, "y_offset": 80}     # Third item - below
     }
 
     # Choose the correct offset map based on the number of visible items
