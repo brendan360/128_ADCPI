@@ -93,14 +93,16 @@ gfont = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 54)
 smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
 large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 14)
 
-# Setup GPIO for buttons
-SCROLL_PIN = 38
-SELECT_PIN = 40
+
+ROTARY_A_PIN = 38  # Out A
+ROTARY_B_PIN = 36  # Out B
+ROTARY_BUTTON_PIN = 40  # Push button
+
+# Setup GPIO
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(SCROLL_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(SELECT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-
+GPIO.setup(ROTARY_A_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(ROTARY_B_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 ########################
 #                      #
@@ -427,10 +429,32 @@ def draw_gauge(gauge_key):
 #                     #
 ####################### 
 
-
-# Button press events
+rotary_last_state = GPIO.input(ROTARY_A_PIN)
 scroll_pressed = threading.Event()
 select_pressed = threading.Event()
+
+
+def rotary_callback(channel):
+    global rotary_last_state
+
+    current_state = GPIO.input(ROTARY_A_PIN)
+    if current_state != rotary_last_state:  # state change detected
+        if GPIO.input(ROTARY_B_PIN) != current_state:
+            menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
+        else:
+            menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
+        rotary_last_state = current_state
+        scroll_pressed.set()  # Update the menu display
+
+# Button callback for selection
+def button_callback(channel):
+    select_pressed.set()
+
+# Add event detection for rotary encoder and push button
+GPIO.add_event_detect(ROTARY_A_PIN, GPIO.BOTH, callback=rotary_callback)
+GPIO.add_event_detect(ROTARY_BUTTON_PIN, GPIO.FALLING, callback=button_callback, bouncetime=300)
+
+
 
 # Function to draw the menu
 def draw_menu(menu_items):
@@ -497,10 +521,6 @@ def scroll_callback(channel):
 # Function to handle select button press
 def select_callback(channel):
     select_pressed.set()
-
-# Add event detection for button presses
-GPIO.add_event_detect(SCROLL_PIN, GPIO.FALLING, callback=scroll_callback, bouncetime=300)
-GPIO.add_event_detect(SELECT_PIN, GPIO.FALLING, callback=select_callback, bouncetime=300)
 
 # Dummy functions for gauge items
 def FUNCT_FUEL_PRESSURE():
@@ -773,3 +793,4 @@ try:
 
 except KeyboardInterrupt:
     GPIO.cleanup()
+
