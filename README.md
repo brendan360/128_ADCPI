@@ -14,3 +14,9 @@ sudo pip3 install spidev
 
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 sudo python3 setup.py install
+
+
+
+
+BL goes to pin 32
+![image](https://github.com/user-attachments/assets/891739a9-0284-464b-bca8-9ecb06f9334f)
