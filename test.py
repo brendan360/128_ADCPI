@@ -61,7 +61,7 @@ menu_indices = {
 
 RST = 27
 DC = 25
-BL = 18
+BL = 12
 bus = 0
 device = 0
 disp = LCD_1inch28.LCD_1inch28()
