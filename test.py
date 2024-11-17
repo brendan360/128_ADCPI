@@ -94,17 +94,11 @@ smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
 large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 14)
 
 # Setup GPIO for buttons
-
-ROTARY_A_PIN = 38 # Out A
-ROTARY_B_PIN = 37  # Out B
-ROTARY_BUTTON_PIN = 40  # Push button
-
-#SCROLL_PIN = 38
-#SELECT_PIN = 40
+SCROLL_PIN = 38
+SELECT_PIN = 40
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(ROTARY_A_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(ROTARY_B_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(SCROLL_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(SELECT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 
 
@@ -424,17 +418,7 @@ def draw_gauge(gauge_key):
 
 
 
-def rotary_callback(channel):
-    global rotary_last_state
 
-    current_state = GPIO.input(ROTARY_A_PIN)
-    if current_state != rotary_last_state:  # state change detected
-        if GPIO.input(ROTARY_B_PIN) != current_state:
-            menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
-        else:
-            menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
-        rotary_last_state = current_state
-        scroll_pressed.set()  # Update the menu display
 
 
 #######################
@@ -443,13 +427,10 @@ def rotary_callback(channel):
 #                     #
 ####################### 
 
-def button_callback(channel):
-    select_pressed.set()
 
-# Add event detection for rotary encoder and push button
-GPIO.add_event_detect(ROTARY_A_PIN, GPIO.BOTH, callback=rotary_callback)
-GPIO.add_event_detect(ROTARY_BUTTON_PIN, GPIO.FALLING, callback=button_callback, bouncetime=300)
-
+# Button press events
+scroll_pressed = threading.Event()
+select_pressed = threading.Event()
 
 # Function to draw the menu
 def draw_menu(menu_items):
