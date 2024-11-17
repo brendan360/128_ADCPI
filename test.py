@@ -522,10 +522,6 @@ def scroll_callback(channel):
 def select_callback(channel):
     select_pressed.set()
 
-# Add event detection for button presses
-GPIO.add_event_detect(SCROLL_PIN, GPIO.FALLING, callback=scroll_callback, bouncetime=300)
-GPIO.add_event_detect(SELECT_PIN, GPIO.FALLING, callback=select_callback, bouncetime=300)
-
 # Dummy functions for gauge items
 def FUNCT_FUEL_PRESSURE():
     print("Fuel Pressure Function")
