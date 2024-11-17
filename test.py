@@ -440,9 +440,9 @@ def rotary_callback(channel):
     current_state = GPIO.input(ROTARY_A_PIN)
     if current_state != rotary_last_state:  # state change detected
         if GPIO.input(ROTARY_B_PIN) != current_state:
-            menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
-        else:
             menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
+        else:
+            menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
         rotary_last_state = current_state
         scroll_pressed.set()  # Update the menu display
 
