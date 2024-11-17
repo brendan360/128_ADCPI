@@ -94,8 +94,8 @@ smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
 large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 14)
 
 
-ROTARY_A_PIN = 36  # Out A
-ROTARY_B_PIN = 38  # Out B
+ROTARY_A_PIN = 38  # Out A
+ROTARY_B_PIN = 36  # Out B
 ROTARY_BUTTON_PIN = 40  # Push button
 
 # Setup GPIO
