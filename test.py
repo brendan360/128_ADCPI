@@ -58,6 +58,7 @@ menu_indices = {
 #   Screen Variables   #
 #                      #
 ########################
+
 RST = 27
 DC = 25
 BL = 18
