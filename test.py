@@ -101,7 +101,7 @@ ROTARY_BUTTON_PIN = 40  # Push button
 
 #SCROLL_PIN = 38
 #SELECT_PIN = 40
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 GPIO.setup(ROTARY_A_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(ROTARY_B_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -517,6 +517,9 @@ def scroll_callback(channel):
 def select_callback(channel):
     select_pressed.set()
 
+# Add event detection for button presses
+GPIO.add_event_detect(SCROLL_PIN, GPIO.FALLING, callback=scroll_callback, bouncetime=300)
+GPIO.add_event_detect(SELECT_PIN, GPIO.FALLING, callback=select_callback, bouncetime=300)
 
 # Dummy functions for gauge items
 def FUNCT_FUEL_PRESSURE():
