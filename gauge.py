@@ -84,7 +84,7 @@ TEXT_COLOR_NON_SELECTED2 = (150, 0, 0)
 FONT_SIZE = 30
 
 # Define fonts
-font = ImageFont.truetype("arial.ttf", FONT_SIZE)
+font = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", FONT_SIZE)
 font1 = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 42)
 font2 = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 20)
 font3 = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 12)
