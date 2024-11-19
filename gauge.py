@@ -90,8 +90,8 @@ font2 = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 20)
 font3 = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 12)
 gfont = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 54)
 
-smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
-large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 14)
+smallfont = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", FONT_SIZE - 10)
+large_font = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", FONT_SIZE + 14)
 
 
 ROTARY_A_PIN = 38  # Out A
