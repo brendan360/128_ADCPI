@@ -97,6 +97,9 @@ large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 14)
 ROTARY_A_PIN = 38  # Out A
 ROTARY_B_PIN = 36  # Out B
 ROTARY_BUTTON_PIN = 40  # Push button
+rotary_last_a = GPIO.input(ROTARY_A_PIN)
+rotary_last_b = GPIO.input(ROTARY_B_PIN)
+rotary_step_delay = 0.01  # Delay for debounce
 
 # Setup GPIO
 GPIO.setmode(GPIO.BOARD)
@@ -435,16 +438,27 @@ select_pressed = threading.Event()
 
 
 def rotary_callback(channel):
-    global rotary_last_state
+ global rotary_last_a, rotary_last_b
 
-    current_state = GPIO.input(ROTARY_A_PIN)
-    if current_state != rotary_last_state:  # state change detected
-        if GPIO.input(ROTARY_B_PIN) != current_state:
-            menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
-        else:
-            menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
-        rotary_last_state = current_state
-        scroll_pressed.set()  # Update the menu display
+    # Read current states
+    current_a = GPIO.input(ROTARY_A_PIN)
+    current_b = GPIO.input(ROTARY_B_PIN)
+
+    # Check for a valid step (A or B changes)
+    if current_a != rotary_last_a or current_b != rotary_last_b:
+        time.sleep(rotary_step_delay)  # Debounce delay
+        if GPIO.input(ROTARY_A_PIN) == current_a and GPIO.input(ROTARY_B_PIN) == current_b:
+            # Detect rotation direction
+            if current_a == current_b:  # Both A and B same means clockwise
+                menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
+            else:  # A and B different means counterclockwise
+                menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
+
+            scroll_pressed.set()  # Signal for menu redraw
+
+    # Update last states
+    rotary_last_a = current_a
+    rotary_last_b = current_b
 
 # Button callback for selection
 def button_callback(channel):
