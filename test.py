@@ -438,7 +438,7 @@ select_pressed = threading.Event()
 
 
 def rotary_callback(channel):
- global rotary_last_a, rotary_last_b
+    global rotary_last_a, rotary_last_b
 
     # Read current states
     current_a = GPIO.input(ROTARY_A_PIN)
