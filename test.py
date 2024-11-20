@@ -107,7 +107,7 @@ GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 rotary_last_a = GPIO.input(ROTARY_A_PIN)
 rotary_last_b = GPIO.input(ROTARY_B_PIN)
-rotary_step_delay = 0.01  # Delay for debounce
+rotary_step_delay = 0.1  # Delay for debounce
 
 
 ########################
