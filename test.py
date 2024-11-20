@@ -93,6 +93,11 @@ gfont = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 54)
 smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
 large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 14)
 
+# Setup GPIO
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(ROTARY_A_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(ROTARY_B_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 ROTARY_A_PIN = 38  # Out A
 ROTARY_B_PIN = 36  # Out B
@@ -101,11 +106,6 @@ rotary_last_a = GPIO.input(ROTARY_A_PIN)
 rotary_last_b = GPIO.input(ROTARY_B_PIN)
 rotary_step_delay = 0.01  # Delay for debounce
 
-# Setup GPIO
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(ROTARY_A_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(ROTARY_B_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 ########################
 #                      #
