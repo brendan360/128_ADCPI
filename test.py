@@ -108,7 +108,8 @@ GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 rotary_last_a = GPIO.input(ROTARY_A_PIN)
 rotary_last_b = GPIO.input(ROTARY_B_PIN)
 rotary_step_delay = 0.1  # Delay for debounce
-
+rotary_state = 0b00  # Initial state (both A and B low)
+last_menu_update_time = time.time()
 
 ########################
 #                      #
@@ -441,27 +442,39 @@ select_pressed = threading.Event()
 
 
 def rotary_callback(channel):
-    global rotary_last_a, rotary_last_b
+    global rotary_state, menu_indices, last_menu_update_time
 
-    # Read current states
+    # Read the current states of A and B
     current_a = GPIO.input(ROTARY_A_PIN)
     current_b = GPIO.input(ROTARY_B_PIN)
 
-    # Check for a valid step (A or B changes)
-    if current_a != rotary_last_a or current_b != rotary_last_b:
-        time.sleep(rotary_step_delay)  # Debounce delay
-        if GPIO.input(ROTARY_A_PIN) == current_a and GPIO.input(ROTARY_B_PIN) == current_b:
-            # Detect rotation direction
-            if current_a == current_b:  # Both A and B same means clockwise
-                menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
-            else:  # A and B different means counterclockwise
-                menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
+    # Combine the current states into a 2-bit number
+    new_state = (current_a << 1) | current_b
 
-            scroll_pressed.set()  # Signal for menu redraw
+    # Determine the direction based on the state transition
+    if (rotary_state == 0b00 and new_state == 0b01) or \
+       (rotary_state == 0b01 and new_state == 0b11) or \
+       (rotary_state == 0b11 and new_state == 0b10) or \
+       (rotary_state == 0b10 and new_state == 0b00):
+        # Clockwise
+        menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
+        scroll_pressed.set()
 
-    # Update last states
-    rotary_last_a = current_a
-    rotary_last_b = current_b
+    elif (rotary_state == 0b00 and new_state == 0b10) or \
+         (rotary_state == 0b10 and new_state == 0b11) or \
+         (rotary_state == 0b11 and new_state == 0b01) or \
+         (rotary_state == 0b01 and new_state == 0b00):
+        # Counterclockwise
+        menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
+        scroll_pressed.set()
+
+    # Update the last rotary state
+    rotary_state = new_state
+
+    # Debounce with a short delay
+    if time.time() - last_menu_update_time < 0.02:
+        return
+    last_menu_update_time = time.time()
 
 # Button callback for selection
 def button_callback(channel):
