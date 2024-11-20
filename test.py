@@ -518,13 +518,6 @@ def draw_menu(menu_items):
     # Show the updated image on the display
     disp.ShowImage(image)
 
-# Function to handle scroll button press
-def scroll_callback(channel):
-    scroll_pressed.set()
-
-# Function to handle select button press
-def select_callback(channel):
-    select_pressed.set()
 
 # Dummy functions for gauge items
 def FUNCT_FUEL_PRESSURE():
@@ -792,8 +785,6 @@ try:
                 execute_config_function(selected_item)
 
 #            menu_indices[current_menu] = 0
-
-        time.sleep(0.001)
 
 except KeyboardInterrupt:
     GPIO.cleanup()
