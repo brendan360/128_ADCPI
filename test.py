@@ -108,23 +108,6 @@ rotary_last_state = GPIO.input(ROTARY_A_PIN)
 scroll_pressed = threading.Event()
 select_pressed = threading.Event()
 
-# Rotary encoder states
-rotary_last_state = 0b00  # Last known state of A and B
-rotary_position = 0       # Tracks the rotary position
-debounce_time = 0.01      # Time between stable signal reads (10 ms)
-
-# Transition table for state machine
-# Maps (previous_state, current_state) -> step change
-STATE_TRANSITIONS = {
-    (0b00, 0b01): 1,  # Clockwise
-    (0b01, 0b11): 1,
-    (0b11, 0b10): 1,
-    (0b10, 0b00): 1,
-    (0b00, 0b10): -1,  # Counterclockwise
-    (0b10, 0b11): -1,
-    (0b11, 0b01): -1,
-    (0b01, 0b00): -1,
-}
 
 ########################
 #                      #
@@ -455,31 +438,18 @@ rotary_last_state = GPIO.input(ROTARY_A_PIN)
 scroll_pressed = threading.Event()
 select_pressed = threading.Event()
 
+
 def rotary_callback(channel):
-    global rotary_last_state, rotary_position, menu_indices
+    global rotary_last_state
 
-    # Read the current state of A and B
-    current_a = GPIO.input(ROTARY_A_PIN)
-    current_b = GPIO.input(ROTARY_B_PIN)
-    current_state = (current_a << 1) | current_b
-
-    # Check for a valid state transition
-    if (rotary_last_state, current_state) in STATE_TRANSITIONS:
-        step = STATE_TRANSITIONS[(rotary_last_state, current_state)]
-        rotary_position += step
-
-        # Update menu index only after completing a full detent
-        if abs(rotary_position) >= 4:  # 4 steps per detent
-            rotary_position = 0  # Reset for next detent
-            if step > 0:  # Clockwise
-                menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
-            else:  # Counterclockwise
-                menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
-
-            scroll_pressed.set()  # Signal for menu redraw
-
-    # Update the last known state
-    rotary_last_state = current_state
+    current_state = GPIO.input(ROTARY_A_PIN)
+    if current_state != rotary_last_state:  # state change detected
+        if GPIO.input(ROTARY_B_PIN) != current_state:
+            menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
+        else:
+            menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
+        rotary_last_state = current_state
+        scroll_pressed.set()  # Update the menu display
         
 def button_callback(channel):
     select_pressed.set()
