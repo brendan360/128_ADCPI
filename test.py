@@ -108,6 +108,10 @@ rotary_last_state = GPIO.input(ROTARY_A_PIN)
 scroll_pressed = threading.Event()
 select_pressed = threading.Event()
 
+rotary_last_state = 0b00  # Previous state (combination of A and B)
+rotary_steps = 0  # Counter for steps in the quadrature cycle
+last_scroll_time = time.time()  # Time of the last valid scroll
+debounce_time = 0.03  # Minimum time between scroll events (in seconds)
 
 ########################
 #                      #
@@ -440,16 +444,50 @@ select_pressed = threading.Event()
 
 
 def rotary_callback(channel):
-    global rotary_last_state
+    global rotary_last_state, rotary_steps, last_scroll_time, menu_indices
 
-    current_state = GPIO.input(ROTARY_A_PIN)
-    if current_state != rotary_last_state:  # state change detected
-        if GPIO.input(ROTARY_B_PIN) != current_state:
-            menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
-        else:
-            menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
-        rotary_last_state = current_state
-        scroll_pressed.set()  # Update the menu display
+    # Read current A and B states
+    current_a = GPIO.input(ROTARY_A_PIN)
+    current_b = GPIO.input(ROTARY_B_PIN)
+
+    # Combine A and B into a 2-bit number
+    current_state = (current_a << 1) | current_b
+
+    # Determine direction based on state transitions
+    if rotary_last_state == 0b00 and current_state == 0b01:
+        rotary_steps += 1  # CW Step
+    elif rotary_last_state == 0b01 and current_state == 0b11:
+        rotary_steps += 1  # CW Step
+    elif rotary_last_state == 0b11 and current_state == 0b10:
+        rotary_steps += 1  # CW Step
+    elif rotary_last_state == 0b10 and current_state == 0b00:
+        rotary_steps += 1  # CW Step
+    elif rotary_last_state == 0b00 and current_state == 0b10:
+        rotary_steps -= 1  # CCW Step
+    elif rotary_last_state == 0b10 and current_state == 0b11:
+        rotary_steps -= 1  # CCW Step
+    elif rotary_last_state == 0b11 and current_state == 0b01:
+        rotary_steps -= 1  # CCW Step
+    elif rotary_last_state == 0b01 and current_state == 0b00:
+        rotary_steps -= 1  # CCW Step
+
+    # Update the last state
+    rotary_last_state = current_state
+
+    # Process menu update after a full quadrature cycle (4 steps)
+    if abs(rotary_steps) >= 4:
+        current_time = time.time()
+        if current_time - last_scroll_time > debounce_time:
+            # Update the menu index based on the direction
+            if rotary_steps > 0:  # Clockwise
+                menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
+            else:  # Counterclockwise
+                menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
+
+            # Reset step counter and update last scroll time
+            rotary_steps = 0
+            last_scroll_time = current_time
+            scroll_pressed.set()  # Signal for menu redraw
         
 def button_callback(channel):
     select_pressed.set()
