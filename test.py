@@ -110,7 +110,7 @@ rotary_last_b = GPIO.input(ROTARY_B_PIN)
 rotary_last_state = 0b00  # Previous state (combination of A and B)
 rotary_steps = 0  # Counter for steps in the quadrature cycle
 last_scroll_time = time.time()  # Time of the last valid scroll
-debounce_time = 0.3          # Minimum time between scroll events (in seconds)
+debounce_time = 0.01          # Minimum time between scroll events (in seconds)
 
 ########################
 #                      #
