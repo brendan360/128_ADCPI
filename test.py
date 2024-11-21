@@ -94,15 +94,16 @@ gfont = ImageFont.truetype("/home/pi/128_ADCPI/arial.ttf", 54)
 smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
 large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 14)
 
+ROTARY_A_PIN = 38  # Out Ac
+ROTARY_B_PIN = 36  # Out B
+ROTARY_BUTTON_PIN = 40  # Push button
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(ROTARY_A_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(ROTARY_B_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-ROTARY_A_PIN = 38  # Out Ac
-ROTARY_B_PIN = 36  # Out B
-ROTARY_BUTTON_PIN = 40  # Push button
+
 rotary = Encoder(ROTARY_A_PIN, ROTARY_B_PIN)
 
 
