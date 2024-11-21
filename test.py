@@ -711,6 +711,7 @@ def FUNCT_CLI_ENABLE():
     global CLI_enable
     print("CLI_ENABLE")
     CLI_enable=1
+    draw_menu(config_menu)
 
 
 def FUNCT_REBOOT_PI():
