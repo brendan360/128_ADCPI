@@ -42,7 +42,7 @@ adc = ADCPi(0x68, 0x69, 12)
 # Define the menus
 level1_menu = ["Gauges", "MultiGauge", "Config"]
 multigauge_menu = ["QuadTemp", "Triple Stack", "Back"]
-config_menu = ["ip address", "reboot pi", "Back"]
+config_menu = ["ip address", "reboot pi","CLI enable", "Back"]
 
 
 current_menu = "level1"
@@ -102,6 +102,9 @@ GPIO.setmode(GPIO.BOARD)
 
 scroll_pressed = threading.Event()
 select_pressed = threading.Event()
+
+CLI_enable=0
+
 ########################
 #                      #
 #    Rotary helper     #
@@ -664,8 +667,20 @@ def QUAD_TEMP_GAUGE():
 def TRIPLE_STACK():
     print("Triple Stack Function")
     while True:
+        highlightDisplay("ENABLED","CLI")
         if select_pressed.is_set():
             select_pressed.clear()
+            break
+        # Display logic for Triple Stack
+        time.sleep(0.1)
+
+def CLI_ENABLE():
+    print("CLI_ENABLE")
+    while True:
+        CLI_enable=1
+        if select_pressed.is_set():
+            select_pressed.clear()
+            CLI_enable=0
             break
         # Display logic for Triple Stack
         time.sleep(0.1)
@@ -804,9 +819,11 @@ firstBoot()
 try:
 
     threading.Thread(target=FUNCT_updateValues).start()
-    threading.Thread(target=FUNCT_cliPrint).start()
-
+    
     while True:
+        if CLI_enable =1:
+            threading.Thread(target=FUNCT_cliPrint).start()
+     
         # Get the current menu items based on the menu state
         if current_menu == "level1":
             menu_items = level1_menu
