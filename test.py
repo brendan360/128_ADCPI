@@ -822,7 +822,7 @@ try:
         draw_menu(menu_items)
 
         # Check for rotary events
-    if rotary_set ==1:
+    if rotary_set =="1":
         print("rotaryMatch")
         rotary=0
         
