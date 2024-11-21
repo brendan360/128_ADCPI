@@ -808,7 +808,6 @@ try:
 #    threading.Thread(target=FUNCT_cliPrint).start()
 
     while True:
-        print(rotary_set)
         # Get the current menu items based on the menu state
         if current_menu == "level1":
             menu_items = level1_menu
@@ -823,15 +822,15 @@ try:
 
         # Check for rotary events
         if rotary_set =="1":
-            print("rotaryMatch")
             rotary="0"
-        
         # Check for button press
         if push_set =="1":
+            push_set ="0"
             selected_item = menu_items[menu_indices[current_menu]]
             print(f"Selected: {selected_item}")
             if selected_item == "Back":
-                current_menu = "level1"
+                if current_menu == "multigauge" or current_menu == "config" or current_menu == "gauges":
+                    current_menu = "level1"
             elif current_menu == "level1":
                 if selected_item == "Gauges":
                     current_menu = "gauges"
@@ -839,7 +838,16 @@ try:
                     current_menu = "multigauge"
                 elif selected_item == "Config":
                     current_menu = "config"
-            push_set ="0"
+            elif current_menu == "multigauge":
+                if selected_item == "QuadTemp":
+                    QUAD_TEMP_GAUGE()
+                elif selected_item == "Triple Stack":
+                    TRIPLE_STACK()
+            elif current_menu == "gauges":
+                execute_gauge_function(selected_item)
+            elif current_menu == "config":
+                execute_config_function(selected_item)
+        time.sleep(.1)            
 
 except KeyboardInterrupt:
     GPIO.cleanup()
