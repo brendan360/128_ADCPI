@@ -806,6 +806,7 @@ try:
 #    threading.Thread(target=FUNCT_cliPrint).start()
 
     while True:
+        print(select_pressed)
         # Get the current menu items based on the menu state
         if current_menu == "level1":
             menu_items = level1_menu
@@ -824,7 +825,6 @@ try:
         
         # Check for button press
     if select_pressed.is_set():
-        print("buttonPressedmenulevel")
         selected_item = menu_items[menu_indices[current_menu]]
         print(f"Selected: {selected_item}")
         if selected_item == "Back":
