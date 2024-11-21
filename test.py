@@ -674,16 +674,7 @@ def TRIPLE_STACK():
         # Display logic for Triple Stack
         time.sleep(0.1)
 
-def FUNCT_CLI_ENABLE():
-    print("CLI_ENABLE")
-    while True:
-        CLI_enable=1
-        if select_pressed.is_set():
-            select_pressed.clear()
-            CLI_enable=0
-            break
-        # Display logic for Triple Stack
-        time.sleep(0.1)
+
 
 # Function to execute gauge function based on selection
 def execute_gauge_function(selected_item):
@@ -714,6 +705,19 @@ def execute_config_function(selected_item):
 #    functions        #
 #                     #
 ####################### 
+
+
+def FUNCT_CLI_ENABLE():
+    print("CLI_ENABLE")
+    CLI_enable=1
+    while True:
+        if select_pressed.is_set():
+            select_pressed.clear()
+            CLI_enable=0
+            break
+        # Display logic for Triple Stack
+        time.sleep(0.1)
+
 
 def FUNCT_REBOOT_PI():
     drawimage=setupDisplay()
