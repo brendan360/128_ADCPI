@@ -498,7 +498,7 @@ def draw_gauge(gauge_key):
 
 def rotary_callback(value, direction):
     """Handles rotary encoder rotation."""
-    global menu_indices
+    global menu_indices, scroll_pressed
 
     if direction == "R":
         menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
@@ -511,6 +511,7 @@ def rotary_callback(value, direction):
 rotary_encoder = Encoder(ROTARY_A_PIN, ROTARY_B_PIN, callback=rotary_callback)
 
 def button_pressed_callback(channel):
+    global select_pressed
     print("buttonPressed")
     select_pressed.is_set()
     print(select_pressed)
