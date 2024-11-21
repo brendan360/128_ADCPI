@@ -454,6 +454,7 @@ def rotary_callback(value):
     scroll_pressed.set()  # Signal that the menu should redraw
 
 # Attach callback to the rotary encoder
+
 rotary.set_callback(rotary_callback)
 
 # Button press handling
@@ -743,8 +744,8 @@ def FUNCT_cliPrint():
 
 firstBoot()
 try:
-    threading.Thread(target=FUNCT_updateValues).start()
-    threading.Thread(target=FUNCT_cliPrint).start()
+#    threading.Thread(target=FUNCT_updateValues).start()
+#    threading.Thread(target=FUNCT_cliPrint).start()
 
     while True:
         # Get the current menu items based on the menu state
