@@ -826,7 +826,8 @@ try:
     
     while True:
         if CLI_enable ==1:
-            threading.Thread(target=FUNCT_cliPrint).start()
+            print("enabling CLI.....")
+            FUNCT_cliPrint()
      
         # Get the current menu items based on the menu state
         if current_menu == "level1":
