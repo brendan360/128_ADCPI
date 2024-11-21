@@ -819,6 +819,7 @@ try:
 
         # Check for rotary events
     if scroll_pressed.is_set():
+            print("buttonPressed")
             scroll_pressed.clear()
 
         # Check for button press
