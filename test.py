@@ -821,11 +821,11 @@ try:
         # Check for rotary events
     if scroll_pressed.is_set():
         scroll_pressed.clear()
+        draw_menu(menu_items)
 
         # Check for button press
     if select_pressed.is_set():
         print("buttonPressedmenulevel")
-        
         selected_item = menu_items[menu_indices[current_menu]]
         print(f"Selected: {selected_item}")
         if selected_item == "Back":
