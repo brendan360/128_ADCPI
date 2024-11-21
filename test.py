@@ -803,6 +803,7 @@ def FUNCT_cliPrint():
 
 #firstBoot()
 try:
+global push_set, rotary_set
 #    threading.Thread(target=FUNCT_updateValues).start()
 #    threading.Thread(target=FUNCT_cliPrint).start()
 
