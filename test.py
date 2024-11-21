@@ -820,10 +820,7 @@ try:
     threading.Thread(target=FUNCT_updateValues).start()
     
     while True:
-        if CLI_enable ==1:
-            print("enabling CLI.....")
-            FUNCT_cliPrint()
-     
+        print("looping")
         # Get the current menu items based on the menu state
         if current_menu == "level1":
             menu_items = level1_menu
@@ -835,6 +832,9 @@ try:
             menu_items = gauge_menu
         # Draw the current menu
         draw_menu(menu_items)
+     
+        if CLI_enable ==1:
+            FUNCT_cliPrint()
 
         # Check for rotary events
         if scroll_pressed.is_set():
