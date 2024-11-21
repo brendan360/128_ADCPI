@@ -823,9 +823,9 @@ try:
         select_pressed.clear()
         selected_item = menu_items[menu_indices[current_menu]]
         print(f"Selected: {selected_item}")
-         if selected_item == "Back":
+        if selected_item == "Back":
             current_menu = "level1"
-         elif current_menu == "level1":
+        elif current_menu == "level1":
             if selected_item == "Gauges":
                 current_menu = "gauges"
             elif selected_item == "MultiGauge":
