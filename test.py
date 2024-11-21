@@ -819,7 +819,6 @@ try:
     threading.Thread(target=FUNCT_updateValues).start()
    
     while True:
-        print("looping")
         # Get the current menu items based on the menu state
         if current_menu == "level1":
             menu_items = level1_menu
