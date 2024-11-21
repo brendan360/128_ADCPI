@@ -803,7 +803,7 @@ def FUNCT_cliPrint():
 
 #firstBoot()
 try:
-    global push_set, rotary_set
+
 #    threading.Thread(target=FUNCT_updateValues).start()
 #    threading.Thread(target=FUNCT_cliPrint).start()
 
@@ -822,7 +822,8 @@ try:
         draw_menu(menu_items)
 
         # Check for rotary events
-    if rotary_set ==1 :
+    if rotary_set ==1:
+        print("rotaryMatch")
         rotary=0
         
         # Check for button press
