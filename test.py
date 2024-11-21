@@ -511,8 +511,9 @@ def rotary_callback(value, direction):
 rotary_encoder = Encoder(ROTARY_A_PIN, ROTARY_B_PIN, callback=rotary_callback)
 
 def button_pressed_callback(channel):
-    """Handles the push-button press."""
+    print("buttonPressed")
     select_pressed.is_set()
+   
 
 
 
@@ -820,9 +821,12 @@ try:
         # Check for rotary events
         if scroll_pressed.is_set():
             scroll_pressed.clear()
+         
         # Check for button press
+     
         if select_pressed.is_set():
             select_pressed.clear()
+            print("menu select")
             selected_item = menu_items[menu_indices[current_menu]]
             print(f"Selected: {selected_item}")
             if selected_item == "Back":
@@ -844,7 +848,7 @@ try:
                 execute_gauge_function(selected_item)
             elif current_menu == "config":
                 execute_config_function(selected_item)
-        time.sleep(.1)            
+       
 
 except KeyboardInterrupt:
     GPIO.cleanup()
