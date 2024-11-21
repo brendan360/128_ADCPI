@@ -708,12 +708,12 @@ def execute_config_function(selected_item):
 
 
 def FUNCT_CLI_ENABLE():
-    global CLI_enable, select_pressed
+    global select_pressed
     select_pressed.clear()
     print("CLI_ENABLE")
     highlightDisplay("CLI","ENABLED")
+    threading.Thread(target=FUNCT_cliPrint).start()
     time.sleep(4)
-    CLI_enable=1
     draw_menu(config_menu)
 
 
@@ -831,10 +831,7 @@ try:
             menu_items = gauge_menu
         # Draw the current menu
         draw_menu(menu_items)
-     
-        if CLI_enable ==1:
-            threading.Thread(target=FUNCT_cliPrint).start()
-            break
+
 
         # Check for rotary events
         if scroll_pressed.is_set():
