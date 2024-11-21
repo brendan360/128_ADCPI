@@ -13,7 +13,7 @@ import signal
 import random
 import socket
 from lib import LCD_1inch28
-from rotary_encoder import RotaryEncoder
+from encoder import Encoder
  
 try:
     from ADCPi import ADCPi
@@ -95,9 +95,11 @@ smallfont = ImageFont.truetype("arial.ttf", FONT_SIZE - 10)
 large_font = ImageFont.truetype("arial.ttf", FONT_SIZE + 14)
 
 
-ROTARY_A_PIN = 38  # Out A
+ROTARY_A_PIN = 38  # Out Ac
 ROTARY_B_PIN = 36  # Out B
 ROTARY_BUTTON_PIN = 40  # Push button
+
+rotary = RotaryEncoder(ROTARY_A_PIN, ROTARY_B_PIN)
 
 # Setup GPIO
 GPIO.setmode(GPIO.BOARD)
@@ -105,14 +107,14 @@ GPIO.setup(ROTARY_A_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(ROTARY_B_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-rotary_last_state = GPIO.input(ROTARY_A_PIN)
-scroll_pressed = threading.Event()
-select_pressed = threading.Event()
+#rotary_last_state = GPIO.input(ROTARY_A_PIN)
+#scroll_pressed = threading.Event()
+#select_pressed = threading.Event()
 
-rotary_last_state = 0b00  # Previous state (combination of A and B)
-rotary_steps = 0  # Counter for steps in the quadrature cycle
-last_scroll_time = time.time()  # Time of the last valid scroll
-debounce_time = 0.03  # Minimum time between scroll events (in seconds)
+#rotary_last_state = 0b00  # Previous state (combination of A and B)
+#rotary_steps = 0  # Counter for steps in the quadrature cycle
+#last_scroll_time = time.time()  # Time of the last valid scroll
+#debounce_time = 0.03  # Minimum time between scroll events (in seconds)
 
 ########################
 #                      #
@@ -439,30 +441,28 @@ def draw_gauge(gauge_key):
 #                     #
 ####################### 
 
-rotary = RotaryEncoder(ROTARY_A_PIN, ROTARY_B_PIN)
-
-# Rotary encoder callback functions
-def rotary_increase():
+def rotary_callback(value):
+    """Handles rotary encoder rotation."""
     global menu_indices
-    menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
-    scroll_pressed.set()  # Signal for menu redraw
 
-def rotary_decrease():
-    global menu_indices
-    menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
-    scroll_pressed.set()  # Signal for menu redraw
+    if value > 0:  # Clockwise rotation
+        menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
+    elif value < 0:  # Counterclockwise rotation
+        menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
 
-# Attach callbacks to rotary events
-rotary.on_rotate_cw(rotary_increase)
-rotary.on_rotate_ccw(rotary_decrease)
+    scroll_pressed.set()  # Signal that the menu should redraw
 
-# Button handling
+# Attach callback to the rotary encoder
+rotary.set_callback(rotary_callback)
+
+# Button press handling
 def button_pressed_callback(channel):
+    """Handles the push-button press."""
     select_pressed.set()
 
+# GPIO setup for the button
 GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.add_event_detect(ROTARY_BUTTON_PIN, GPIO.FALLING, callback=button_pressed_callback, bouncetime=300)
-
 
 
 
@@ -759,7 +759,11 @@ try:
         # Draw the current menu
         draw_menu(menu_items)
 
-        # Check for select button press
+        # Check for rotary events
+        if scroll_pressed.is_set():
+            scroll_pressed.clear()
+
+        # Check for button press
         if select_pressed.is_set():
             select_pressed.clear()
 
@@ -786,6 +790,7 @@ try:
             elif current_menu == "config":
                 execute_config_function(selected_item)
 
+        time.sleep(0.001)
 
 except KeyboardInterrupt:
     GPIO.cleanup()
