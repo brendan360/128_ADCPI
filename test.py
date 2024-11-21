@@ -832,7 +832,7 @@ try:
         draw_menu(menu_items)
      
         if CLI_enable ==1:
-            FUNCT_cliPrint()
+            threading.Thread(target=FUNCT_cliPrint).start()
             break
 
         # Check for rotary events
