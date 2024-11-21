@@ -799,7 +799,7 @@ def FUNCT_cliPrint():
 
 
 
-firstBoot()
+#firstBoot()
 try:
 #    threading.Thread(target=FUNCT_updateValues).start()
 #    threading.Thread(target=FUNCT_cliPrint).start()
