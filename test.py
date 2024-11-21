@@ -99,8 +99,8 @@ ROTARY_B_PIN = 36  # Out B
 ROTARY_BUTTON_PIN = 40  # Push button
 
 GPIO.setmode(GPIO.BOARD)
-rotary_set =0
-push_set =0
+rotary_set ="0"
+push_set ="0"
 
 scroll_pressed = threading.Event()
 select_pressed = threading.Event()
@@ -506,7 +506,7 @@ def rotary_callback(value, direction):
         menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
     elif direction == "L":
         menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
-    rotary_set =1
+    rotary_set ="1"
 
 
 # Button press handling
@@ -515,7 +515,7 @@ rotary_encoder = Encoder(ROTARY_A_PIN, ROTARY_B_PIN, callback=rotary_callback)
 def button_pressed_callback(channel):
     global push_set
     """Handles the push-button press."""
-    push_set =1
+    push_set ="1"
 
 
 
@@ -824,10 +824,10 @@ try:
         # Check for rotary events
     if rotary_set =="1":
         print("rotaryMatch")
-        rotary=0
+        rotary="0"
         
         # Check for button press
-    if push_set ==1:
+    if push_set =="1":
         selected_item = menu_items[menu_indices[current_menu]]
         print(f"Selected: {selected_item}")
         if selected_item == "Back":
@@ -839,7 +839,7 @@ try:
                 current_menu = "multigauge"
             elif selected_item == "Config":
                 current_menu = "config"
-        push_set =0
+        push_set ="0"
 
 except KeyboardInterrupt:
     GPIO.cleanup()
