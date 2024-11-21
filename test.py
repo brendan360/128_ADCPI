@@ -438,63 +438,30 @@ def draw_gauge(gauge_key):
 #                     #
 ####################### 
 
-rotary_last_state = GPIO.input(ROTARY_A_PIN)
-scroll_pressed = threading.Event()
-select_pressed = threading.Event()
+rotary = RotaryEncoder(ROTARY_A_PIN, ROTARY_B_PIN)
 
+# Rotary encoder callback functions
+def rotary_increase():
+    global menu_indices
+    menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
+    scroll_pressed.set()  # Signal for menu redraw
 
-def rotary_callback(channel):
-    global rotary_last_state, rotary_steps, last_scroll_time, menu_indices
+def rotary_decrease():
+    global menu_indices
+    menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
+    scroll_pressed.set()  # Signal for menu redraw
 
-    # Read current A and B states
-    current_a = GPIO.input(ROTARY_A_PIN)
-    current_b = GPIO.input(ROTARY_B_PIN)
+# Attach callbacks to rotary events
+rotary.on_rotate_cw(rotary_increase)
+rotary.on_rotate_ccw(rotary_decrease)
 
-    # Combine A and B into a 2-bit number
-    current_state = (current_a << 1) | current_b
-
-    # Determine direction based on state transitions
-    if rotary_last_state == 0b00 and current_state == 0b01:
-        rotary_steps += 1  # CW Step
-    elif rotary_last_state == 0b01 and current_state == 0b11:
-        rotary_steps += 1  # CW Step
-    elif rotary_last_state == 0b11 and current_state == 0b10:
-        rotary_steps += 1  # CW Step
-    elif rotary_last_state == 0b10 and current_state == 0b00:
-        rotary_steps += 1  # CW Step
-    elif rotary_last_state == 0b00 and current_state == 0b10:
-        rotary_steps -= 1  # CCW Step
-    elif rotary_last_state == 0b10 and current_state == 0b11:
-        rotary_steps -= 1  # CCW Step
-    elif rotary_last_state == 0b11 and current_state == 0b01:
-        rotary_steps -= 1  # CCW Step
-    elif rotary_last_state == 0b01 and current_state == 0b00:
-        rotary_steps -= 1  # CCW Step
-
-    # Update the last state
-    rotary_last_state = current_state
-
-    # Process menu update after a full quadrature cycle (4 steps)
-    if abs(rotary_steps) >= 4:
-        current_time = time.time()
-        if current_time - last_scroll_time > debounce_time:
-            # Update the menu index based on the direction
-            if rotary_steps > 0:  # Clockwise
-                menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
-            else:  # Counterclockwise
-                menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
-
-            # Reset step counter and update last scroll time
-            rotary_steps = 0
-            last_scroll_time = current_time
-            scroll_pressed.set()  # Signal for menu redraw
-        
-def button_callback(channel):
+# Button handling
+def button_pressed_callback(channel):
     select_pressed.set()
 
-# Add event detection for rotary encoder and push button
-GPIO.add_event_detect(ROTARY_A_PIN, GPIO.BOTH, callback=rotary_callback)
-GPIO.add_event_detect(ROTARY_BUTTON_PIN, GPIO.FALLING, callback=button_callback, bouncetime=300)
+GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.add_event_detect(ROTARY_BUTTON_PIN, GPIO.FALLING, callback=button_pressed_callback, bouncetime=300)
+
 
 
 
@@ -774,8 +741,9 @@ def FUNCT_cliPrint():
 
 firstBoot()
 try:
- #   threading.Thread(target=FUNCT_updateValues).start()
- #   threading.Thread(target=FUNCT_cliPrint).start()
+    threading.Thread(target=FUNCT_updateValues).start()
+    threading.Thread(target=FUNCT_cliPrint).start()
+
     while True:
         # Get the current menu items based on the menu state
         if current_menu == "level1":
@@ -790,11 +758,6 @@ try:
         # Draw the current menu
         draw_menu(menu_items)
 
-        # Check for scroll button press
-        if scroll_pressed.is_set():
-            scroll_pressed.clear()
-            menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
-
         # Check for select button press
         if select_pressed.is_set():
             select_pressed.clear()
@@ -803,7 +766,7 @@ try:
             print(f"Selected item: {selected_item}")  # Debug print
 
             if selected_item == "Back":
-                if current_menu == "multigauge" or current_menu == "config" or current_menu == "gauges":
+                if current_menu in ["multigauge", "config", "gauges"]:
                     current_menu = "level1"
             elif current_menu == "level1":
                 if selected_item == "Gauges":
@@ -822,7 +785,7 @@ try:
             elif current_menu == "config":
                 execute_config_function(selected_item)
 
-#            menu_indices[current_menu] = 0
 
 except KeyboardInterrupt:
     GPIO.cleanup()
+    rotary.close()
