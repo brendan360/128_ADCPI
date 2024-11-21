@@ -528,9 +528,6 @@ GPIO.add_event_detect(ROTARY_BUTTON_PIN, GPIO.FALLING, callback=button_pressed_c
 # Function to draw the menu
 def draw_menu(menu_items):
     global menu_indices
-    print("Menu: ", menu_items)
-    print("Selected: ", menu_items[menu_indices[current_menu]])
-
 
     # Create a blank image with background color
     image = Image.new('RGB', (WIDTH, HEIGHT), color=BACKGROUND_COLOR)
