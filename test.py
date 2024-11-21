@@ -512,9 +512,8 @@ rotary_encoder = Encoder(ROTARY_A_PIN, ROTARY_B_PIN, callback=rotary_callback)
 
 def button_pressed_callback(channel):
     global select_pressed
-    print("buttonPressed")
     select_pressed.set()
-    print(select_pressed)
+
    
 
 
@@ -801,11 +800,11 @@ def FUNCT_cliPrint():
 
 
 
-#firstBoot()
+firstBoot()
 try:
 
-#    threading.Thread(target=FUNCT_updateValues).start()
-#    threading.Thread(target=FUNCT_cliPrint).start()
+    threading.Thread(target=FUNCT_updateValues).start()
+    threading.Thread(target=FUNCT_cliPrint).start()
 
     while True:
         # Get the current menu items based on the menu state
