@@ -454,7 +454,7 @@ def rotary_callback(value):
     scroll_pressed.set()  # Signal that the menu should redraw
 
 # Attach callback to the rotary encoder
-#rotary.set_callback(rotary_callback)
+rotary.set_callback(rotary_callback)
 
 # Button press handling
 def button_pressed_callback(channel):
