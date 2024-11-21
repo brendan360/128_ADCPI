@@ -821,7 +821,7 @@ try:
     threading.Thread(target=FUNCT_updateValues).start()
     
     while True:
-        if CLI_enable =1:
+        if CLI_enable ==1:
             threading.Thread(target=FUNCT_cliPrint).start()
      
         # Get the current menu items based on the menu state
