@@ -837,7 +837,7 @@ try:
             elif selected_item == "Config":
                 current_menu = "config"
         select_pressed.clear()
-    time.sleep(.01)
+    time.sleep(.1)
 
 except KeyboardInterrupt:
     GPIO.cleanup()
