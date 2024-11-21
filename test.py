@@ -710,6 +710,8 @@ def execute_config_function(selected_item):
 def FUNCT_CLI_ENABLE():
     global CLI_enable
     print("CLI_ENABLE")
+    highlightDisplay("CLI","ENABLED")
+    time.sleep(4)
     CLI_enable=1
     draw_menu(config_menu)
 
@@ -795,14 +797,10 @@ def FUNCT_updateValues():
         FUNCT_AFR()
 
 
-
 def FUNCT_cliPrint():
     while True:
        os.system('clear')
        print(tabulate([[gaugeItems["BOOST"][2],gaugeItems["FUEL_PRESSURE"][2],gaugeItems["BLOCK_TEMP"][2],gaugeItems["COOLANT_PRESSURE"][2],gaugeItems["COOLANT_TEMP"][2],gaugeItems["OIL_PRESSURE"][2],gaugeItems["OIL_TEMP"][2],gaugeItems["WIDEBAND02"][2]],[]],headers=[gaugeItems["BOOST"][1],gaugeItems["FUEL_PRESSURE"][1],gaugeItems["BLOCK_TEMP"][1],gaugeItems["COOLANT_PRESSURE"][1],gaugeItems["COOLANT_TEMP"][1],gaugeItems["OIL_PRESSURE"][1],gaugeItems["OIL_TEMP"][1],gaugeItems["WIDEBAND02"][1]],  tablefmt='orgtbl'))
-       time.sleep(.5)
-
-
 
 
 
@@ -818,7 +816,7 @@ firstBoot()
 try:
 
     threading.Thread(target=FUNCT_updateValues).start()
-    
+   
     while True:
         print("looping")
         # Get the current menu items based on the menu state
@@ -835,6 +833,7 @@ try:
      
         if CLI_enable ==1:
             FUNCT_cliPrint()
+            break
 
         # Check for rotary events
         if scroll_pressed.is_set():
