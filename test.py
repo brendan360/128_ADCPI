@@ -515,6 +515,7 @@ def button_pressed_callback(channel):
     """Handles the push-button press."""
     print("buttonPressed")
     select_pressed.set()
+    print(select_pressed)
 
 
 # GPIO setup for the button
@@ -814,15 +815,13 @@ try:
             menu_items = config_menu
         elif current_menu == "gauges":
             menu_items = gauge_menu
-
         # Draw the current menu
         draw_menu(menu_items)
 
         # Check for rotary events
     if scroll_pressed.is_set():
         scroll_pressed.clear()
-        draw_menu(menu_items)
-
+        
         # Check for button press
     if select_pressed.is_set():
         print("buttonPressedmenulevel")
