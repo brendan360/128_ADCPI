@@ -825,7 +825,7 @@ try:
         # Check for button press
     if select_pressed.is_set():
         print("buttonPressedmenulevel")
-        select_pressed.clear()
+        
         selected_item = menu_items[menu_indices[current_menu]]
         print(f"Selected: {selected_item}")
         if selected_item == "Back":
@@ -837,7 +837,8 @@ try:
                 current_menu = "multigauge"
             elif selected_item == "Config":
                 current_menu = "config"
-    draw_menu(menu_items)
+        select_pressed.clear()
+
 
 except KeyboardInterrupt:
     GPIO.cleanup()
