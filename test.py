@@ -708,7 +708,7 @@ def execute_config_function(selected_item):
 
 
 def FUNCT_CLI_ENABLE():
-    global CLI_enable
+    global CLI_enable, select_pressed
     select_pressed.clear()
     print("CLI_ENABLE")
     highlightDisplay("CLI","ENABLED")
