@@ -99,7 +99,7 @@ ROTARY_A_PIN = 38  # Out Ac
 ROTARY_B_PIN = 36  # Out B
 ROTARY_BUTTON_PIN = 40  # Push button
 
-rotary = RotaryEncoder(ROTARY_A_PIN, ROTARY_B_PIN)
+rotary = Encoder(ROTARY_A_PIN, ROTARY_B_PIN)
 
 # Setup GPIO
 GPIO.setmode(GPIO.BOARD)
