@@ -513,6 +513,7 @@ rotary_encoder = Encoder(ROTARY_A_PIN, ROTARY_B_PIN, callback=rotary_callback)
 
 def button_pressed_callback(channel):
     """Handles the push-button press."""
+    print("buttonPressed")
     select_pressed.set()
 
 
