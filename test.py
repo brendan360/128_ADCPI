@@ -837,7 +837,7 @@ try:
                 current_menu = "multigauge"
             elif selected_item == "Config":
                 current_menu = "config"
-  draw_menu(menu_items)
+    draw_menu(menu_items)
 
 except KeyboardInterrupt:
     GPIO.cleanup()
