@@ -506,7 +506,6 @@ def rotary_callback(value, direction):
         menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
     elif direction == "L":
         menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
-
     rotary_set =1
 
 
@@ -515,9 +514,8 @@ rotary_encoder = Encoder(ROTARY_A_PIN, ROTARY_B_PIN, callback=rotary_callback)
 
 def button_pressed_callback(channel):
     """Handles the push-button press."""
-    print("buttonPressed")
     push_set =1
-    print(select_pressed)
+
 
 
 # GPIO setup for the button
@@ -808,7 +806,7 @@ try:
 #    threading.Thread(target=FUNCT_cliPrint).start()
 
     while True:
-        print(scroll_pressed)
+        print(rotary_set)
         # Get the current menu items based on the menu state
         if current_menu == "level1":
             menu_items = level1_menu
