@@ -822,24 +822,24 @@ try:
         draw_menu(menu_items)
 
         # Check for rotary events
-    if rotary_set =="1":
-        print("rotaryMatch")
-        rotary="0"
+        if rotary_set =="1":
+            print("rotaryMatch")
+            rotary="0"
         
         # Check for button press
-    if push_set =="1":
-        selected_item = menu_items[menu_indices[current_menu]]
-        print(f"Selected: {selected_item}")
-        if selected_item == "Back":
-            current_menu = "level1"
-        elif current_menu == "level1":
-            if selected_item == "Gauges":
-                current_menu = "gauges"
-            elif selected_item == "MultiGauge":
-                current_menu = "multigauge"
-            elif selected_item == "Config":
-                current_menu = "config"
-        push_set ="0"
+        if push_set =="1":
+            selected_item = menu_items[menu_indices[current_menu]]
+            print(f"Selected: {selected_item}")
+            if selected_item == "Back":
+                current_menu = "level1"
+            elif current_menu == "level1":
+                if selected_item == "Gauges":
+                    current_menu = "gauges"
+                elif selected_item == "MultiGauge":
+                    current_menu = "multigauge"
+                elif selected_item == "Config":
+                    current_menu = "config"
+            push_set ="0"
 
 except KeyboardInterrupt:
     GPIO.cleanup()
