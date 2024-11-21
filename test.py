@@ -674,7 +674,7 @@ def TRIPLE_STACK():
         # Display logic for Triple Stack
         time.sleep(0.1)
 
-def CLI_ENABLE():
+def FUNCT_CLI_ENABLE():
     print("CLI_ENABLE")
     while True:
         CLI_enable=1
