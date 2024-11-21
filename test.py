@@ -515,9 +515,11 @@ def button_pressed_callback(channel):
     """Handles the push-button press."""
     select_pressed.set()
 
+
 # GPIO setup for the button
 GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.add_event_detect(ROTARY_BUTTON_PIN, GPIO.FALLING, callback=button_pressed_callback, bouncetime=300)
+
 
 
 
@@ -837,4 +839,3 @@ try:
 
 except KeyboardInterrupt:
     GPIO.cleanup()
-    rotary.close()
