@@ -13,7 +13,7 @@ import signal
 import random
 import socket
 from lib import LCD_1inch28
-from encoder import Encoder
+
  
 try:
     from ADCPi import ADCPi
@@ -99,23 +99,78 @@ ROTARY_B_PIN = 36  # Out B
 ROTARY_BUTTON_PIN = 40  # Push button
 
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(ROTARY_A_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(ROTARY_B_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 
-rotary = Encoder(ROTARY_A_PIN, ROTARY_B_PIN)
+scroll_pressed = threading.Event()
+select_pressed = threading.Event()
+########################
+#                      #
+#    Rotary helper     #
+#                      #
+########################
 
 
+class Encoder:
+    def __init__(self, leftPin, rightPin, callback=None):
+        self.leftPin = leftPin
+        self.rightPin = rightPin
+        self.value = 0
+        self.state = '00'
+        self.direction = None
+        self.callback = callback
+        GPIO.setup(self.leftPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.rightPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(self.leftPin, GPIO.BOTH, callback=self.transitionOccurred)
+        GPIO.add_event_detect(self.rightPin, GPIO.BOTH, callback=self.transitionOccurred)
 
-#rotary_last_state = GPIO.input(ROTARY_A_PIN)
-#scroll_pressed = threading.Event()
-#select_pressed = threading.Event()
+    def transitionOccurred(self, channel):
+        p1 = GPIO.input(self.leftPin)
+        p2 = GPIO.input(self.rightPin)
+        newState = "{}{}".format(p1, p2)
 
-#rotary_last_state = 0b00  # Previous state (combination of A and B)
-#rotary_steps = 0  # Counter for steps in the quadrature cycle
-#last_scroll_time = time.time()  # Time of the last valid scroll
-#debounce_time = 0.03  # Minimum time between scroll events (in seconds)
+        if self.state == "00":  # Resting position
+            if newState == "01":  # Turned right 1
+                self.direction = "R"
+            elif newState == "10":  # Turned left 1
+                self.direction = "L"
+
+        elif self.state == "01":  # R1 or L3 position
+            if newState == "11":  # Turned right 1
+                self.direction = "R"
+            elif newState == "00":  # Turned left 1
+                if self.direction == "L":
+                    self.value -= 1
+                    if self.callback:
+                        self.callback(self.value, self.direction)
+
+        elif self.state == "10":  # R3 or L1
+            if newState == "11":  # Turned left 1
+                self.direction = "L"
+            elif newState == "00":  # Turned right 1
+                if self.direction == "R":
+                    self.value += 1
+                    if self.callback:
+                        self.callback(self.value, self.direction)
+
+        elif self.state == "11":
+            if newState == "01":  # Turned left 1
+                self.direction = "L"
+            elif newState == "10":  # Turned right 1
+                self.direction = "R"
+            elif newState == "00":  # Skipped an intermediate state
+                if self.direction == "L":
+                    self.value -= 1
+                    if self.callback:
+                        self.callback(self.value, self.direction)
+                elif self.direction == "R":
+                    self.value += 1
+                    if self.callback:
+                        self.callback(self.value, self.direction)
+
+        self.state = newState
+
+    def getValue(self):
+        return self.value
 
 ########################
 #                      #
@@ -442,22 +497,19 @@ def draw_gauge(gauge_key):
 #                     #
 ####################### 
 
-def rotary_callback(value):
+def rotary_callback(value, direction):
     """Handles rotary encoder rotation."""
-    global menu_indices
+    global menu_indices, scroll_pressed
 
-    if value > 0:  # Clockwise rotation
+    if direction == "R":
         menu_indices[current_menu] = (menu_indices[current_menu] + 1) % len(menu_items)
-    elif value < 0:  # Counterclockwise rotation
+    elif direction == "L":
         menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
 
     scroll_pressed.set()  # Signal that the menu should redraw
 
-# Attach callback to the rotary encoder
-
-rotary.set_callback(rotary_callback)
-
 # Button press handling
+
 def button_pressed_callback(channel):
     """Handles the push-button press."""
     select_pressed.set()
@@ -465,6 +517,7 @@ def button_pressed_callback(channel):
 # GPIO setup for the button
 GPIO.setup(ROTARY_BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.add_event_detect(ROTARY_BUTTON_PIN, GPIO.FALLING, callback=button_pressed_callback, bouncetime=300)
+
 
 
 
@@ -762,19 +815,17 @@ try:
         draw_menu(menu_items)
 
         # Check for rotary events
-        if scroll_pressed.is_set():
+    if scroll_pressed.is_set():
             scroll_pressed.clear()
 
         # Check for button press
         if select_pressed.is_set():
             select_pressed.clear()
-
             selected_item = menu_items[menu_indices[current_menu]]
-            print(f"Selected item: {selected_item}")  # Debug print
+            print(f"Selected: {selected_item}")
 
             if selected_item == "Back":
-                if current_menu in ["multigauge", "config", "gauges"]:
-                    current_menu = "level1"
+                current_menu = "level1"
             elif current_menu == "level1":
                 if selected_item == "Gauges":
                     current_menu = "gauges"
@@ -782,17 +833,7 @@ try:
                     current_menu = "multigauge"
                 elif selected_item == "Config":
                     current_menu = "config"
-            elif current_menu == "multigauge":
-                if selected_item == "QuadTemp":
-                    QUAD_TEMP_GAUGE()
-                elif selected_item == "Triple Stack":
-                    TRIPLE_STACK()
-            elif current_menu == "gauges":
-                execute_gauge_function(selected_item)
-            elif current_menu == "config":
-                execute_config_function(selected_item)
 
-        time.sleep(0.001)
 
 except KeyboardInterrupt:
     GPIO.cleanup()
