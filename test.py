@@ -99,7 +99,8 @@ ROTARY_B_PIN = 36  # Out B
 ROTARY_BUTTON_PIN = 40  # Push button
 
 GPIO.setmode(GPIO.BOARD)
-
+rotary_set =0
+push_set =0
 
 scroll_pressed = threading.Event()
 select_pressed = threading.Event()
@@ -506,7 +507,8 @@ def rotary_callback(value, direction):
     elif direction == "L":
         menu_indices[current_menu] = (menu_indices[current_menu] - 1) % len(menu_items)
 
-    scroll_pressed.set()  # Signal that the menu should redraw
+    rotary_set =1
+
 
 # Button press handling
 rotary_encoder = Encoder(ROTARY_A_PIN, ROTARY_B_PIN, callback=rotary_callback)
@@ -514,7 +516,7 @@ rotary_encoder = Encoder(ROTARY_A_PIN, ROTARY_B_PIN, callback=rotary_callback)
 def button_pressed_callback(channel):
     """Handles the push-button press."""
     print("buttonPressed")
-    select_pressed.set()
+    push_set =1
     print(select_pressed)
 
 
@@ -820,11 +822,11 @@ try:
         draw_menu(menu_items)
 
         # Check for rotary events
-    if scroll_pressed.is_set():
-        scroll_pressed.clear()
+    if rotary_set ==1 :
+        rotary=0
         
         # Check for button press
-    if select_pressed.is_set():
+    if push_set ==1:
         selected_item = menu_items[menu_indices[current_menu]]
         print(f"Selected: {selected_item}")
         if selected_item == "Back":
@@ -836,8 +838,7 @@ try:
                 current_menu = "multigauge"
             elif selected_item == "Config":
                 current_menu = "config"
-        select_pressed.clear()
-    time.sleep(.1)
+        push_set =0
 
 except KeyboardInterrupt:
     GPIO.cleanup()
