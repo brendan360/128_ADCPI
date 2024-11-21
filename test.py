@@ -528,6 +528,9 @@ GPIO.add_event_detect(ROTARY_BUTTON_PIN, GPIO.FALLING, callback=button_pressed_c
 # Function to draw the menu
 def draw_menu(menu_items):
     global menu_indices
+    print("Menu: ", menu_items)
+    print("Selected: ", menu_items[menu_indices[current_menu]])
+
 
     # Create a blank image with background color
     image = Image.new('RGB', (WIDTH, HEIGHT), color=BACKGROUND_COLOR)
@@ -820,11 +823,11 @@ try:
 
         # Check for rotary events
     if scroll_pressed.is_set():
-            print("buttonPressed")
-            scroll_pressed.clear()
+        scroll_pressed.clear()
 
         # Check for button press
     if select_pressed.is_set():
+        print("buttonPressedmenulevel")
         select_pressed.clear()
         selected_item = menu_items[menu_indices[current_menu]]
         print(f"Selected: {selected_item}")
