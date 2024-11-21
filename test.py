@@ -819,20 +819,19 @@ try:
             scroll_pressed.clear()
 
         # Check for button press
-        if select_pressed.is_set():
-            select_pressed.clear()
-            selected_item = menu_items[menu_indices[current_menu]]
-            print(f"Selected: {selected_item}")
-
-            if selected_item == "Back":
-                current_menu = "level1"
-            elif current_menu == "level1":
-                if selected_item == "Gauges":
-                    current_menu = "gauges"
-                elif selected_item == "MultiGauge":
-                    current_menu = "multigauge"
-                elif selected_item == "Config":
-                    current_menu = "config"
+    if select_pressed.is_set():
+        select_pressed.clear()
+        selected_item = menu_items[menu_indices[current_menu]]
+        print(f"Selected: {selected_item}")
+         if selected_item == "Back":
+            current_menu = "level1"
+         elif current_menu == "level1":
+            if selected_item == "Gauges":
+                current_menu = "gauges"
+            elif selected_item == "MultiGauge":
+                current_menu = "multigauge"
+            elif selected_item == "Config":
+                current_menu = "config"
 
 
 except KeyboardInterrupt:
